@@ -1,0 +1,64 @@
+{
+  "dataset": "hostile",
+  "files": {
+    "formula_injection.csv": {
+      "expected_outcome": "accept_with_flags",
+      "flags": [
+        "FORMULA_INJECTION_RISK"
+      ],
+      "injected_row_count": 5,
+      "message": "Valid CSV text; cells beginning with =, +, -, @ must be treated as literal strings, never evaluated, and must be neutralized (leading apostrophe/quote) on any re-export to spreadsheet software."
+    },
+    "formulas_cached.xlsx": {
+      "cached_formula_check": {
+        "cached_value": 60,
+        "cell": "B3",
+        "formula": "SUM(A1:A3)"
+      },
+      "expected_outcome": "accept_with_flags",
+      "flags": [
+        "FORMULA_CELLS_PRESENT"
+      ],
+      "message": "Formula cells carry a cached <v> value (B3=SUM(A1:A3) cached as 60); ingestion reads the cached value and never evaluates the formula itself."
+    },
+    "macro_enabled.xlsm": {
+      "display": "SECURITY_ERROR(MACRO_ENABLED)",
+      "error_code": "SECURITY_ERROR",
+      "expected_outcome": "reject",
+      "message": "Package declares a macro-enabled content type and contains xl/vbaProject.bin; macro-enabled formats are rejected outright (design.md Sec 12 Validate step).",
+      "reason": "MACRO_ENABLED"
+    },
+    "mislabelled_xlsx_as.csv": {
+      "actual_format": "xlsx (OOXML zip)",
+      "detected_actual_type": "xlsx",
+      "expected_outcome": "accept_with_flags",
+      "extension": ".csv",
+      "flags": [
+        "EXTENSION_MISMATCH"
+      ],
+      "message": "Magic-byte sniffing detects real OOXML/ZIP content despite the .csv extension; extension alone is not trusted (design.md Sec 12 Validate step). Ingest using the sniffed type."
+    }
+  },
+  "generator": {
+    "script": "scripts/generate_fixtures.py",
+    "seed": 42
+  },
+  "not_committed": {
+    "oversized_file": {
+      "display": "SECURITY_ERROR(OVERSIZED_FILE)",
+      "error_code": "SECURITY_ERROR",
+      "expected_outcome": "reject",
+      "generator": "make_oversized_csv(path, mb=...)",
+      "message": "File exceeds the configured size limit; rejected before full parse (trd.md Sec 35, fault F3).",
+      "reason": "OVERSIZED_FILE"
+    },
+    "zip_bomb": {
+      "display": "SECURITY_ERROR(ZIP_BOMB)",
+      "error_code": "SECURITY_ERROR",
+      "expected_outcome": "reject",
+      "generator": "make_zip_bomb(path, decompressed_mb=200)",
+      "message": "Decompression-ratio guard rejects before fully inflating the archive (trd.md Sec 35, fault F3).",
+      "reason": "ZIP_BOMB"
+    }
+  }
+}

@@ -1,0 +1,492 @@
+{
+  "$defs": {
+    "GraphEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "from": {
+          "title": "From",
+          "type": "string"
+        },
+        "to": {
+          "title": "To",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "places",
+            "contains",
+            "belongs_to",
+            "references",
+            "measured_on",
+            "attribute_of",
+            "derived_from"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "type",
+        "confidence",
+        "evidence"
+      ],
+      "title": "GraphEdge",
+      "type": "object"
+    },
+    "GraphNode": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "entity",
+            "measure",
+            "dimension",
+            "metric"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "name"
+      ],
+      "title": "GraphNode",
+      "type": "object"
+    },
+    "Override": {
+      "additionalProperties": false,
+      "description": "One user correction, re-applied after every (re-)mapping (TASK-SEM-009).\n\n``field`` paths (app.data.overrides): ``mapping.<column>`` (value = concept name, confirms\nthe column's mapping), ``measures.<name>.default_agg`` / ``measures.<name>.unit``, and\n``metrics.<name>.expr`` (value = metric expression; adds or replaces the metric).",
+      "properties": {
+        "at": {
+          "format": "date-time",
+          "title": "At",
+          "type": "string"
+        },
+        "by": {
+          "title": "By",
+          "type": "string"
+        },
+        "field": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Field",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "field",
+        "value",
+        "by",
+        "at"
+      ],
+      "title": "Override",
+      "type": "object"
+    },
+    "SemanticDimension": {
+      "additionalProperties": false,
+      "properties": {
+        "column": {
+          "title": "Column",
+          "type": "string"
+        },
+        "entity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entity"
+        },
+        "grain": {
+          "anyOf": [
+            {
+              "enum": [
+                "second",
+                "minute",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "quarter",
+                "year"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Grain"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "category",
+            "time",
+            "geo",
+            "boolean"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "column",
+        "type"
+      ],
+      "title": "SemanticDimension",
+      "type": "object"
+    },
+    "SemanticEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "source_table": {
+          "title": "Source Table",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "key",
+        "source_table",
+        "confidence"
+      ],
+      "title": "SemanticEntity",
+      "type": "object"
+    },
+    "SemanticGraph": {
+      "additionalProperties": false,
+      "properties": {
+        "edges": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/GraphEdge"
+          },
+          "title": "Edges",
+          "type": "array"
+        },
+        "nodes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/GraphNode"
+          },
+          "title": "Nodes",
+          "type": "array"
+        }
+      },
+      "title": "SemanticGraph",
+      "type": "object"
+    },
+    "SemanticMeasure": {
+      "additionalProperties": false,
+      "properties": {
+        "additivity": {
+          "enum": [
+            "additive",
+            "semi_additive",
+            "non_additive"
+          ],
+          "title": "Additivity",
+          "type": "string"
+        },
+        "aliases": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "array"
+        },
+        "column": {
+          "title": "Column",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "default_agg": {
+          "enum": [
+            "sum",
+            "avg",
+            "weighted_avg",
+            "min",
+            "max",
+            "count",
+            "count_distinct",
+            "median",
+            "last"
+          ],
+          "title": "Default Agg",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "column",
+        "unit",
+        "additivity",
+        "default_agg",
+        "confidence"
+      ],
+      "title": "SemanticMeasure",
+      "type": "object"
+    },
+    "SemanticMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "additivity": {
+          "anyOf": [
+            {
+              "enum": [
+                "additive",
+                "semi_additive",
+                "non_additive"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Additivity"
+        },
+        "direction": {
+          "anyOf": [
+            {
+              "enum": [
+                "higher_is_better",
+                "lower_is_better",
+                "neutral"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direction"
+        },
+        "expr": {
+          "title": "Expr",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "expr"
+      ],
+      "title": "SemanticMetric",
+      "type": "object"
+    },
+    "SemanticRule": {
+      "additionalProperties": false,
+      "properties": {
+        "expr": {
+          "title": "Expr",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "expr"
+      ],
+      "title": "SemanticRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dataset_version_id": {
+      "pattern": "^dsv_\\w+$",
+      "title": "Dataset Version Id",
+      "type": "string"
+    },
+    "dimensions": {
+      "items": {
+        "$ref": "#/$defs/SemanticDimension"
+      },
+      "title": "Dimensions",
+      "type": "array"
+    },
+    "entities": {
+      "items": {
+        "$ref": "#/$defs/SemanticEntity"
+      },
+      "title": "Entities",
+      "type": "array"
+    },
+    "graph": {
+      "$ref": "#/$defs/SemanticGraph",
+      "default": {
+        "edges": [],
+        "nodes": []
+      }
+    },
+    "measures": {
+      "items": {
+        "$ref": "#/$defs/SemanticMeasure"
+      },
+      "title": "Measures",
+      "type": "array"
+    },
+    "metrics": {
+      "items": {
+        "$ref": "#/$defs/SemanticMetric"
+      },
+      "title": "Metrics",
+      "type": "array"
+    },
+    "overrides": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Override"
+      },
+      "title": "Overrides",
+      "type": "array"
+    },
+    "rules": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SemanticRule"
+      },
+      "title": "Rules",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "semantic_model_id": {
+      "pattern": "^sm_\\w+$",
+      "title": "Semantic Model Id",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "semantic_model_id",
+    "dataset_version_id",
+    "version",
+    "entities",
+    "dimensions",
+    "measures",
+    "metrics"
+  ],
+  "title": "SemanticModel",
+  "type": "object"
+}

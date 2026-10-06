@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "dashboard_id": "db_000004",
+  "dataset_version_id": "dsv_000004",
+  "plan_id": "pl_000004",
+  "generated_at": "2026-09-28T10:35:00Z",
+  "widgets": [
+    {
+      "id": "w1",
+      "widget_type": "unavailable",
+      "title": "Key metrics",
+      "reason_code": "NO_MEASURE",
+      "message": "No numeric measure could be identified in this dataset",
+      "would_enable": "a numeric column such as amount, quantity or count"
+    },
+    {
+      "id": "w2",
+      "widget_type": "unavailable",
+      "title": "Trends",
+      "reason_code": "NO_TIME_DIMENSION",
+      "message": "No date or time column was found",
+      "would_enable": "a date column (e.g. order date)"
+    }
+  ],
+  "layout": {
+    "columns": 12,
+    "items": [
+      {"id": "w1", "x": 0, "y": 0, "w": 6, "h": 2},
+      {"id": "w2", "x": 6, "y": 0, "w": 6, "h": 2}
+    ]
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "DatasetFailure": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "DatasetFailure",
+      "type": "object"
+    },
+    "DatasetState": {
+      "enum": [
+        "UPLOADED",
+        "VALIDATING",
+        "VALIDATION_FAILED",
+        "INGESTING",
+        "INGESTION_FAILED",
+        "INGESTED",
+        "PROFILED",
+        "SCHEMA_ANALYZED",
+        "DOMAIN_IDENTIFIED",
+        "SEMANTICALLY_MAPPED",
+        "ANALYZING",
+        "READY",
+        "ANALYSIS_FAILED"
+      ],
+      "title": "DatasetState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Immutable content snapshot; only ``state`` (and its bookkeeping) advances.",
+  "properties": {
+    "content_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Content Hash"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "dataset_id": {
+      "pattern": "^ds_\\w+$",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "failure": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DatasetFailure"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "id": {
+      "pattern": "^dsv_\\w+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "parent_id": {
+      "anyOf": [
+        {
+          "pattern": "^dsv_\\w+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Id"
+    },
+    "review_flags": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Review Flags",
+      "type": "array"
+    },
+    "row_count": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Row Count"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "state": {
+      "$ref": "#/$defs/DatasetState"
+    },
+    "state_changed_at": {
+      "format": "date-time",
+      "title": "State Changed At",
+      "type": "string"
+    },
+    "storage_uri": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Storage Uri"
+    },
+    "version_no": {
+      "minimum": 1,
+      "title": "Version No",
+      "type": "integer"
+    },
+    "workspace_id": {
+      "pattern": "^ws_\\w+$",
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "dataset_id",
+    "workspace_id",
+    "version_no",
+    "source_sha256",
+    "state",
+    "state_changed_at",
+    "created_at"
+  ],
+  "title": "DatasetVersion",
+  "type": "object"
+}

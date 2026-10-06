@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "DomainCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "domain": {
+          "title": "Domain",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/DomainEvidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "domain",
+        "score",
+        "evidence"
+      ],
+      "title": "DomainCandidate",
+      "type": "object"
+    },
+    "DomainEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "lexicon",
+            "signature",
+            "entity_graph",
+            "statistical",
+            "embedding",
+            "llm",
+            "user_override"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "weight": {
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "detail",
+        "weight"
+      ],
+      "title": "DomainEvidence",
+      "type": "object"
+    },
+    "DomainStatus": {
+      "enum": [
+        "KNOWN",
+        "MULTI_DOMAIN",
+        "AMBIGUOUS",
+        "UNKNOWN"
+      ],
+      "title": "DomainStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/DomainCandidate"
+      },
+      "title": "Candidates",
+      "type": "array"
+    },
+    "confidence": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "pack_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Pack Versions",
+      "type": "object"
+    },
+    "primary": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Primary"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/DomainStatus"
+    }
+  },
+  "required": [
+    "status",
+    "primary",
+    "candidates",
+    "confidence",
+    "pack_versions"
+  ],
+  "title": "DomainClassification",
+  "type": "object"
+}

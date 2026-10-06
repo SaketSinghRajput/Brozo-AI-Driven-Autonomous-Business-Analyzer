@@ -1,0 +1,310 @@
+{
+  "capability_report": {
+    "attempted": [],
+    "available": [
+      "kpi",
+      "trend",
+      "anomaly_detection",
+      "rca"
+    ],
+    "dataset_version_id": "dsv_data",
+    "rules_version": "1.0.0",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "unavailable": [
+      {
+        "analysis": "forecast",
+        "message": "Insufficient data: forecasting needs regularly spaced dates (regularity >= 0.80); column 'date' has 0.00.",
+        "reason_code": "IRREGULAR_TIME",
+        "would_enable": "dates recorded at a regular interval (e.g. daily or monthly)"
+      },
+      {
+        "analysis": "customer_segmentation",
+        "message": "Insufficient data: customer segmentation needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs one of: a subscription status or end date column; or repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ]
+  },
+  "default_plan": {
+    "dataset_version_id": "dsv_data",
+    "intent": {
+      "compare_to": null,
+      "dimensions": [],
+      "filters": [],
+      "metrics": [
+        "Record Count",
+        "Value",
+        "Amount"
+      ],
+      "objective": "overview",
+      "schema_version": "1.0",
+      "source": "system_default",
+      "time": null,
+      "time_dimension": null
+    },
+    "plan_id": "pl_81185358dacfac04ca44b19129",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "steps": [
+      {
+        "args": {
+          "metric": "Record Count"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S1",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Value"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S2",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Amount"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S3",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "end": "2026-08-27",
+          "grain": "month",
+          "metric": "Record Count",
+          "start": "2023-01-26",
+          "time_dimension": "Date"
+        },
+        "depends_on": [],
+        "expected_output": "TrendOutput",
+        "id": "S4",
+        "tool": "analytics.trend",
+        "type": "timeseries_trend",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "end": "2026-08-27",
+          "metric": "Record Count",
+          "start": "2026-08-01",
+          "time_dimension": "Date"
+        },
+        "depends_on": [],
+        "expected_output": "GrowthOutput",
+        "id": "S5",
+        "tool": "analytics.growth",
+        "type": "growth_rate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Category"
+          ],
+          "metric": "Record Count"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S6",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "current_end": "2026-08-27",
+          "current_start": "2026-08-01",
+          "dimensions": [
+            "Category"
+          ],
+          "grain": "month",
+          "metric": "Record Count",
+          "time_dimension": "Date"
+        },
+        "depends_on": [],
+        "expected_output": "ExplainChangeOutput",
+        "id": "S7",
+        "tool": "analytics.explain_change",
+        "type": "explain_change",
+        "validation": [
+          "schema",
+          "numeric",
+          "logic"
+        ]
+      }
+    ],
+    "unavailable": [
+      {
+        "analysis": "forecast",
+        "message": "Insufficient data: forecasting needs regularly spaced dates (regularity >= 0.80); column 'date' has 0.00.",
+        "reason_code": "IRREGULAR_TIME",
+        "would_enable": "dates recorded at a regular interval (e.g. daily or monthly)"
+      },
+      {
+        "analysis": "customer_segmentation",
+        "message": "Insufficient data: customer segmentation needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs one of: a subscription status or end date column; or repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ],
+    "version": 1
+  },
+  "deferred": {},
+  "domain": {
+    "candidates": [],
+    "confidence": 0.0,
+    "pack_versions": {
+      "agriculture": "1.0.0",
+      "generic": "1.0.0",
+      "retail": "1.0.2",
+      "saas": "1.0.0"
+    },
+    "primary": null,
+    "schema_version": "1.0",
+    "status": "UNKNOWN"
+  },
+  "fixture_table": "data",
+  "metric_totals": {
+    "Record Count": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 200.0
+    }
+  },
+  "semantic_model": {
+    "dimensions": {
+      "Category": [
+        "category",
+        "category"
+      ],
+      "Date": [
+        "date",
+        "time"
+      ]
+    },
+    "measures": {
+      "Amount": [
+        "amount",
+        "currency",
+        "sum"
+      ],
+      "Value": [
+        "value",
+        "currency",
+        "sum"
+      ]
+    },
+    "metrics": {
+      "Record Count": {
+        "expr": "count()",
+        "unit": null
+      }
+    }
+  }
+}

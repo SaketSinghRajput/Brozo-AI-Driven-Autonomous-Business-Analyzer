@@ -1,0 +1,140 @@
+{
+  "$defs": {
+    "ConfidenceSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Basis",
+          "type": "array"
+        },
+        "level": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "level",
+        "score",
+        "basis"
+      ],
+      "title": "ConfidenceSummary",
+      "type": "object"
+    },
+    "ValidationIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "hard",
+            "soft"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "severity",
+        "target",
+        "detail"
+      ],
+      "title": "ValidationIssue",
+      "type": "object"
+    },
+    "ValidationStatus": {
+      "enum": [
+        "VALID",
+        "INVALID",
+        "UNCERTAIN",
+        "REQUIRES_REVIEW"
+      ],
+      "title": "ValidationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "confidence": {
+      "$ref": "#/$defs/ConfidenceSummary"
+    },
+    "id": {
+      "pattern": "^va_\\w+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/ValidationIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ValidationStatus"
+    },
+    "subject_id": {
+      "title": "Subject Id",
+      "type": "string"
+    },
+    "subject_type": {
+      "enum": [
+        "answer",
+        "widget",
+        "tool_result",
+        "insight"
+      ],
+      "title": "Subject Type",
+      "type": "string"
+    },
+    "validator_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Validator Versions",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "subject_type",
+    "subject_id",
+    "status",
+    "issues",
+    "confidence",
+    "validator_versions"
+  ],
+  "title": "ValidationResult",
+  "type": "object"
+}

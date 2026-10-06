@@ -1,0 +1,375 @@
+{
+  "$defs": {
+    "ColumnUnderstanding": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "physical_type": {
+          "enum": [
+            "int",
+            "float",
+            "decimal",
+            "bool",
+            "datetime",
+            "date",
+            "string",
+            "mixed"
+          ],
+          "title": "Physical Type",
+          "type": "string"
+        },
+        "semantic_type": {
+          "$ref": "#/$defs/SemanticType"
+        },
+        "signals": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Signals",
+          "type": "array"
+        },
+        "source_name": {
+          "title": "Source Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "source_name",
+        "physical_type",
+        "semantic_type",
+        "confidence",
+        "signals"
+      ],
+      "title": "ColumnUnderstanding",
+      "type": "object"
+    },
+    "Dimension": {
+      "additionalProperties": false,
+      "properties": {
+        "cardinality_band": {
+          "enum": [
+            "low",
+            "mid",
+            "high"
+          ],
+          "title": "Cardinality Band",
+          "type": "string"
+        },
+        "column": {
+          "title": "Column",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "category",
+            "geo",
+            "boolean",
+            "identifier"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "column",
+        "type",
+        "cardinality_band"
+      ],
+      "title": "Dimension",
+      "type": "object"
+    },
+    "Entity": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "key_columns": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 1,
+          "title": "Key Columns",
+          "type": "array"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "key_columns",
+        "confidence"
+      ],
+      "title": "Entity",
+      "type": "object"
+    },
+    "Measure": {
+      "additionalProperties": false,
+      "properties": {
+        "additivity": {
+          "enum": [
+            "additive",
+            "semi_additive",
+            "non_additive"
+          ],
+          "title": "Additivity",
+          "type": "string"
+        },
+        "column": {
+          "title": "Column",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "amount",
+            "quantity",
+            "count",
+            "price",
+            "unit_cost",
+            "rate",
+            "ratio",
+            "percentage",
+            "balance"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "column",
+        "kind",
+        "additivity",
+        "unit"
+      ],
+      "title": "Measure",
+      "type": "object"
+    },
+    "Relationship": {
+      "additionalProperties": false,
+      "properties": {
+        "cardinality": {
+          "enum": [
+            "one_to_one",
+            "one_to_many",
+            "many_to_one",
+            "many_to_many"
+          ],
+          "title": "Cardinality",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "from": {
+          "title": "From",
+          "type": "string"
+        },
+        "inclusion": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Inclusion",
+          "type": "number"
+        },
+        "to": {
+          "title": "To",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "cardinality",
+        "inclusion",
+        "confidence"
+      ],
+      "title": "Relationship",
+      "type": "object"
+    },
+    "SemanticType": {
+      "enum": [
+        "identifier",
+        "datetime",
+        "date_part",
+        "currency_amount",
+        "quantity",
+        "count",
+        "price",
+        "rate_or_ratio",
+        "percentage",
+        "category",
+        "boolean_flag",
+        "free_text",
+        "geo_country",
+        "geo_region",
+        "geo_city",
+        "postal_code",
+        "email",
+        "phone",
+        "url",
+        "unknown"
+      ],
+      "title": "SemanticType",
+      "type": "string"
+    },
+    "TimeDimension": {
+      "additionalProperties": false,
+      "properties": {
+        "column": {
+          "title": "Column",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "grain": {
+          "anyOf": [
+            {
+              "enum": [
+                "second",
+                "minute",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "quarter",
+                "year"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Grain"
+        },
+        "regularity": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Regularity",
+          "type": "number"
+        }
+      },
+      "required": [
+        "column",
+        "grain",
+        "regularity",
+        "confidence"
+      ],
+      "title": "TimeDimension",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "columns": {
+      "items": {
+        "$ref": "#/$defs/ColumnUnderstanding"
+      },
+      "title": "Columns",
+      "type": "array"
+    },
+    "dataset_version_id": {
+      "pattern": "^dsv_\\w+$",
+      "title": "Dataset Version Id",
+      "type": "string"
+    },
+    "dimensions": {
+      "items": {
+        "$ref": "#/$defs/Dimension"
+      },
+      "title": "Dimensions",
+      "type": "array"
+    },
+    "engine_version": {
+      "title": "Engine Version",
+      "type": "string"
+    },
+    "entities": {
+      "items": {
+        "$ref": "#/$defs/Entity"
+      },
+      "title": "Entities",
+      "type": "array"
+    },
+    "measures": {
+      "items": {
+        "$ref": "#/$defs/Measure"
+      },
+      "title": "Measures",
+      "type": "array"
+    },
+    "relationships": {
+      "items": {
+        "$ref": "#/$defs/Relationship"
+      },
+      "title": "Relationships",
+      "type": "array"
+    },
+    "review_flags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Review Flags",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "time_dimensions": {
+      "items": {
+        "$ref": "#/$defs/TimeDimension"
+      },
+      "title": "Time Dimensions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dataset_version_id",
+    "engine_version",
+    "columns",
+    "entities",
+    "relationships",
+    "time_dimensions",
+    "measures",
+    "dimensions",
+    "review_flags"
+  ],
+  "title": "Understanding",
+  "type": "object"
+}

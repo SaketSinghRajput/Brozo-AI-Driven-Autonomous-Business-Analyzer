@@ -1,0 +1,40 @@
+{
+  "version": "understanding-config@1",
+  "semantic_type": {
+    "weights": {"name": 0.45, "value": 0.3, "stat": 0.2, "context": 0.05},
+    "tau": 0.4,
+    "delta": 0.05
+  },
+  "time": {
+    "weights": {"parse": 0.4, "regularity": 0.25, "name": 0.25, "completeness": 0.1},
+    "tau": 0.35,
+    "delta": 0.0
+  },
+  "key": {
+    "unique_min": 0.98,
+    "null_max": 0.01,
+    "reference_confidence": 0.6,
+    "composite_max_columns": 3,
+    "composite_candidate_limit": 8
+  },
+  "relationship": {
+    "inclusion_min": 0.95,
+    "name_similarity_min": 0.3,
+    "min_distinct_without_name": 20,
+    "weights": {"inclusion": 0.5, "name": 0.3, "target_is_key": 0.2}
+  },
+  "dimension": {"low_max": 20, "mid_max": 1000},
+  "domain": {
+    "weights": {"lexicon": 0.45, "signature": 0.35, "entity_graph": 0.1, "statistical": 0.1},
+    "tau": 0.35,
+    "delta": 0.1,
+    "lexicon_saturation": 2.5,
+    "role_weights": {"measure": 1.0, "identifier": 0.8, "time": 0.4, "dimension": 0.6, "other": 0.3}
+  },
+  "mapping": {
+    "weights": {"alias": 0.55, "type": 0.25, "unit": 0.1, "pack": 0.1},
+    "tau": 0.5,
+    "delta": 0.05,
+    "pack_weights": {"primary": 1.0, "secondary": 0.8, "generic": 0.3}
+  }
+}

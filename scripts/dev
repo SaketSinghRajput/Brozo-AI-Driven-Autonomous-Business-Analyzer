@@ -1,0 +1,59 @@
+#!/usr/bin/env sh
+# Dev task runner (TASK-INFRA-005). POSIX sh: Linux, macOS, Windows Git Bash / WSL2.
+# Usage: scripts/dev <command> [args]      (run `scripts/dev help`)
+# Env:   ENV_FILE (default <repo>/.env), COMPOSE_PROJECT (default analyzer / analyzer-prod)
+set -eu
+
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+ENV_FILE=${ENV_FILE:-$ROOT/.env}
+BASE="$ROOT/infra/compose/compose.yml"
+PROD="$ROOT/infra/compose/compose.prod.yml"
+
+dc() { docker compose -f "$BASE" --env-file "$ENV_FILE" -p "${COMPOSE_PROJECT:-analyzer}" "$@"; }
+dcprod() {
+  docker compose -f "$BASE" -f "$PROD" --env-file "$ENV_FILE" \
+    -p "${COMPOSE_PROJECT:-analyzer-prod}" "$@"
+}
+in_backend() { (cd "$ROOT/backend" && "$@"); }
+in_root() { (cd "$ROOT" && "$@"); }
+
+cmd=${1:-help}
+[ $# -gt 0 ] && shift
+case "$cmd" in
+  up)        dc up -d --build --wait "$@" ;;
+  down)      dc down "$@" ;;                      # volumes are kept; add -v to drop them
+  ps)        dc ps "$@" ;;
+  logs)      dc logs -f "$@" ;;
+  migrate)   dc run --rm migrate ;;
+  prod-up)   dcprod up -d --build --wait "$@" ;;
+  prod-down) dcprod down "$@" ;;
+  test)      in_backend uv run pytest -q "$@" ;;
+  lint)
+    in_backend uv run ruff check .
+    in_backend uv run ruff format --check .
+    in_backend uv run mypy app tests
+    in_backend uv run lint-imports
+    in_root uv run --project backend python scripts/check_forbidden_providers.py
+    ;;
+  fmt)       in_backend uv run ruff format . && in_backend uv run ruff check --fix . ;;
+  seed-fixtures) in_root uv run --project backend python scripts/generate_fixtures.py "$@" ;;
+  drift)     in_root uv run --project backend python scripts/check_schema_drift.py "$@" ;;
+  backup)    sh "$ROOT/scripts/backup.sh" create "$@" ;;
+  restore)   sh "$ROOT/scripts/backup.sh" restore "$@" ;;
+  help|-h|--help)
+    cat <<'EOF'
+scripts/dev <command>
+  up | down | ps | logs [svc]   dev compose stack (infra/compose/compose.yml)
+  migrate                       run Alembic migrations (compose `migrate` job)
+  prod-up | prod-down           production-like stack (compose.prod.yml; egress blocked)
+  test [pytest args]            backend tests (set APP_TEST_ADMIN_DATABASE_URL for integration)
+  lint                          ruff, format check, mypy, import contracts, forbidden providers
+  fmt                           ruff format + autofix
+  seed-fixtures                 regenerate deterministic fixtures in evals/fixtures
+  drift [--live-url URL]        migration round-trip / live-schema drift check
+  backup [out_dir]              pg_dump + datastore snapshot (scripts/backup.sh)
+  restore <dir> <target_db>     restore drill into a new database (scripts/backup.sh)
+EOF
+    ;;
+  *) echo "unknown command: $cmd (try scripts/dev help)" >&2; exit 2 ;;
+esac

@@ -1,0 +1,50 @@
+# --- Excluded from the repository (requested) ---
+.archify/
+.playwright-mcp/
+.claude/
+.claude-flow/
+docs/
+
+# --- Secrets / local env (never push these) ---
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Node / frontend ---
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+playwright-report/
+test-results/
+
+# --- Runtime data (never committed) ---
+/data/
+/datastore/
+*.parquet
+*.duckdb
+*.gguf
+*.safetensors
+/models/
+
+# --- Editor / OS / tool caches ---
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
+.import_linter_cache/

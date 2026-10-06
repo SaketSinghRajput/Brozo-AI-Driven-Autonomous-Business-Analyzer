@@ -1,0 +1,519 @@
+{
+  "capability_report": {
+    "attempted": [],
+    "available": [
+      "kpi",
+      "trend",
+      "forecast",
+      "anomaly_detection",
+      "rca"
+    ],
+    "dataset_version_id": "dsv_production",
+    "rules_version": "1.0.0",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "unavailable": [
+      {
+        "analysis": "customer_segmentation",
+        "message": "Insufficient data: customer segmentation needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs one of: a subscription status or end date column; or repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ]
+  },
+  "default_plan": {
+    "dataset_version_id": "dsv_production",
+    "intent": {
+      "compare_to": null,
+      "dimensions": [],
+      "filters": [],
+      "metrics": [
+        "Total Production",
+        "Total Area",
+        "Area-Weighted Yield",
+        "Crop Revenue",
+        "Total Input Cost"
+      ],
+      "objective": "overview",
+      "schema_version": "1.0",
+      "source": "system_default",
+      "time": null,
+      "time_dimension": null
+    },
+    "plan_id": "pl_f00e13056b2883fb0885a0d133",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "steps": [
+      {
+        "args": {
+          "metric": "Total Production"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S1",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Total Area"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S2",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Area-Weighted Yield"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S3",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Crop Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S4",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Total Input Cost"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S5",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "end": "2024-12-31",
+          "grain": "year",
+          "metric": "Total Production",
+          "start": "2019-01-01",
+          "time_dimension": "Crop Year"
+        },
+        "depends_on": [],
+        "expected_output": "TrendOutput",
+        "id": "S6",
+        "tool": "analytics.trend",
+        "type": "timeseries_trend",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "end": "2024-12-31",
+          "metric": "Total Production",
+          "start": "2024-01-01",
+          "time_dimension": "Crop Year"
+        },
+        "depends_on": [],
+        "expected_output": "GrowthOutput",
+        "id": "S7",
+        "tool": "analytics.growth",
+        "type": "growth_rate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Season"
+          ],
+          "metric": "Total Production"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S8",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Crop"
+          ],
+          "metric": "Total Production"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S9",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Region"
+          ],
+          "metric": "Total Production"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S10",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "current_end": "2024-12-31",
+          "current_start": "2024-01-01",
+          "dimensions": [
+            "Season",
+            "Crop",
+            "Region"
+          ],
+          "grain": "year",
+          "metric": "Total Production",
+          "time_dimension": "Crop Year"
+        },
+        "depends_on": [],
+        "expected_output": "ExplainChangeOutput",
+        "id": "S11",
+        "tool": "analytics.explain_change",
+        "type": "explain_change",
+        "validation": [
+          "schema",
+          "numeric",
+          "logic"
+        ]
+      }
+    ],
+    "unavailable": [
+      {
+        "analysis": "customer_segmentation",
+        "message": "Insufficient data: customer segmentation needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs one of: a subscription status or end date column; or repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ],
+    "version": 1
+  },
+  "deferred": {
+    "anomalies": "tool ml.anomalies is not registered yet",
+    "forecast": "tool ml.forecast is not registered yet"
+  },
+  "domain": {
+    "candidates": [
+      {
+        "domain": "agriculture",
+        "evidence": [
+          {
+            "detail": "column 'farm_id' (identifier) matches term 'farm'",
+            "kind": "lexicon",
+            "weight": 0.8
+          },
+          {
+            "detail": "column 'crop' (dimension) matches term 'crop'",
+            "kind": "lexicon",
+            "weight": 0.6
+          },
+          {
+            "detail": "column 'season' (dimension) matches term 'season'",
+            "kind": "lexicon",
+            "weight": 0.36
+          },
+          {
+            "detail": "column 'area_ha' (measure) matches term 'ha'",
+            "kind": "lexicon",
+            "weight": 0.8
+          },
+          {
+            "detail": "column 'yield_t_per_ha' (measure) matches term 'yield'",
+            "kind": "lexicon",
+            "weight": 1.0
+          },
+          {
+            "detail": "column 'production_t' (measure) matches term 'production'",
+            "kind": "lexicon",
+            "weight": 0.5
+          },
+          {
+            "detail": "column 'market_price_per_t' (measure) matches term 'market price'",
+            "kind": "lexicon",
+            "weight": 0.6
+          },
+          {
+            "detail": "signature crop_output: 2/2 ['Crop', 'Production']",
+            "kind": "signature",
+            "weight": 1.0
+          },
+          {
+            "detail": "signature yield_per_area: 2/2 ['Yield', 'Area']",
+            "kind": "signature",
+            "weight": 1.0
+          },
+          {
+            "detail": "signature farm_economics: 2/2 ['Farm', 'Input Cost']",
+            "kind": "signature",
+            "weight": 0.5
+          },
+          {
+            "detail": "stat hint yield_rate",
+            "kind": "statistical",
+            "weight": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "domain": "retail",
+        "evidence": [
+          {
+            "detail": "stat hint unit_price_present",
+            "kind": "statistical",
+            "weight": 1.0
+          },
+          {
+            "detail": "stat hint additive_quantity",
+            "kind": "statistical",
+            "weight": 1.0
+          }
+        ],
+        "score": 0.1
+      }
+    ],
+    "confidence": 1.0,
+    "pack_versions": {
+      "agriculture": "1.0.0",
+      "generic": "1.0.0",
+      "retail": "1.0.2",
+      "saas": "1.0.0"
+    },
+    "primary": "agriculture",
+    "schema_version": "1.0",
+    "status": "KNOWN"
+  },
+  "fixture_table": "production",
+  "metric_totals": {
+    "Area-Weighted Yield": {
+      "error": null,
+      "status": "ok",
+      "unit": "tonne/hectare",
+      "value": 21.141019
+    },
+    "Crop Revenue": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 642197429.819
+    },
+    "Gross Profit": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 530828537.409
+    },
+    "Total Area": {
+      "error": null,
+      "status": "ok",
+      "unit": "hectare",
+      "value": 5104.56
+    },
+    "Total Input Cost": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 111368892.41
+    },
+    "Total Production": {
+      "error": null,
+      "status": "ok",
+      "unit": "tonne",
+      "value": 107915.6
+    }
+  },
+  "semantic_model": {
+    "dimensions": {
+      "Crop": [
+        "crop",
+        "category"
+      ],
+      "Crop Year": [
+        "year",
+        "time"
+      ],
+      "Region": [
+        "region",
+        "category"
+      ],
+      "Season": [
+        "season",
+        "category"
+      ]
+    },
+    "measures": {
+      "Area": [
+        "area_ha",
+        "hectare",
+        "sum"
+      ],
+      "Input Cost": [
+        "input_cost",
+        "currency",
+        "sum"
+      ],
+      "Market Price": [
+        "market_price_per_t",
+        "currency/tonne",
+        "avg"
+      ],
+      "Production": [
+        "production_t",
+        "tonne",
+        "sum"
+      ],
+      "Yield": [
+        "yield_t_per_ha",
+        "t/ha",
+        "avg"
+      ]
+    },
+    "metrics": {
+      "Area-Weighted Yield": {
+        "expr": "sum(measure('Production')) / sum(measure('Area'))",
+        "unit": "tonne/hectare"
+      },
+      "Crop Revenue": {
+        "expr": "sum(measure('Production') * measure('Market Price'))",
+        "unit": "currency"
+      },
+      "Gross Profit": {
+        "expr": "metric('Crop Revenue') - metric('Total Input Cost')",
+        "unit": "currency"
+      },
+      "Total Area": {
+        "expr": "sum(measure('Area'))",
+        "unit": "hectare"
+      },
+      "Total Input Cost": {
+        "expr": "sum(measure('Input Cost'))",
+        "unit": "currency"
+      },
+      "Total Production": {
+        "expr": "sum(measure('Production'))",
+        "unit": "tonne"
+      }
+    }
+  }
+}

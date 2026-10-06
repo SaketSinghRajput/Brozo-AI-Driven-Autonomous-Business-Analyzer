@@ -1,0 +1,38 @@
+{
+  "$defs": {
+    "JsonValue": {}
+  },
+  "additionalProperties": false,
+  "description": "What the LLM sees: name, description and the JSON Schema of the input model.",
+  "properties": {
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "input_schema": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Input Schema",
+      "type": "object"
+    },
+    "name": {
+      "pattern": "^[a-z]+(\\.[a-z_]+)+$",
+      "title": "Name",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "input_schema"
+  ],
+  "title": "ToolSpecForLLM",
+  "type": "object"
+}

@@ -1,0 +1,199 @@
+{
+  "calibration": "none (ADR-0026: scikit-learn is not a backend dependency; raw scores)",
+  "config_version": "understanding-config@1",
+  "domains": {
+    "agriculture": {
+      "candidates": {
+        "agriculture": 1.0,
+        "retail": 0.1
+      },
+      "confidence": 1.0,
+      "expected_label": "agriculture",
+      "ok": true,
+      "predicted_label": "agriculture",
+      "primary": "agriculture",
+      "status": "KNOWN"
+    },
+    "ambiguous": {
+      "candidates": {},
+      "confidence": 0.0,
+      "expected_label": "unknown",
+      "ok": true,
+      "predicted_label": "unknown",
+      "primary": null,
+      "status": "UNKNOWN"
+    },
+    "insufficient": {
+      "candidates": {
+        "retail": 0.6179,
+        "saas": 0.0262
+      },
+      "confidence": 0.6179,
+      "expected_label": "retail",
+      "ok": true,
+      "predicted_label": "retail",
+      "primary": "retail",
+      "status": "KNOWN"
+    },
+    "retail": {
+      "candidates": {
+        "retail": 1.0,
+        "saas": 0.1103
+      },
+      "confidence": 1.0,
+      "expected_label": "retail",
+      "ok": true,
+      "predicted_label": "retail",
+      "primary": "retail",
+      "status": "KNOWN"
+    },
+    "saas": {
+      "candidates": {
+        "retail": 0.107,
+        "saas": 1.0
+      },
+      "confidence": 1.0,
+      "expected_label": "saas",
+      "ok": true,
+      "predicted_label": "saas",
+      "primary": "saas",
+      "status": "KNOWN"
+    }
+  },
+  "metrics": {
+    "additivity_accuracy": 1.0,
+    "domain_accuracy": 1.0,
+    "domain_ece": 0.0764,
+    "domain_macro_f1": 1.0,
+    "entity_recall": 1.0,
+    "mapping_accuracy": 0.9592,
+    "relationship_precision": 1.0,
+    "relationship_recall": 1.0,
+    "role_accuracy": 0.9592,
+    "type_accuracy": 0.9796,
+    "type_ece": 0.1979,
+    "unit_accuracy": 1.0
+  },
+  "precision_floor": 0.95,
+  "semantic": {
+    "agriculture": {
+      "production": {
+        "metrics": [
+          "Total Production",
+          "Total Area",
+          "Area-Weighted Yield",
+          "Crop Revenue",
+          "Total Input Cost",
+          "Gross Profit"
+        ],
+        "review_flags": []
+      }
+    },
+    "ambiguous": {
+      "data": {
+        "metrics": [
+          "Record Count"
+        ],
+        "review_flags": [
+          "DOMAIN_UNCERTAIN",
+          "MAPPING_AMBIGUOUS:amount",
+          "MAPPING_AMBIGUOUS:value"
+        ]
+      }
+    },
+    "insufficient": {
+      "sales": {
+        "metrics": [
+          "Revenue",
+          "Units Sold",
+          "Total Quantity"
+        ],
+        "review_flags": [
+          "NO_PRIMARY_KEY"
+        ]
+      }
+    },
+    "retail": {
+      "customers": {
+        "metrics": [
+          "Customers"
+        ],
+        "review_flags": []
+      },
+      "orders": {
+        "metrics": [
+          "Revenue",
+          "Units Sold",
+          "Orders",
+          "Customers",
+          "Average Order Value",
+          "Total Quantity"
+        ],
+        "review_flags": []
+      },
+      "products": {
+        "metrics": [],
+        "review_flags": []
+      }
+    },
+    "saas": {
+      "marketing_spend": {
+        "metrics": [
+          "Marketing Spend Total"
+        ],
+        "review_flags": []
+      },
+      "subscriptions": {
+        "metrics": [
+          "MRR Total",
+          "ARR (from MRR)",
+          "Subscriptions",
+          "Customers",
+          "ARPA"
+        ],
+        "review_flags": []
+      }
+    }
+  },
+  "thresholds": {
+    "domain": {
+      "delta": 0.1,
+      "tau": 0.35
+    },
+    "mapping": {
+      "delta": 0.05,
+      "tau": 0.5
+    },
+    "semantic_type": {
+      "delta": 0.05,
+      "tau": 0.4
+    }
+  },
+  "type_errors": [
+    {
+      "additivity_ok": true,
+      "column": "sales.product",
+      "expected": "free_text",
+      "predicted": "category",
+      "role_ok": true,
+      "type_ok": false,
+      "unit_ok": true
+    }
+  ],
+  "type_threshold_sweep": {
+    "best": {
+      "coverage": 1.0,
+      "delta": 0.15,
+      "precision": 0.9796,
+      "tau": 0.425
+    },
+    "current": {
+      "coverage": 1.0,
+      "delta": 0.05,
+      "precision": 0.9796,
+      "tau": 0.4
+    },
+    "feasible_points": 357,
+    "grid_points": 357
+  }
+}

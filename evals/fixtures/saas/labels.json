@@ -1,0 +1,175 @@
+{
+  "available_analyses": [
+    "mrr_trend",
+    "churn_analysis",
+    "cac",
+    "revenue_metrics",
+    "customer_segmentation",
+    "dashboard"
+  ],
+  "currency": "INR",
+  "dataset": "saas",
+  "domain": {
+    "acceptable_alternatives": [
+      "subscription_business"
+    ],
+    "expected_status": "known",
+    "primary": "saas"
+  },
+  "entities": [
+    {
+      "key": [
+        "subscription_id"
+      ],
+      "name": "Subscription",
+      "table": "subscriptions"
+    },
+    {
+      "key": [
+        "customer_id"
+      ],
+      "name": "Customer",
+      "table": "subscriptions"
+    }
+  ],
+  "generator": {
+    "script": "scripts/generate_fixtures.py",
+    "seed": 42
+  },
+  "kpis": {
+    "cac_by_month": {
+      "formula": "sum(spend, all channels, month) / count(customers whose first subscription start_date is in month); null if no new customers",
+      "unit": "currency:INR",
+      "values": {
+        "2024-09": "156657.67",
+        "2024-10": "56872.65",
+        "2024-11": "55903.27",
+        "2024-12": "45127.80",
+        "2025-01": "54171.06",
+        "2025-02": "20774.52",
+        "2025-03": "22898.94",
+        "2025-04": "24678.17",
+        "2025-05": "24416.59",
+        "2025-06": "26205.61",
+        "2025-07": "17462.80",
+        "2025-08": "13053.83",
+        "2025-09": "14008.06",
+        "2025-10": "12296.00",
+        "2025-11": "10927.13",
+        "2025-12": "13607.28",
+        "2026-01": "10503.85",
+        "2026-02": "11618.93",
+        "2026-03": "7590.39",
+        "2026-04": "9157.07",
+        "2026-05": "7587.95",
+        "2026-06": "10327.27",
+        "2026-07": "7802.21",
+        "2026-08": null
+      }
+    },
+    "mrr_by_month": {
+      "formula": "sum(mrr) where start_date <= month_end and (end_date is blank or end_date >= month_start)",
+      "unit": "currency:INR",
+      "values": {
+        "2024-09": "12715.83",
+        "2024-10": "86349.35",
+        "2024-11": "123721.95",
+        "2024-12": "181265.00",
+        "2025-01": "216404.38",
+        "2025-02": "339523.43",
+        "2025-03": "412066.38",
+        "2025-04": "493721.42",
+        "2025-05": "574522.22",
+        "2025-06": "632614.57",
+        "2025-07": "728185.00",
+        "2025-08": "839867.54",
+        "2025-09": "974086.41",
+        "2025-10": "1152023.92",
+        "2025-11": "1323737.32",
+        "2025-12": "1529704.52",
+        "2026-01": "1737507.08",
+        "2026-02": "1877921.19",
+        "2026-03": "2178074.30",
+        "2026-04": "2406600.39",
+        "2026-05": "2612578.49",
+        "2026-06": "2791020.06",
+        "2026-07": "3077978.82",
+        "2026-08": "3053269.77"
+      }
+    }
+  },
+  "relationships": [],
+  "tables": {
+    "marketing_spend": {
+      "columns": {
+        "channel": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "month": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "date_part",
+          "unit": "unitless"
+        },
+        "spend": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "currency_amount",
+          "unit": "currency:INR"
+        }
+      },
+      "row_count": 96
+    },
+    "subscriptions": {
+      "columns": {
+        "customer_id": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "end_date": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "datetime",
+          "unit": "unitless"
+        },
+        "mrr": {
+          "additivity": "semi_additive",
+          "role": "measure",
+          "semantic_type": "currency_amount",
+          "unit": "currency:INR"
+        },
+        "plan": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "start_date": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "datetime",
+          "unit": "unitless"
+        },
+        "status": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "subscription_id": {
+          "additivity": "n/a",
+          "role": "identifier",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        }
+      },
+      "row_count": 800
+    }
+  },
+  "unavailable_analyses": []
+}

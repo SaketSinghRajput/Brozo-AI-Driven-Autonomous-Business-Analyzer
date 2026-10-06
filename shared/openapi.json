@@ -1,0 +1,6971 @@
+{
+  "components": {
+    "schemas": {
+      "AnalysisRunSummary": {
+        "additionalProperties": false,
+        "description": "``GET .../analysis-runs`` row: no plan, steps or dashboard bodies.",
+        "properties": {
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "plan_id": {
+            "title": "Plan Id",
+            "type": "string"
+          },
+          "semantic_model_version": {
+            "title": "Semantic Model Version",
+            "type": "integer"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/components/schemas/RunState"
+          },
+          "step_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/StepState"
+            },
+            "title": "Step Counts",
+            "type": "object"
+          },
+          "steps_total": {
+            "title": "Steps Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "plan_id",
+          "semantic_model_version",
+          "state",
+          "started_at",
+          "finished_at",
+          "steps_total",
+          "step_counts"
+        ],
+        "title": "AnalysisRunSummary",
+        "type": "object"
+      },
+      "AnalyticsQueryBody": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_version_id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "request": {
+            "$ref": "#/components/schemas/MetricRequest"
+          },
+          "semantic_model_version": {
+            "minimum": 1.0,
+            "title": "Semantic Model Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "dataset_version_id",
+          "semantic_model_version",
+          "request"
+        ],
+        "title": "AnalyticsQueryBody",
+        "type": "object"
+      },
+      "AnalyticsQueryResponse": {
+        "properties": {
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "table": {
+            "$ref": "#/components/schemas/ResultTable"
+          },
+          "truncated": {
+            "title": "Truncated",
+            "type": "boolean"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "table",
+          "value",
+          "unit",
+          "truncated",
+          "evidence_id"
+        ],
+        "title": "AnalyticsQueryResponse",
+        "type": "object"
+      },
+      "CapabilityReport": {
+        "additionalProperties": false,
+        "properties": {
+          "attempted": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Unavailability"
+            },
+            "title": "Attempted",
+            "type": "array"
+          },
+          "available": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Available",
+            "type": "array"
+          },
+          "dataset_version_id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "rules_version": {
+            "title": "Rules Version",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "semantic_model_version": {
+            "minimum": 1.0,
+            "title": "Semantic Model Version",
+            "type": "integer"
+          },
+          "unavailable": {
+            "items": {
+              "$ref": "#/components/schemas/Unavailability"
+            },
+            "title": "Unavailable",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dataset_version_id",
+          "semantic_model_version",
+          "rules_version",
+          "available",
+          "unavailable"
+        ],
+        "title": "CapabilityReport",
+        "type": "object"
+      },
+      "CaveatSegment": {
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "type": {
+            "const": "caveat",
+            "default": "caveat",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "CaveatSegment",
+        "type": "object"
+      },
+      "ChartSpec": {
+        "additionalProperties": false,
+        "properties": {
+          "aggregation": {
+            "enum": [
+              "sum",
+              "avg",
+              "count",
+              "count_distinct",
+              "min",
+              "max",
+              "median",
+              "none"
+            ],
+            "title": "Aggregation",
+            "type": "string"
+          },
+          "evidence_id": {
+            "pattern": "^ev_\\w+$",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "filters": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            },
+            "title": "Filters",
+            "type": "array"
+          },
+          "format": {
+            "$ref": "#/components/schemas/FormatSpec",
+            "default": {
+              "locale": "en-US",
+              "precision": 0
+            }
+          },
+          "overlays": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Overlay"
+            },
+            "title": "Overlays",
+            "type": "array"
+          },
+          "schema_version": {
+            "default": "1.1",
+            "enum": [
+              "1.0",
+              "1.1"
+            ],
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "series": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FieldRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_operation": {
+            "title": "Source Operation",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "kpi",
+              "line",
+              "bar",
+              "stacked_bar",
+              "area",
+              "scatter",
+              "table",
+              "heatmap"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "x": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FieldRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "y": {
+            "items": {
+              "$ref": "#/components/schemas/FieldRef"
+            },
+            "minItems": 1,
+            "title": "Y",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "y",
+          "aggregation",
+          "source_operation",
+          "evidence_id"
+        ],
+        "title": "ChartSpec",
+        "type": "object"
+      },
+      "ChartWidget": {
+        "additionalProperties": false,
+        "properties": {
+          "chart": {
+            "$ref": "#/components/schemas/ChartSpec"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "operation_id": {
+            "title": "Operation Id",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MetricRequest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "validation_status": {
+            "$ref": "#/components/schemas/ValidationStatus"
+          },
+          "widget_type": {
+            "enum": [
+              "line_chart",
+              "bar_chart",
+              "stacked_bar",
+              "area_chart",
+              "scatter",
+              "table",
+              "heatmap"
+            ],
+            "title": "Widget Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "widget_type",
+          "title",
+          "chart",
+          "validation_status",
+          "operation_id"
+        ],
+        "title": "ChartWidget",
+        "type": "object"
+      },
+      "ChatMessage": {
+        "additionalProperties": false,
+        "properties": {
+          "answer_source": {
+            "anyOf": [
+              {
+                "const": "template",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answer Source"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ConfidenceSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "conversation_id": {
+            "title": "Conversation Id",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "segments": {
+            "anyOf": [
+              {
+                "items": {
+                  "discriminator": {
+                    "mapping": {
+                      "caveat": "#/components/schemas/CaveatSegment",
+                      "number": "#/components/schemas/NumberView",
+                      "text": "#/components/schemas/TextSegment"
+                    },
+                    "propertyName": "type"
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TextSegment"
+                    },
+                    {
+                      "$ref": "#/components/schemas/NumberView"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CaveatSegment"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Segments"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TurnState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "validation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validation Id"
+          },
+          "validation_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ValidationStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "conversation_id",
+          "role",
+          "created_at"
+        ],
+        "title": "ChatMessage",
+        "type": "object"
+      },
+      "Claim": {
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {
+            "pattern": "^cl_\\w+$",
+            "title": "Claim Id",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "pattern": "^ev_\\w+$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "answer_sentence",
+              "widget"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          },
+          "validation_id": {
+            "anyOf": [
+              {
+                "pattern": "^va_\\w+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validation Id"
+          },
+          "widget_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Widget Id"
+          },
+          "workspace_id": {
+            "pattern": "^ws_\\w+$",
+            "title": "Workspace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "workspace_id",
+          "kind",
+          "evidence_ids",
+          "created_at"
+        ],
+        "title": "Claim",
+        "type": "object"
+      },
+      "ClaimView": {
+        "additionalProperties": false,
+        "description": "The claim with its evidence embedded (design 39 read model).",
+        "properties": {
+          "claim": {
+            "$ref": "#/components/schemas/Claim"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "claim",
+          "evidence"
+        ],
+        "title": "ClaimView",
+        "type": "object"
+      },
+      "ColumnProfile": {
+        "additionalProperties": false,
+        "properties": {
+          "cardinality": {
+            "minimum": 0.0,
+            "title": "Cardinality",
+            "type": "integer"
+          },
+          "categorical": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TopK"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "null_ratio": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Null Ratio",
+            "type": "number"
+          },
+          "numeric": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NumericStats"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outliers": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OutlierSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "parse_success_ratio": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Parse Success Ratio",
+            "type": "number"
+          },
+          "physical_type": {
+            "enum": [
+              "int",
+              "float",
+              "decimal",
+              "bool",
+              "datetime",
+              "date",
+              "string",
+              "mixed"
+            ],
+            "title": "Physical Type",
+            "type": "string"
+          },
+          "temporal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TemporalStats"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "text": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TextStats"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unique_ratio": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Unique Ratio",
+            "type": "number"
+          },
+          "unit_hint": {
+            "anyOf": [
+              {
+                "enum": [
+                  "currency",
+                  "percent"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Hint"
+          }
+        },
+        "required": [
+          "name",
+          "physical_type",
+          "parse_success_ratio",
+          "null_ratio",
+          "unique_ratio",
+          "cardinality"
+        ],
+        "title": "ColumnProfile",
+        "type": "object"
+      },
+      "ColumnUnderstanding": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "physical_type": {
+            "enum": [
+              "int",
+              "float",
+              "decimal",
+              "bool",
+              "datetime",
+              "date",
+              "string",
+              "mixed"
+            ],
+            "title": "Physical Type",
+            "type": "string"
+          },
+          "semantic_type": {
+            "$ref": "#/components/schemas/SemanticType"
+          },
+          "signals": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Signals",
+            "type": "array"
+          },
+          "source_name": {
+            "title": "Source Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "source_name",
+          "physical_type",
+          "semantic_type",
+          "confidence",
+          "signals"
+        ],
+        "title": "ColumnUnderstanding",
+        "type": "object"
+      },
+      "ComparisonRef": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "pattern": "^ev_\\w+$",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "field",
+          "label"
+        ],
+        "title": "ComparisonRef",
+        "type": "object"
+      },
+      "Confidence": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Basis",
+            "type": "array"
+          },
+          "level": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Level",
+            "type": "string"
+          },
+          "score": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "level",
+          "score",
+          "basis"
+        ],
+        "title": "Confidence",
+        "type": "object"
+      },
+      "ConfidenceSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Basis",
+            "type": "array"
+          },
+          "level": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Level",
+            "type": "string"
+          },
+          "score": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "level",
+          "score",
+          "basis"
+        ],
+        "title": "ConfidenceSummary",
+        "type": "object"
+      },
+      "Connector": {
+        "description": "API view: never holds credentials.",
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "database": {
+            "title": "Database",
+            "type": "string"
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "host": {
+            "title": "Host",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "port": {
+            "title": "Port",
+            "type": "integer"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query"
+          },
+          "sslmode": {
+            "title": "Sslmode",
+            "type": "string"
+          },
+          "table_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Table Name"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "host",
+          "port",
+          "database",
+          "username",
+          "sslmode",
+          "table_name",
+          "query",
+          "dataset_id",
+          "created_at"
+        ],
+        "title": "Connector",
+        "type": "object"
+      },
+      "ConnectorCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "database": {
+            "maxLength": 63,
+            "minLength": 1,
+            "title": "Database",
+            "type": "string"
+          },
+          "host": {
+            "maxLength": 253,
+            "minLength": 1,
+            "title": "Host",
+            "type": "string"
+          },
+          "kind": {
+            "const": "postgres",
+            "default": "postgres",
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "password": {
+            "format": "password",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "Password",
+            "type": "string",
+            "writeOnly": true
+          },
+          "port": {
+            "default": 5432,
+            "maximum": 65535.0,
+            "minimum": 1.0,
+            "title": "Port",
+            "type": "integer"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "maxLength": 20000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query"
+          },
+          "sslmode": {
+            "default": "require",
+            "enum": [
+              "disable",
+              "allow",
+              "prefer",
+              "require",
+              "verify-ca",
+              "verify-full"
+            ],
+            "title": "Sslmode",
+            "type": "string"
+          },
+          "table_name": {
+            "anyOf": [
+              {
+                "maxLength": 129,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Table Name"
+          },
+          "username": {
+            "maxLength": 63,
+            "minLength": 1,
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "host",
+          "database",
+          "username",
+          "password"
+        ],
+        "title": "ConnectorCreate",
+        "type": "object"
+      },
+      "Conversation": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "dataset_version_id": {
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "owner_id": {
+            "title": "Owner Id",
+            "type": "string"
+          },
+          "semantic_model_version": {
+            "minimum": 1.0,
+            "title": "Semantic Model Version",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "owner_id",
+          "dataset_version_id",
+          "semantic_model_version",
+          "title",
+          "created_at"
+        ],
+        "title": "Conversation",
+        "type": "object"
+      },
+      "ConversationCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_version_id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "semantic_model_version": {
+            "minimum": 1.0,
+            "title": "Semantic Model Version",
+            "type": "integer"
+          },
+          "title": {
+            "default": "New conversation",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dataset_version_id",
+          "semantic_model_version"
+        ],
+        "title": "ConversationCreate",
+        "type": "object"
+      },
+      "CorrelationPair": {
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "title": "A",
+            "type": "string"
+          },
+          "b": {
+            "title": "B",
+            "type": "string"
+          },
+          "coefficient": {
+            "maximum": 1.0,
+            "minimum": -1.0,
+            "title": "Coefficient",
+            "type": "number"
+          },
+          "method": {
+            "enum": [
+              "pearson",
+              "spearman"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "n": {
+            "minimum": 2.0,
+            "title": "N",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "a",
+          "b",
+          "method",
+          "coefficient",
+          "n"
+        ],
+        "title": "CorrelationPair",
+        "type": "object"
+      },
+      "DashboardFilter": {
+        "additionalProperties": false,
+        "properties": {
+          "dimension": {
+            "title": "Dimension",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "multi_select",
+              "single_select",
+              "date_range"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "dimension",
+          "type"
+        ],
+        "title": "DashboardFilter",
+        "type": "object"
+      },
+      "DashboardSpec": {
+        "additionalProperties": false,
+        "properties": {
+          "dashboard_id": {
+            "pattern": "^db_\\w+$",
+            "title": "Dashboard Id",
+            "type": "string"
+          },
+          "dataset_version_id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "filters": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/DashboardFilter"
+            },
+            "title": "Filters",
+            "type": "array"
+          },
+          "generated_at": {
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          },
+          "insights": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Insight"
+            },
+            "title": "Insights",
+            "type": "array"
+          },
+          "layout": {
+            "$ref": "#/components/schemas/Layout"
+          },
+          "plan_id": {
+            "pattern": "^pl_\\w+$",
+            "title": "Plan Id",
+            "type": "string"
+          },
+          "schema_version": {
+            "default": "1.1",
+            "enum": [
+              "1.0",
+              "1.1"
+            ],
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "stale": {
+            "default": false,
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "summary": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/SummarySentence"
+            },
+            "maxItems": 3,
+            "title": "Summary",
+            "type": "array"
+          },
+          "widgets": {
+            "items": {
+              "discriminator": {
+                "mapping": {
+                  "area_chart": "#/components/schemas/ChartWidget",
+                  "bar_chart": "#/components/schemas/ChartWidget",
+                  "heatmap": "#/components/schemas/ChartWidget",
+                  "kpi_card": "#/components/schemas/KpiCardWidget",
+                  "line_chart": "#/components/schemas/ChartWidget",
+                  "scatter": "#/components/schemas/ChartWidget",
+                  "stacked_bar": "#/components/schemas/ChartWidget",
+                  "table": "#/components/schemas/ChartWidget",
+                  "unavailable": "#/components/schemas/UnavailableWidget"
+                },
+                "propertyName": "widget_type"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/KpiCardWidget"
+                },
+                {
+                  "$ref": "#/components/schemas/ChartWidget"
+                },
+                {
+                  "$ref": "#/components/schemas/UnavailableWidget"
+                }
+              ]
+            },
+            "title": "Widgets",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dashboard_id",
+          "dataset_version_id",
+          "plan_id",
+          "generated_at",
+          "widgets",
+          "layout"
+        ],
+        "title": "DashboardSpec",
+        "type": "object"
+      },
+      "Dataset": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^ds_\\w+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "source_type": {
+            "enum": [
+              "file_upload",
+              "postgres_snapshot"
+            ],
+            "title": "Source Type",
+            "type": "string"
+          },
+          "workspace_id": {
+            "pattern": "^ws_\\w+$",
+            "title": "Workspace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "workspace_id",
+          "name",
+          "source_type",
+          "created_at"
+        ],
+        "title": "Dataset",
+        "type": "object"
+      },
+      "DatasetFailure": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "DatasetFailure",
+        "type": "object"
+      },
+      "DatasetState": {
+        "enum": [
+          "UPLOADED",
+          "VALIDATING",
+          "VALIDATION_FAILED",
+          "INGESTING",
+          "INGESTION_FAILED",
+          "INGESTED",
+          "PROFILED",
+          "SCHEMA_ANALYZED",
+          "DOMAIN_IDENTIFIED",
+          "SEMANTICALLY_MAPPED",
+          "ANALYZING",
+          "READY",
+          "ANALYSIS_FAILED"
+        ],
+        "title": "DatasetState",
+        "type": "string"
+      },
+      "DatasetVersion": {
+        "additionalProperties": false,
+        "description": "Immutable content snapshot; only ``state`` (and its bookkeeping) advances.",
+        "properties": {
+          "content_hash": {
+            "anyOf": [
+              {
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Hash"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "dataset_id": {
+            "pattern": "^ds_\\w+$",
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "failure": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetFailure"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "pattern": "^dsv_\\w+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "review_flags": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Review Flags",
+            "type": "array"
+          },
+          "row_count": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Row Count"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "source_sha256": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Source Sha256",
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/components/schemas/DatasetState"
+          },
+          "state_changed_at": {
+            "format": "date-time",
+            "title": "State Changed At",
+            "type": "string"
+          },
+          "storage_uri": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Uri"
+          },
+          "version_no": {
+            "minimum": 1.0,
+            "title": "Version No",
+            "type": "integer"
+          },
+          "workspace_id": {
+            "pattern": "^ws_\\w+$",
+            "title": "Workspace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "dataset_id",
+          "workspace_id",
+          "version_no",
+          "source_sha256",
+          "state",
+          "state_changed_at",
+          "created_at"
+        ],
+        "title": "DatasetVersion",
+        "type": "object"
+      },
+      "Dimension": {
+        "additionalProperties": false,
+        "properties": {
+          "cardinality_band": {
+            "enum": [
+              "low",
+              "mid",
+              "high"
+            ],
+            "title": "Cardinality Band",
+            "type": "string"
+          },
+          "column": {
+            "title": "Column",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "category",
+              "geo",
+              "boolean",
+              "identifier"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "column",
+          "type",
+          "cardinality_band"
+        ],
+        "title": "Dimension",
+        "type": "object"
+      },
+      "DimensionValues": {
+        "additionalProperties": false,
+        "properties": {
+          "dimension": {
+            "title": "Dimension",
+            "type": "string"
+          },
+          "semantic_model_version": {
+            "minimum": 1.0,
+            "title": "Semantic Model Version",
+            "type": "integer"
+          },
+          "truncated": {
+            "title": "Truncated",
+            "type": "boolean"
+          },
+          "values": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dimension",
+          "values",
+          "truncated",
+          "semantic_model_version"
+        ],
+        "title": "DimensionValues",
+        "type": "object"
+      },
+      "DomainCandidate": {
+        "additionalProperties": false,
+        "properties": {
+          "domain": {
+            "title": "Domain",
+            "type": "string"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/DomainEvidence"
+            },
+            "title": "Evidence",
+            "type": "array"
+          },
+          "score": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "domain",
+          "score",
+          "evidence"
+        ],
+        "title": "DomainCandidate",
+        "type": "object"
+      },
+      "DomainClassification": {
+        "additionalProperties": false,
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/DomainCandidate"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "pack_versions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Pack Versions",
+            "type": "object"
+          },
+          "primary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primary"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DomainStatus"
+          }
+        },
+        "required": [
+          "status",
+          "primary",
+          "candidates",
+          "confidence",
+          "pack_versions"
+        ],
+        "title": "DomainClassification",
+        "type": "object"
+      },
+      "DomainEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "lexicon",
+              "signature",
+              "entity_graph",
+              "statistical",
+              "embedding",
+              "llm",
+              "user_override"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "detail",
+          "weight"
+        ],
+        "title": "DomainEvidence",
+        "type": "object"
+      },
+      "DomainOverrideRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "domain": {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "title": "Domain",
+            "type": "string"
+          }
+        },
+        "required": [
+          "domain"
+        ],
+        "title": "DomainOverrideRequest",
+        "type": "object"
+      },
+      "DomainOverrideResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "domain": {
+            "$ref": "#/components/schemas/DomainClassification"
+          },
+          "semantic_model_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Semantic Model Version"
+          },
+          "version_id": {
+            "title": "Version Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version_id",
+          "domain",
+          "semantic_model_version"
+        ],
+        "title": "DomainOverrideResponse",
+        "type": "object"
+      },
+      "DomainStatus": {
+        "enum": [
+          "KNOWN",
+          "MULTI_DOMAIN",
+          "AMBIGUOUS",
+          "UNKNOWN"
+        ],
+        "title": "DomainStatus",
+        "type": "string"
+      },
+      "Entity": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "key_columns": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 3,
+            "minItems": 1,
+            "title": "Key Columns",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "key_columns",
+          "confidence"
+        ],
+        "title": "Entity",
+        "type": "object"
+      },
+      "ErrorEnvelope": {
+        "properties": {
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          },
+          "error_code": {
+            "title": "Error Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "retryable": {
+            "title": "Retryable",
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          }
+        },
+        "required": [
+          "error_code",
+          "message",
+          "retryable",
+          "trace_id",
+          "timestamp"
+        ],
+        "title": "ErrorEnvelope",
+        "type": "object"
+      },
+      "ErrorEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/TurnError"
+          },
+          "type": {
+            "const": "error",
+            "default": "error",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorEvent",
+        "type": "object"
+      },
+      "Evidence": {
+        "additionalProperties": false,
+        "properties": {
+          "arguments": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Arguments",
+            "type": "object"
+          },
+          "calculation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calculation"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Confidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "dataset_content_hash": {
+            "anyOf": [
+              {
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Content Hash"
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "pattern": "^ds_\\w+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "dataset_version_id": {
+            "anyOf": [
+              {
+                "pattern": "^dsv_\\w+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Version Id"
+          },
+          "evidence_id": {
+            "pattern": "^ev_\\w+$",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "tool_result",
+              "citation",
+              "simulation"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "llm": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LlmRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "model": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "operation": {
+            "title": "Operation",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QueryInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "result": {
+            "$ref": "#/components/schemas/EvidenceResult"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "semantic_model_version": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Semantic Model Version"
+          },
+          "software_version": {
+            "title": "Software Version",
+            "type": "string"
+          },
+          "tool_version": {
+            "title": "Tool Version",
+            "type": "string"
+          },
+          "workspace_id": {
+            "pattern": "^ws_\\w+$",
+            "title": "Workspace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "workspace_id",
+          "kind",
+          "dataset_id",
+          "dataset_version_id",
+          "dataset_content_hash",
+          "semantic_model_version",
+          "operation",
+          "tool_version",
+          "arguments",
+          "result",
+          "created_at",
+          "software_version"
+        ],
+        "title": "Evidence",
+        "type": "object"
+      },
+      "EvidenceData": {
+        "additionalProperties": false,
+        "description": "``GET /evidence/{id}/data``: one object per row, keyed by column name.",
+        "properties": {
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/PreviewColumn"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "evidence_id": {
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "row_count": {
+            "minimum": 0.0,
+            "title": "Row Count",
+            "type": "integer"
+          },
+          "rows": {
+            "items": {
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "object"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "truncated": {
+            "title": "Truncated",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "columns",
+          "rows",
+          "truncated",
+          "row_count"
+        ],
+        "title": "EvidenceData",
+        "type": "object"
+      },
+      "EvidenceRef": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "pattern": "^ev_\\w+$",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "field"
+        ],
+        "title": "EvidenceRef",
+        "type": "object"
+      },
+      "EvidenceResult": {
+        "additionalProperties": false,
+        "properties": {
+          "result_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Result Hash",
+            "type": "string"
+          },
+          "rows": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rows"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "result_hash"
+        ],
+        "title": "EvidenceResult",
+        "type": "object"
+      },
+      "EvidencedText": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "pattern": "^ev_\\w+$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "evidence_ids"
+        ],
+        "title": "EvidencedText",
+        "type": "object"
+      },
+      "FieldRef": {
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "enum": [
+                  "time",
+                  "category",
+                  "numeric"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "field"
+        ],
+        "title": "FieldRef",
+        "type": "object"
+      },
+      "Filter": {
+        "additionalProperties": false,
+        "properties": {
+          "dimension": {
+            "title": "Dimension",
+            "type": "string"
+          },
+          "op": {
+            "enum": [
+              "eq",
+              "in",
+              "between",
+              "gte",
+              "lte"
+            ],
+            "title": "Op",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "format": "date",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "dimension",
+          "op",
+          "value"
+        ],
+        "title": "Filter",
+        "type": "object"
+      },
+      "FinalEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "answer_source": {
+            "anyOf": [
+              {
+                "const": "template",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Answer Source"
+          },
+          "message_id": {
+            "title": "Message Id",
+            "type": "string"
+          },
+          "mode": {
+            "default": "normal",
+            "enum": [
+              "normal",
+              "degraded"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Refusal"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "state": {
+            "$ref": "#/components/schemas/TurnState"
+          },
+          "type": {
+            "const": "final",
+            "default": "final",
+            "title": "Type",
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/TurnUsage"
+          },
+          "validation_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ValidationStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "message_id",
+          "state",
+          "usage"
+        ],
+        "title": "FinalEvent",
+        "type": "object"
+      },
+      "FindingView": {
+        "additionalProperties": false,
+        "description": "One ranked RCA factor for the RCA panel (``analytics.explain_change`` finding).",
+        "properties": {
+          "change": {
+            "title": "Change",
+            "type": "number"
+          },
+          "factor": {
+            "title": "Factor",
+            "type": "string"
+          },
+          "relation_type": {
+            "enum": [
+              "contribution",
+              "association",
+              "correlation",
+              "causation"
+            ],
+            "title": "Relation Type",
+            "type": "string"
+          },
+          "share": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Share"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "factor",
+          "change",
+          "unit",
+          "share",
+          "relation_type"
+        ],
+        "title": "FindingView",
+        "type": "object"
+      },
+      "FormatSpec": {
+        "additionalProperties": false,
+        "description": "Fixed formatting vocabulary; the frontend never evaluates format strings (design 57).",
+        "properties": {
+          "currency": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Z]{3}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "locale": {
+            "default": "en-US",
+            "title": "Locale",
+            "type": "string"
+          },
+          "precision": {
+            "default": 0,
+            "maximum": 6.0,
+            "minimum": 0.0,
+            "title": "Precision",
+            "type": "integer"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "title": "FormatSpec",
+        "type": "object"
+      },
+      "GraphEdge": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "evidence": {
+            "title": "Evidence",
+            "type": "string"
+          },
+          "from": {
+            "title": "From",
+            "type": "string"
+          },
+          "to": {
+            "title": "To",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "places",
+              "contains",
+              "belongs_to",
+              "references",
+              "measured_on",
+              "attribute_of",
+              "derived_from"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "type",
+          "confidence",
+          "evidence"
+        ],
+        "title": "GraphEdge",
+        "type": "object"
+      },
+      "GraphNode": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "entity",
+              "measure",
+              "dimension",
+              "metric"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name"
+        ],
+        "title": "GraphNode",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "const": "ok",
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "version"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "Insight": {
+        "additionalProperties": false,
+        "description": "What was observed (a calculation) kept apart from possible explanations (contributions or\nassociations, never causes). Only VALID insights are shown (PRD-DASH-006).",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "observed": {
+            "$ref": "#/components/schemas/EvidencedText"
+          },
+          "possible_explanations": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/EvidencedText"
+            },
+            "title": "Possible Explanations",
+            "type": "array"
+          },
+          "validation_status": {
+            "$ref": "#/components/schemas/ValidationStatus"
+          }
+        },
+        "required": [
+          "id",
+          "observed",
+          "validation_status"
+        ],
+        "title": "Insight",
+        "type": "object"
+      },
+      "Job": {
+        "properties": {
+          "attempts": {
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "cancel_requested": {
+            "title": "Cancel Requested",
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JobError"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Idempotency Key"
+          },
+          "max_attempts": {
+            "title": "Max Attempts",
+            "type": "integer"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "progress": {
+            "title": "Progress",
+            "type": "number"
+          },
+          "result_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Ref"
+          },
+          "run_after": {
+            "format": "date-time",
+            "title": "Run After",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/JobStatus"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/JobType"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "workspace_id": {
+            "title": "Workspace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "workspace_id",
+          "type",
+          "payload",
+          "status",
+          "attempts",
+          "max_attempts",
+          "run_after",
+          "idempotency_key",
+          "cancel_requested",
+          "progress",
+          "result_ref",
+          "error",
+          "trace_id",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Job",
+        "type": "object"
+      },
+      "JobError": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "retryable": {
+            "title": "Retryable",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "retryable"
+        ],
+        "title": "JobError",
+        "type": "object"
+      },
+      "JobStatus": {
+        "enum": [
+          "QUEUED",
+          "RUNNING",
+          "RETRYING",
+          "COMPLETED",
+          "FAILED",
+          "CANCELLED"
+        ],
+        "title": "JobStatus",
+        "type": "string"
+      },
+      "JobType": {
+        "enum": [
+          "ingest",
+          "process_dataset",
+          "run_plan",
+          "ml_train",
+          "embed_docs",
+          "evaluate",
+          "repair_gates",
+          "fine_tune",
+          "audit_verify"
+        ],
+        "title": "JobType",
+        "type": "string"
+      },
+      "JsonValue": {},
+      "KpiCardWidget": {
+        "additionalProperties": false,
+        "properties": {
+          "comparison_ref": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComparisonRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "format": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FormatSpec"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "metric": {
+            "title": "Metric",
+            "type": "string"
+          },
+          "operation_id": {
+            "title": "Operation Id",
+            "type": "string"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MetricRequest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "undefined_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Undefined Reason"
+          },
+          "validation_status": {
+            "$ref": "#/components/schemas/ValidationStatus"
+          },
+          "value_ref": {
+            "$ref": "#/components/schemas/EvidenceRef"
+          },
+          "widget_type": {
+            "const": "kpi_card",
+            "title": "Widget Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "widget_type",
+          "title",
+          "metric",
+          "value_ref",
+          "validation_status",
+          "operation_id"
+        ],
+        "title": "KpiCardWidget",
+        "type": "object"
+      },
+      "Layout": {
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "const": 12,
+            "default": 12,
+            "title": "Columns",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LayoutItem"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Layout",
+        "type": "object"
+      },
+      "LayoutItem": {
+        "additionalProperties": false,
+        "properties": {
+          "h": {
+            "minimum": 1.0,
+            "title": "H",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "w": {
+            "minimum": 1.0,
+            "title": "W",
+            "type": "integer"
+          },
+          "x": {
+            "minimum": 0.0,
+            "title": "X",
+            "type": "integer"
+          },
+          "y": {
+            "minimum": 0.0,
+            "title": "Y",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "x",
+          "y",
+          "w",
+          "h"
+        ],
+        "title": "LayoutItem",
+        "type": "object"
+      },
+      "LlmRef": {
+        "additionalProperties": false,
+        "properties": {
+          "model_version": {
+            "title": "Model Version",
+            "type": "string"
+          },
+          "prompt_id": {
+            "title": "Prompt Id",
+            "type": "string"
+          },
+          "prompt_version": {
+            "title": "Prompt Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "model_version",
+          "prompt_id",
+          "prompt_version"
+        ],
+        "title": "LlmRef",
+        "type": "object"
+      },
+      "LoginRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "maxLength": 320,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "password": {
+            "format": "password",
+            "maxLength": 1024,
+            "minLength": 1,
+            "title": "Password",
+            "type": "string",
+            "writeOnly": true
+          },
+          "workspace_id": {
+            "anyOf": [
+              {
+                "pattern": "^ws_[0-9a-f]{6,32}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Workspace Id"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest",
+        "type": "object"
+      },
+      "Measure": {
+        "additionalProperties": false,
+        "properties": {
+          "additivity": {
+            "enum": [
+              "additive",
+              "semi_additive",
+              "non_additive"
+            ],
+            "title": "Additivity",
+            "type": "string"
+          },
+          "column": {
+            "title": "Column",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "amount",
+              "quantity",
+              "count",
+              "price",
+              "unit_cost",
+              "rate",
+              "ratio",
+              "percentage",
+              "balance"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "column",
+          "kind",
+          "additivity",
+          "unit"
+        ],
+        "title": "Measure",
+        "type": "object"
+      },
+      "MessageCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Content",
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "title": "MessageCreate",
+        "type": "object"
+      },
+      "MetricRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "compare_to": {
+            "anyOf": [
+              {
+                "enum": [
+                  "previous_period",
+                  "same_period_last_year"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Compare To"
+          },
+          "dimensions": {
+            "default": [],
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 5,
+            "title": "Dimensions",
+            "type": "array"
+          },
+          "filters": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Filter"
+            },
+            "maxItems": 20,
+            "title": "Filters",
+            "type": "array"
+          },
+          "limit": {
+            "default": 1000,
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "metric": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Metric",
+            "type": "string"
+          },
+          "time": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TimeSpec"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "time_dimension": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Dimension"
+          }
+        },
+        "required": [
+          "metric"
+        ],
+        "title": "MetricRequest",
+        "type": "object"
+      },
+      "ModelRef": {
+        "additionalProperties": false,
+        "properties": {
+          "model_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Id"
+          },
+          "model_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Run Id"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          }
+        },
+        "title": "ModelRef",
+        "type": "object"
+      },
+      "NumberView": {
+        "additionalProperties": false,
+        "description": "A number segment as shown: the validator's NumberSegment plus the evidence value.",
+        "properties": {
+          "absolute": {
+            "default": false,
+            "title": "Absolute",
+            "type": "boolean"
+          },
+          "evidence_id": {
+            "pattern": "^ev_\\w+$",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          },
+          "format": {
+            "title": "Format",
+            "type": "string"
+          },
+          "type": {
+            "const": "number",
+            "default": "number",
+            "title": "Type",
+            "type": "string"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "field",
+          "format",
+          "value",
+          "unit"
+        ],
+        "title": "NumberView",
+        "type": "object"
+      },
+      "NumericStats": {
+        "additionalProperties": false,
+        "properties": {
+          "max": {
+            "title": "Max",
+            "type": "number"
+          },
+          "mean": {
+            "title": "Mean",
+            "type": "number"
+          },
+          "median": {
+            "title": "Median",
+            "type": "number"
+          },
+          "min": {
+            "title": "Min",
+            "type": "number"
+          },
+          "neg_ratio": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Neg Ratio",
+            "type": "number"
+          },
+          "quantiles": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Quantiles",
+            "type": "object"
+          },
+          "skew": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skew"
+          },
+          "std": {
+            "title": "Std",
+            "type": "number"
+          },
+          "var": {
+            "title": "Var",
+            "type": "number"
+          },
+          "zero_ratio": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Zero Ratio",
+            "type": "number"
+          }
+        },
+        "required": [
+          "min",
+          "max",
+          "mean",
+          "median",
+          "std",
+          "var",
+          "skew",
+          "quantiles",
+          "zero_ratio",
+          "neg_ratio"
+        ],
+        "title": "NumericStats",
+        "type": "object"
+      },
+      "OutlierSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "minimum": 0.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "method": {
+            "enum": [
+              "iqr",
+              "mad"
+            ],
+            "title": "Method",
+            "type": "string"
+          },
+          "sample_indices": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Sample Indices",
+            "type": "array"
+          }
+        },
+        "required": [
+          "method",
+          "count",
+          "sample_indices"
+        ],
+        "title": "OutlierSummary",
+        "type": "object"
+      },
+      "Overlay": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "pattern": "^ev_\\w+$",
+            "title": "Evidence Id",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "forecast_band",
+              "anomaly_markers"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "evidence_id"
+        ],
+        "title": "Overlay",
+        "type": "object"
+      },
+      "Override": {
+        "additionalProperties": false,
+        "description": "One user correction, re-applied after every (re-)mapping (TASK-SEM-009).\n\n``field`` paths (app.data.overrides): ``mapping.<column>`` (value = concept name, confirms\nthe column's mapping), ``measures.<name>.default_agg`` / ``measures.<name>.unit``, and\n``metrics.<name>.expr`` (value = metric expression; adds or replaces the metric).",
+        "properties": {
+          "at": {
+            "format": "date-time",
+            "title": "At",
+            "type": "string"
+          },
+          "by": {
+            "title": "By",
+            "type": "string"
+          },
+          "field": {
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Field",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "field",
+          "value",
+          "by",
+          "at"
+        ],
+        "title": "Override",
+        "type": "object"
+      },
+      "OverrideInput": {
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Field",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "field",
+          "value"
+        ],
+        "title": "OverrideInput",
+        "type": "object"
+      },
+      "PreviewColumn": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "string",
+              "integer",
+              "float",
+              "boolean",
+              "date",
+              "timestamp",
+              "null"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ],
+        "title": "PreviewColumn",
+        "type": "object"
+      },
+      "ProfileResult": {
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ColumnProfile"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "correlations": {
+            "items": {
+              "$ref": "#/components/schemas/CorrelationPair"
+            },
+            "title": "Correlations",
+            "type": "array"
+          },
+          "dataset_version_id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "duplicate_rows": {
+            "minimum": 0.0,
+            "title": "Duplicate Rows",
+            "type": "integer"
+          },
+          "engine_version": {
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "row_count": {
+            "minimum": 0.0,
+            "title": "Row Count",
+            "type": "integer"
+          },
+          "sample_size": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sample Size"
+          },
+          "sampled": {
+            "title": "Sampled",
+            "type": "boolean"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dataset_version_id",
+          "engine_version",
+          "row_count",
+          "duplicate_rows",
+          "columns",
+          "correlations",
+          "sampled",
+          "sample_size"
+        ],
+        "title": "ProfileResult",
+        "type": "object"
+      },
+      "QuarantineSample": {
+        "additionalProperties": false,
+        "properties": {
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "rejected_sample": {
+            "items": {
+              "$ref": "#/components/schemas/RejectedRow"
+            },
+            "title": "Rejected Sample",
+            "type": "array"
+          },
+          "rows_rejected": {
+            "title": "Rows Rejected",
+            "type": "integer"
+          },
+          "rows_seen": {
+            "title": "Rows Seen",
+            "type": "integer"
+          },
+          "version_id": {
+            "title": "Version Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version_id",
+          "rows_seen",
+          "rows_rejected",
+          "rejected_sample",
+          "flags"
+        ],
+        "title": "QuarantineSample",
+        "type": "object"
+      },
+      "QueryInfo": {
+        "additionalProperties": false,
+        "properties": {
+          "engine": {
+            "title": "Engine",
+            "type": "string"
+          },
+          "params": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "default": {},
+            "title": "Params",
+            "type": "object"
+          },
+          "sql": {
+            "title": "Sql",
+            "type": "string"
+          }
+        },
+        "required": [
+          "engine",
+          "sql"
+        ],
+        "title": "QueryInfo",
+        "type": "object"
+      },
+      "ReadinessResponse": {
+        "properties": {
+          "database": {
+            "title": "Database",
+            "type": "boolean"
+          },
+          "job_queue": {
+            "title": "Job Queue",
+            "type": "boolean"
+          },
+          "llm": {
+            "title": "Llm",
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "degraded",
+              "not_ready"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "database",
+          "job_queue",
+          "llm"
+        ],
+        "title": "ReadinessResponse",
+        "type": "object"
+      },
+      "ReasonCode": {
+        "description": "Why an analysis is unavailable. Shown to users via ``Unavailability`` and ``unavailable``\ndashboard widgets (typed result, not an error: TRD 35 ANALYSIS_UNAVAILABLE).",
+        "enum": [
+          "NO_TIME_DIMENSION",
+          "IRREGULAR_TIME",
+          "INSUFFICIENT_HISTORY",
+          "TOO_MANY_MISSING_PERIODS",
+          "NO_MEASURE",
+          "NO_DIMENSION",
+          "NO_CUSTOMER_IDENTIFIER",
+          "NO_RETENTION_HISTORY",
+          "NO_TARGET",
+          "INSUFFICIENT_ENTITIES",
+          "INSUFFICIENT_ROWS",
+          "NO_NUMERIC_FEATURES",
+          "LOW_MODEL_QUALITY",
+          "SIMULATION_UNSUPPORTED",
+          "ANALYSIS_FAILED"
+        ],
+        "title": "ReasonCode",
+        "type": "string"
+      },
+      "Refusal": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "UNSUPPORTED",
+              "UNKNOWN_NAME",
+              "INSUFFICIENT_DATA",
+              "NOT_AVAILABLE"
+            ],
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "suggestions": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Suggestions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "Refusal",
+        "type": "object"
+      },
+      "RejectedRow": {
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "row_number": {
+            "minimum": 1.0,
+            "title": "Row Number",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "row_number",
+          "reason"
+        ],
+        "title": "RejectedRow",
+        "type": "object"
+      },
+      "Relationship": {
+        "additionalProperties": false,
+        "properties": {
+          "cardinality": {
+            "enum": [
+              "one_to_one",
+              "one_to_many",
+              "many_to_one",
+              "many_to_many"
+            ],
+            "title": "Cardinality",
+            "type": "string"
+          },
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "from": {
+            "title": "From",
+            "type": "string"
+          },
+          "inclusion": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Inclusion",
+            "type": "number"
+          },
+          "to": {
+            "title": "To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "cardinality",
+          "inclusion",
+          "confidence"
+        ],
+        "title": "Relationship",
+        "type": "object"
+      },
+      "ResultColumn": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "dimension",
+              "period",
+              "value",
+              "compare_value"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "string",
+              "integer",
+              "float",
+              "boolean",
+              "date",
+              "timestamp",
+              "null"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "role"
+        ],
+        "title": "ResultColumn",
+        "type": "object"
+      },
+      "ResultTable": {
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ResultColumn"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "result_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Result Hash",
+            "type": "string"
+          },
+          "row_count": {
+            "minimum": 0.0,
+            "title": "Row Count",
+            "type": "integer"
+          },
+          "rows": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "truncated": {
+            "title": "Truncated",
+            "type": "boolean"
+          },
+          "warnings": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "columns",
+          "rows",
+          "row_count",
+          "truncated",
+          "result_hash"
+        ],
+        "title": "ResultTable",
+        "type": "object"
+      },
+      "Role": {
+        "enum": [
+          "viewer",
+          "analyst",
+          "admin"
+        ],
+        "title": "Role",
+        "type": "string"
+      },
+      "RunState": {
+        "enum": [
+          "RUNNING",
+          "COMPLETED",
+          "PARTIAL",
+          "FAILED",
+          "CANCELLED"
+        ],
+        "title": "RunState",
+        "type": "string"
+      },
+      "SegmentEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "index": {
+            "minimum": 0,
+            "title": "Index",
+            "type": "integer"
+          },
+          "segment": {
+            "discriminator": {
+              "mapping": {
+                "caveat": "#/components/schemas/CaveatSegment",
+                "number": "#/components/schemas/NumberView",
+                "text": "#/components/schemas/TextSegment"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TextSegment"
+              },
+              {
+                "$ref": "#/components/schemas/NumberView"
+              },
+              {
+                "$ref": "#/components/schemas/CaveatSegment"
+              }
+            ],
+            "title": "Segment"
+          },
+          "type": {
+            "const": "segment",
+            "default": "segment",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "index",
+          "segment"
+        ],
+        "title": "SegmentEvent",
+        "type": "object"
+      },
+      "SemanticDimension": {
+        "additionalProperties": false,
+        "properties": {
+          "column": {
+            "title": "Column",
+            "type": "string"
+          },
+          "entity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity"
+          },
+          "grain": {
+            "anyOf": [
+              {
+                "enum": [
+                  "second",
+                  "minute",
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "quarter",
+                  "year"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grain"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "category",
+              "time",
+              "geo",
+              "boolean"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "column",
+          "type"
+        ],
+        "title": "SemanticDimension",
+        "type": "object"
+      },
+      "SemanticEntity": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "source_table": {
+            "title": "Source Table",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "key",
+          "source_table",
+          "confidence"
+        ],
+        "title": "SemanticEntity",
+        "type": "object"
+      },
+      "SemanticGraph": {
+        "additionalProperties": false,
+        "properties": {
+          "edges": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GraphEdge"
+            },
+            "title": "Edges",
+            "type": "array"
+          },
+          "nodes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GraphNode"
+            },
+            "title": "Nodes",
+            "type": "array"
+          }
+        },
+        "title": "SemanticGraph",
+        "type": "object"
+      },
+      "SemanticMeasure": {
+        "additionalProperties": false,
+        "properties": {
+          "additivity": {
+            "enum": [
+              "additive",
+              "semi_additive",
+              "non_additive"
+            ],
+            "title": "Additivity",
+            "type": "string"
+          },
+          "aliases": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Aliases",
+            "type": "array"
+          },
+          "column": {
+            "title": "Column",
+            "type": "string"
+          },
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "default_agg": {
+            "enum": [
+              "sum",
+              "avg",
+              "weighted_avg",
+              "min",
+              "max",
+              "count",
+              "count_distinct",
+              "median",
+              "last"
+            ],
+            "title": "Default Agg",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "name",
+          "column",
+          "unit",
+          "additivity",
+          "default_agg",
+          "confidence"
+        ],
+        "title": "SemanticMeasure",
+        "type": "object"
+      },
+      "SemanticMetric": {
+        "additionalProperties": false,
+        "properties": {
+          "additivity": {
+            "anyOf": [
+              {
+                "enum": [
+                  "additive",
+                  "semi_additive",
+                  "non_additive"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Additivity"
+          },
+          "direction": {
+            "anyOf": [
+              {
+                "enum": [
+                  "higher_is_better",
+                  "lower_is_better",
+                  "neutral"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direction"
+          },
+          "expr": {
+            "title": "Expr",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          }
+        },
+        "required": [
+          "name",
+          "expr"
+        ],
+        "title": "SemanticMetric",
+        "type": "object"
+      },
+      "SemanticModel": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_version_id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "dimensions": {
+            "items": {
+              "$ref": "#/components/schemas/SemanticDimension"
+            },
+            "title": "Dimensions",
+            "type": "array"
+          },
+          "entities": {
+            "items": {
+              "$ref": "#/components/schemas/SemanticEntity"
+            },
+            "title": "Entities",
+            "type": "array"
+          },
+          "graph": {
+            "$ref": "#/components/schemas/SemanticGraph",
+            "default": {
+              "edges": [],
+              "nodes": []
+            }
+          },
+          "measures": {
+            "items": {
+              "$ref": "#/components/schemas/SemanticMeasure"
+            },
+            "title": "Measures",
+            "type": "array"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/SemanticMetric"
+            },
+            "title": "Metrics",
+            "type": "array"
+          },
+          "overrides": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Override"
+            },
+            "title": "Overrides",
+            "type": "array"
+          },
+          "rules": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/SemanticRule"
+            },
+            "title": "Rules",
+            "type": "array"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "semantic_model_id": {
+            "pattern": "^sm_\\w+$",
+            "title": "Semantic Model Id",
+            "type": "string"
+          },
+          "version": {
+            "minimum": 1.0,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "semantic_model_id",
+          "dataset_version_id",
+          "version",
+          "entities",
+          "dimensions",
+          "measures",
+          "metrics"
+        ],
+        "title": "SemanticModel",
+        "type": "object"
+      },
+      "SemanticModelPatch": {
+        "additionalProperties": false,
+        "properties": {
+          "base_version": {
+            "minimum": 1.0,
+            "title": "Base Version",
+            "type": "integer"
+          },
+          "overrides": {
+            "items": {
+              "$ref": "#/components/schemas/OverrideInput"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Overrides",
+            "type": "array"
+          }
+        },
+        "required": [
+          "base_version",
+          "overrides"
+        ],
+        "title": "SemanticModelPatch",
+        "type": "object"
+      },
+      "SemanticRule": {
+        "additionalProperties": false,
+        "properties": {
+          "expr": {
+            "title": "Expr",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "expr"
+        ],
+        "title": "SemanticRule",
+        "type": "object"
+      },
+      "SemanticType": {
+        "enum": [
+          "identifier",
+          "datetime",
+          "date_part",
+          "currency_amount",
+          "quantity",
+          "count",
+          "price",
+          "rate_or_ratio",
+          "percentage",
+          "category",
+          "boolean_flag",
+          "free_text",
+          "geo_country",
+          "geo_region",
+          "geo_city",
+          "postal_code",
+          "email",
+          "phone",
+          "url",
+          "unknown"
+        ],
+        "title": "SemanticType",
+        "type": "string"
+      },
+      "SessionInfo": {
+        "properties": {
+          "csrf_token": {
+            "title": "Csrf Token",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "user_id": {
+            "title": "User Id",
+            "type": "string"
+          },
+          "workspace_id": {
+            "title": "Workspace Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "email",
+          "workspace_id",
+          "role",
+          "csrf_token"
+        ],
+        "title": "SessionInfo",
+        "type": "object"
+      },
+      "StatusEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "stage": {
+            "$ref": "#/components/schemas/TurnState"
+          },
+          "type": {
+            "const": "status",
+            "default": "status",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage"
+        ],
+        "title": "StatusEvent",
+        "type": "object"
+      },
+      "StepState": {
+        "enum": [
+          "PENDING",
+          "RUNNING",
+          "SUCCEEDED",
+          "FAILED",
+          "SKIPPED",
+          "UNAVAILABLE",
+          "CANCELLED"
+        ],
+        "title": "StepState",
+        "type": "string"
+      },
+      "SummarySentence": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_ids": {
+            "items": {
+              "pattern": "^ev_\\w+$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "validation_status": {
+            "$ref": "#/components/schemas/ValidationStatus"
+          }
+        },
+        "required": [
+          "text",
+          "evidence_ids",
+          "validation_status"
+        ],
+        "title": "SummarySentence",
+        "type": "object"
+      },
+      "TemporalStats": {
+        "additionalProperties": false,
+        "properties": {
+          "gaps": {
+            "minimum": 0.0,
+            "title": "Gaps",
+            "type": "integer"
+          },
+          "granularity": {
+            "anyOf": [
+              {
+                "enum": [
+                  "second",
+                  "minute",
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "quarter",
+                  "year"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granularity"
+          },
+          "max": {
+            "format": "date-time",
+            "title": "Max",
+            "type": "string"
+          },
+          "min": {
+            "format": "date-time",
+            "title": "Min",
+            "type": "string"
+          },
+          "regularity": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Regularity",
+            "type": "number"
+          },
+          "tz_mixed": {
+            "title": "Tz Mixed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "min",
+          "max",
+          "granularity",
+          "regularity",
+          "gaps",
+          "tz_mixed"
+        ],
+        "title": "TemporalStats",
+        "type": "object"
+      },
+      "TextSegment": {
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "type": {
+            "const": "text",
+            "default": "text",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "TextSegment",
+        "type": "object"
+      },
+      "TextStats": {
+        "additionalProperties": false,
+        "properties": {
+          "max_length": {
+            "minimum": 0.0,
+            "title": "Max Length",
+            "type": "integer"
+          },
+          "mean_length": {
+            "minimum": 0.0,
+            "title": "Mean Length",
+            "type": "number"
+          },
+          "min_length": {
+            "minimum": 0.0,
+            "title": "Min Length",
+            "type": "integer"
+          },
+          "pattern_classes": {
+            "additionalProperties": {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            "title": "Pattern Classes",
+            "type": "object"
+          },
+          "regex_hit_ratios": {
+            "additionalProperties": {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            "title": "Regex Hit Ratios",
+            "type": "object"
+          }
+        },
+        "required": [
+          "min_length",
+          "max_length",
+          "mean_length",
+          "pattern_classes",
+          "regex_hit_ratios"
+        ],
+        "title": "TextStats",
+        "type": "object"
+      },
+      "TimeDimension": {
+        "additionalProperties": false,
+        "properties": {
+          "column": {
+            "title": "Column",
+            "type": "string"
+          },
+          "confidence": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "grain": {
+            "anyOf": [
+              {
+                "enum": [
+                  "second",
+                  "minute",
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "quarter",
+                  "year"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grain"
+          },
+          "regularity": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Regularity",
+            "type": "number"
+          }
+        },
+        "required": [
+          "column",
+          "grain",
+          "regularity",
+          "confidence"
+        ],
+        "title": "TimeDimension",
+        "type": "object"
+      },
+      "TimeSpec": {
+        "additionalProperties": false,
+        "properties": {
+          "calendar": {
+            "const": "gregorian",
+            "default": "gregorian",
+            "title": "Calendar",
+            "type": "string"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "grain": {
+            "enum": [
+              "second",
+              "minute",
+              "hour",
+              "day",
+              "week",
+              "month",
+              "quarter",
+              "year"
+            ],
+            "title": "Grain",
+            "type": "string"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          }
+        },
+        "required": [
+          "grain"
+        ],
+        "title": "TimeSpec",
+        "type": "object"
+      },
+      "ToolCallEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "args_summary": {
+            "title": "Args Summary",
+            "type": "string"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Error Code"
+          },
+          "evidence_id": {
+            "anyOf": [
+              {
+                "pattern": "^ev_\\w+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Evidence Id"
+          },
+          "findings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FindingView"
+                },
+                "maxItems": 10,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Findings"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "unavailable",
+              "error",
+              "rejected"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "type": {
+            "const": "tool_call",
+            "default": "tool_call",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "args_summary",
+          "status"
+        ],
+        "title": "ToolCallEvent",
+        "type": "object"
+      },
+      "TopK": {
+        "additionalProperties": false,
+        "properties": {
+          "masked": {
+            "title": "Masked",
+            "type": "boolean"
+          },
+          "values": {
+            "items": {
+              "$ref": "#/components/schemas/TopKValue"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values",
+          "masked"
+        ],
+        "title": "TopK",
+        "type": "object"
+      },
+      "TopKValue": {
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "minimum": 0.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "frequency": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Frequency",
+            "type": "number"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "count",
+          "frequency"
+        ],
+        "title": "TopKValue",
+        "type": "object"
+      },
+      "TurnError": {
+        "additionalProperties": false,
+        "properties": {
+          "error_code": {
+            "title": "Error Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "retryable": {
+            "title": "Retryable",
+            "type": "boolean"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          }
+        },
+        "required": [
+          "error_code",
+          "message",
+          "retryable",
+          "trace_id"
+        ],
+        "title": "TurnError",
+        "type": "object"
+      },
+      "TurnEvent": {
+        "additionalProperties": false,
+        "description": "Exported contract (shared/schemas/turn_event.schema.json): one SSE ``data`` payload.\n\n``seq`` equals the SSE ``id`` and ``event.type`` the SSE ``event`` name.",
+        "properties": {
+          "event": {
+            "discriminator": {
+              "mapping": {
+                "error": "#/components/schemas/ErrorEvent",
+                "final": "#/components/schemas/FinalEvent",
+                "segment": "#/components/schemas/SegmentEvent",
+                "status": "#/components/schemas/StatusEvent",
+                "tool_call": "#/components/schemas/ToolCallEvent",
+                "validation": "#/components/schemas/ValidationEvent"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/StatusEvent"
+              },
+              {
+                "$ref": "#/components/schemas/ToolCallEvent"
+              },
+              {
+                "$ref": "#/components/schemas/SegmentEvent"
+              },
+              {
+                "$ref": "#/components/schemas/ValidationEvent"
+              },
+              {
+                "$ref": "#/components/schemas/FinalEvent"
+              },
+              {
+                "$ref": "#/components/schemas/ErrorEvent"
+              }
+            ],
+            "title": "Event"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "seq": {
+            "minimum": 0,
+            "title": "Seq",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "seq",
+          "event"
+        ],
+        "title": "TurnEvent",
+        "type": "object"
+      },
+      "TurnState": {
+        "description": "design \u00a733. Deviation: any non-terminal state may go to FAILED on a fatal error.",
+        "enum": [
+          "IDLE",
+          "CLASSIFYING",
+          "NEEDS_CLARIFICATION",
+          "REFUSED",
+          "PLANNING",
+          "EXECUTING",
+          "WAITING_FOR_TOOL",
+          "COMPOSING",
+          "VALIDATING",
+          "RETRYING",
+          "COMPLETED",
+          "REQUIRES_REVIEW",
+          "FAILED",
+          "RECOVERED"
+        ],
+        "title": "TurnState",
+        "type": "string"
+      },
+      "TurnUsage": {
+        "additionalProperties": false,
+        "properties": {
+          "llm_tokens": {
+            "title": "Llm Tokens",
+            "type": "integer"
+          },
+          "retries": {
+            "title": "Retries",
+            "type": "integer"
+          },
+          "steps": {
+            "title": "Steps",
+            "type": "integer"
+          },
+          "tool_calls": {
+            "title": "Tool Calls",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "steps",
+          "tool_calls",
+          "llm_tokens",
+          "retries"
+        ],
+        "title": "TurnUsage",
+        "type": "object"
+      },
+      "Unavailability": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis": {
+            "title": "Analysis",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "reason_code": {
+            "$ref": "#/components/schemas/ReasonCode"
+          },
+          "would_enable": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Would Enable"
+          }
+        },
+        "required": [
+          "analysis",
+          "reason_code",
+          "message"
+        ],
+        "title": "Unavailability",
+        "type": "object"
+      },
+      "UnavailableWidget": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "reason_code": {
+            "$ref": "#/components/schemas/ReasonCode"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "widget_type": {
+            "const": "unavailable",
+            "title": "Widget Type",
+            "type": "string"
+          },
+          "would_enable": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Would Enable"
+          }
+        },
+        "required": [
+          "id",
+          "widget_type",
+          "title",
+          "reason_code",
+          "message"
+        ],
+        "title": "UnavailableWidget",
+        "type": "object"
+      },
+      "Understanding": {
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ColumnUnderstanding"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "dataset_version_id": {
+            "pattern": "^dsv_\\w+$",
+            "title": "Dataset Version Id",
+            "type": "string"
+          },
+          "dimensions": {
+            "items": {
+              "$ref": "#/components/schemas/Dimension"
+            },
+            "title": "Dimensions",
+            "type": "array"
+          },
+          "engine_version": {
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "entities": {
+            "items": {
+              "$ref": "#/components/schemas/Entity"
+            },
+            "title": "Entities",
+            "type": "array"
+          },
+          "measures": {
+            "items": {
+              "$ref": "#/components/schemas/Measure"
+            },
+            "title": "Measures",
+            "type": "array"
+          },
+          "relationships": {
+            "items": {
+              "$ref": "#/components/schemas/Relationship"
+            },
+            "title": "Relationships",
+            "type": "array"
+          },
+          "review_flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Review Flags",
+            "type": "array"
+          },
+          "schema_version": {
+            "const": "1.0",
+            "default": "1.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "time_dimensions": {
+            "items": {
+              "$ref": "#/components/schemas/TimeDimension"
+            },
+            "title": "Time Dimensions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dataset_version_id",
+          "engine_version",
+          "columns",
+          "entities",
+          "relationships",
+          "time_dimensions",
+          "measures",
+          "dimensions",
+          "review_flags"
+        ],
+        "title": "Understanding",
+        "type": "object"
+      },
+      "UnderstandingView": {
+        "additionalProperties": false,
+        "properties": {
+          "domain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainClassification"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "domain_confidence_level": {
+            "anyOf": [
+              {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Domain Confidence Level"
+          },
+          "domain_source": {
+            "anyOf": [
+              {
+                "enum": [
+                  "detector",
+                  "user_override"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Domain Source"
+          },
+          "review_flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Review Flags",
+            "type": "array"
+          },
+          "understanding": {
+            "$ref": "#/components/schemas/Understanding"
+          }
+        },
+        "required": [
+          "understanding",
+          "domain",
+          "domain_source",
+          "review_flags"
+        ],
+        "title": "UnderstandingView",
+        "type": "object"
+      },
+      "UploadResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DatasetState"
+          },
+          "version_id": {
+            "title": "Version Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dataset_id",
+          "version_id",
+          "job_id",
+          "status"
+        ],
+        "title": "UploadResponse",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "ValidationEvent": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "$ref": "#/components/schemas/ConfidenceSummary"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationIssue"
+            },
+            "title": "Issues",
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ValidationStatus"
+          },
+          "type": {
+            "const": "validation",
+            "default": "validation",
+            "title": "Type",
+            "type": "string"
+          },
+          "validation_id": {
+            "title": "Validation Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "validation_id",
+          "status",
+          "issues",
+          "confidence"
+        ],
+        "title": "ValidationEvent",
+        "type": "object"
+      },
+      "ValidationIssue": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "hard",
+              "soft"
+            ],
+            "title": "Severity",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "severity",
+          "target",
+          "detail"
+        ],
+        "title": "ValidationIssue",
+        "type": "object"
+      },
+      "ValidationStatus": {
+        "enum": [
+          "VALID",
+          "INVALID",
+          "UNCERTAIN",
+          "REQUIRES_REVIEW"
+        ],
+        "title": "ValidationStatus",
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "title": "AI-Driven Autonomous Business Analyzer",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/analytics/query": {
+      "post": {
+        "operationId": "analytics_query_api_v1_analytics_query_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyticsQueryBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsQueryResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Analytics Query",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/audit/verify": {
+      "post": {
+        "description": "Enqueues an `audit_verify` job for the caller's workspace; poll GET /jobs/{id}.",
+        "operationId": "verify_audit_chain_api_v1_audit_verify_post",
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Verify Audit Chain",
+        "tags": [
+          "audit"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "description": "Public. Sets the HttpOnly session cookie (a new session id on every login) and returns\nthe CSRF token. Wrong email and wrong password give the same 401.",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionInfo"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Login",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "description": "Revokes the session server-side and clears the cookie. Requires the CSRF header.",
+        "operationId": "logout_api_v1_auth_logout_post",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Logout",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "description": "The current user, workspace and role, plus the CSRF token (for SPA reloads).",
+        "operationId": "me_api_v1_auth_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionInfo"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Me",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/chat/conversations": {
+      "get": {
+        "operationId": "list_conversations_api_v1_chat_conversations_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Conversation"
+                  },
+                  "title": "Response List Conversations Api V1 Chat Conversations Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Conversations",
+        "tags": [
+          "chat"
+        ]
+      },
+      "post": {
+        "operationId": "create_conversation_api_v1_chat_conversations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConversationCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Conversation",
+        "tags": [
+          "chat"
+        ]
+      }
+    },
+    "/api/v1/chat/conversations/{conversation_id}": {
+      "get": {
+        "operationId": "get_conversation_api_v1_chat_conversations__conversation_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conversation_id",
+            "required": true,
+            "schema": {
+              "title": "Conversation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conversation"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Conversation",
+        "tags": [
+          "chat"
+        ]
+      }
+    },
+    "/api/v1/chat/conversations/{conversation_id}/messages": {
+      "get": {
+        "operationId": "list_messages_api_v1_chat_conversations__conversation_id__messages_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conversation_id",
+            "required": true,
+            "schema": {
+              "title": "Conversation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ChatMessage"
+                  },
+                  "title": "Response List Messages Api V1 Chat Conversations  Conversation Id  Messages Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Messages",
+        "tags": [
+          "chat"
+        ]
+      },
+      "post": {
+        "operationId": "post_message_api_v1_chat_conversations__conversation_id__messages_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conversation_id",
+            "required": true,
+            "schema": {
+              "title": "Conversation Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/TurnEvent"
+                }
+              }
+            },
+            "description": "TurnEvent stream (Server-Sent Events)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Post Message",
+        "tags": [
+          "chat"
+        ]
+      }
+    },
+    "/api/v1/claims/{claim_id}": {
+      "get": {
+        "operationId": "get_claim_api_v1_claims__claim_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "claim_id",
+            "required": true,
+            "schema": {
+              "title": "Claim Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Claim",
+        "tags": [
+          "evidence"
+        ]
+      }
+    },
+    "/api/v1/connectors": {
+      "get": {
+        "operationId": "list_connectors_api_v1_connectors_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Connector"
+                  },
+                  "title": "Response List Connectors Api V1 Connectors Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Connectors",
+        "tags": [
+          "connectors"
+        ]
+      },
+      "post": {
+        "description": "Register a PostgreSQL source (one table or one SELECT). The host must be allow-listed\n(`APP_CONNECTORS__ALLOWED_HOSTS`); the password is stored encrypted and never returned.",
+        "operationId": "create_connector_api_v1_connectors_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectorCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Connector"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Connector",
+        "tags": [
+          "connectors"
+        ]
+      }
+    },
+    "/api/v1/connectors/{connector_id}/import": {
+      "post": {
+        "description": "Enqueue a snapshot import; poll GET /jobs/{id}. Its result is the new dataset version,\nwhich then follows the upload pipeline (ingest -> profile -> understand).",
+        "operationId": "import_connector_api_v1_connectors__connector_id__import_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connector_id",
+            "required": true,
+            "schema": {
+              "title": "Connector Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Import Connector",
+        "tags": [
+          "connectors"
+        ]
+      }
+    },
+    "/api/v1/datasets": {
+      "get": {
+        "operationId": "list_datasets_api_v1_datasets_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Dataset"
+                  },
+                  "title": "Response List Datasets Api V1 Datasets Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Datasets",
+        "tags": [
+          "datasets"
+        ]
+      },
+      "post": {
+        "description": "Upload a CSV/.xlsx file. Side effects: stored raw file; dataset (unless `dataset_id` is\ngiven), version (UPLOADED), ingest job and DatasetUploaded outbox rows in one transaction.",
+        "operationId": "upload_dataset_api_v1_datasets_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 200,
+                  "pattern": "^[\\x21-\\x7e]+$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "dataset_id": {
+                    "pattern": "^ds_\\w+$",
+                    "type": "string"
+                  },
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "name": {
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "sheet": {
+                    "maxLength": 255,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Idempotency-Key replay or identical content (existing version)"
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "413": {
+            "description": "SECURITY_ERROR(OVERSIZED_FILE)"
+          },
+          "415": {
+            "description": "DATA_ERROR(UNSUPPORTED_FORMAT)"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Upload Dataset",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}": {
+      "get": {
+        "operationId": "get_dataset_api_v1_datasets__dataset_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dataset"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Dataset",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/domain": {
+      "put": {
+        "description": "Set the domain of the dataset's latest version (always wins; audited); re-maps it and\nenqueues a re-plan. Later versions of the dataset keep the override.",
+        "operationId": "override_domain_api_v1_datasets__dataset_id__domain_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DomainOverrideRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainOverrideResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Override Domain",
+        "tags": [
+          "understanding"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions": {
+      "get": {
+        "operationId": "list_versions_api_v1_datasets__dataset_id__versions_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DatasetVersion"
+                  },
+                  "title": "Response List Versions Api V1 Datasets  Dataset Id  Versions Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Versions",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}": {
+      "get": {
+        "operationId": "get_version_api_v1_datasets__dataset_id__versions__version_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetVersion"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Version",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/analysis-runs": {
+      "get": {
+        "description": "The version's analysis runs, newest first (state, timestamps, step counts).",
+        "operationId": "list_analysis_runs_api_v1_datasets__dataset_id__versions__version_id__analysis_runs_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AnalysisRunSummary"
+                  },
+                  "title": "Response List Analysis Runs Api V1 Datasets  Dataset Id  Versions  Version Id  Analysis Runs Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Analysis Runs",
+        "tags": [
+          "dashboard"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/capabilities": {
+      "get": {
+        "description": "Which analyses the data supports, and for each that it does not: \"Insufficient data\" with\nthe specific missing requirement and what would enable it.",
+        "operationId": "get_capabilities_api_v1_datasets__dataset_id__versions__version_id__capabilities_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "semantic_model_version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Semantic Model Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Capabilities",
+        "tags": [
+          "understanding"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/dashboard": {
+      "get": {
+        "operationId": "get_dashboard_api_v1_datasets__dataset_id__versions__version_id__dashboard_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardSpec"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Dashboard",
+        "tags": [
+          "dashboard"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/dimensions/{name}/values": {
+      "get": {
+        "operationId": "get_dimension_values_api_v1_datasets__dataset_id__versions__version_id__dimensions__name__values_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 200,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DimensionValues"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Dimension Values",
+        "tags": [
+          "dashboard"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/profile": {
+      "get": {
+        "operationId": "get_profile_api_v1_datasets__dataset_id__versions__version_id__profile_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Profile",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/quarantine": {
+      "get": {
+        "description": "Malformed-row sample: row numbers and reasons only, never row content.",
+        "operationId": "get_quarantine_api_v1_datasets__dataset_id__versions__version_id__quarantine_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuarantineSample"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Quarantine",
+        "tags": [
+          "datasets"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/semantic-model": {
+      "get": {
+        "description": "The current semantic model, or the given model ``version`` (every version is kept).",
+        "operationId": "get_semantic_model_api_v1_datasets__dataset_id__versions__version_id__semantic_model_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SemanticModel"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Semantic Model",
+        "tags": [
+          "understanding"
+        ]
+      },
+      "patch": {
+        "description": "Apply overrides -> a new model version (audited) -> re-plan. 409 if ``base_version`` is\nstale; 422 if an override cannot be applied.",
+        "operationId": "patch_semantic_model_api_v1_datasets__dataset_id__versions__version_id__semantic_model_patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SemanticModelPatch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SemanticModel"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Patch Semantic Model",
+        "tags": [
+          "understanding"
+        ]
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/versions/{version_id}/understanding": {
+      "get": {
+        "operationId": "get_understanding_api_v1_datasets__dataset_id__versions__version_id__understanding_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnderstandingView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Understanding",
+        "tags": [
+          "understanding"
+        ]
+      }
+    },
+    "/api/v1/evidence/{evidence_id}": {
+      "get": {
+        "operationId": "get_evidence_api_v1_evidence__evidence_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "evidence_id",
+            "required": true,
+            "schema": {
+              "title": "Evidence Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evidence"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Evidence",
+        "tags": [
+          "evidence"
+        ]
+      }
+    },
+    "/api/v1/evidence/{evidence_id}/data": {
+      "get": {
+        "description": "The stored result rows behind an evidence record (<= 500), for chart and table widgets.\nSame permission and scope as the evidence itself; rows hold no SQL, so nothing is redacted.",
+        "operationId": "get_evidence_data_api_v1_evidence__evidence_id__data_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "evidence_id",
+            "required": true,
+            "schema": {
+              "title": "Evidence Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceData"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Evidence Data",
+        "tags": [
+          "evidence"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "description": "Liveness only: no auth, no dependency checks.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v1/health/ready": {
+      "get": {
+        "description": "Readiness: 503 (error envelope, B8) when the database or job queue is down; LLM down is\nonly `degraded`.",
+        "operationId": "ready_api_v1_health_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Not ready (details: the checks)"
+          }
+        },
+        "summary": "Ready",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "get_job_api_v1_jobs__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Job",
+        "tags": [
+          "jobs"
+        ]
+      }
+    },
+    "/api/v1/jobs/{job_id}/cancel": {
+      "post": {
+        "operationId": "cancel_job_api_v1_jobs__job_id__cancel_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cancel Job",
+        "tags": [
+          "jobs"
+        ]
+      }
+    }
+  }
+}

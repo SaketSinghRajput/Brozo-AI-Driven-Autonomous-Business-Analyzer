@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "dashboard_id": "db_000003",
+  "dataset_version_id": "dsv_000003",
+  "plan_id": "pl_000003",
+  "generated_at": "2026-09-28T10:30:00Z",
+  "filters": [{"id": "f_district", "dimension": "District", "type": "multi_select"}],
+  "widgets": [
+    {
+      "id": "w1",
+      "widget_type": "kpi_card",
+      "title": "Total yield (2025 season)",
+      "metric": "Total Yield",
+      "value_ref": {"evidence_id": "ev_000201", "field": "result.value"},
+      "validation_status": "VALID",
+      "operation_id": "S1"
+    },
+    {
+      "id": "w2",
+      "widget_type": "bar_chart",
+      "title": "Yield per hectare by crop",
+      "chart": {
+        "type": "bar",
+        "x": {"field": "crop", "type": "category"},
+        "y": [{"field": "yield_per_ha", "type": "numeric", "unit": "t/ha"}],
+        "aggregation": "avg",
+        "source_operation": "pl_000003-S2",
+        "evidence_id": "ev_000202",
+        "format": {"unit": "t/ha", "precision": 2, "locale": "en-IN"}
+      },
+      "validation_status": "VALID",
+      "operation_id": "S2"
+    },
+    {
+      "id": "w3",
+      "widget_type": "scatter",
+      "title": "Rainfall vs yield",
+      "chart": {
+        "type": "scatter",
+        "x": {"field": "rainfall_mm", "type": "numeric", "unit": "mm"},
+        "y": [{"field": "yield_per_ha", "type": "numeric", "unit": "t/ha"}],
+        "aggregation": "none",
+        "source_operation": "pl_000003-S3",
+        "evidence_id": "ev_000203",
+        "format": {"unit": "t/ha", "precision": 2, "locale": "en-IN"}
+      },
+      "validation_status": "UNCERTAIN",
+      "operation_id": "S3"
+    },
+    {
+      "id": "w4",
+      "widget_type": "unavailable",
+      "title": "Yield forecast",
+      "reason_code": "INSUFFICIENT_HISTORY",
+      "message": "Only 3 seasons of history; at least 2 full seasonal cycles are needed",
+      "would_enable": "yield records for more seasons"
+    }
+  ],
+  "layout": {
+    "columns": 12,
+    "items": [
+      {"id": "w1", "x": 0, "y": 0, "w": 4, "h": 2},
+      {"id": "w2", "x": 0, "y": 2, "w": 6, "h": 4},
+      {"id": "w3", "x": 6, "y": 2, "w": 6, "h": 4},
+      {"id": "w4", "x": 0, "y": 6, "w": 4, "h": 2}
+    ]
+  }
+}

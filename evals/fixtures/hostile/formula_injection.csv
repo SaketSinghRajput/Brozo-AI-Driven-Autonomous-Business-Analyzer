@@ -1,0 +1,21 @@
+customer_id,customer_name,notes,amount
+C001,"=HYPERLINK(""http://evil.example/steal"",""Click"")",injected payload,100.00
+C002,+cmd|' /c calc'!A1,injected payload,100.00
+C003,-2+3,injected payload,100.00
+C004,@SUM(A1:A9),injected payload,100.00
+C005,=1+1+cmd|' /c notepad'!A1,injected payload,100.00
+C006,Customer 6,normal row,674.03
+C007,Customer 7,normal row,974.11
+C008,Customer 8,normal row,43.18
+C009,Customer 9,normal row,141.82
+C010,Customer 10,normal row,814.31
+C011,Customer 11,normal row,532.81
+C012,Customer 12,normal row,867.50
+C013,Customer 13,normal row,55.36
+C014,Customer 14,normal row,717.89
+C015,Customer 15,normal row,518.10
+C016,Customer 16,normal row,627.19
+C017,Customer 17,normal row,608.27
+C018,Customer 18,normal row,111.22
+C019,Customer 19,normal row,932.12
+C020,Customer 20,normal row,928.38

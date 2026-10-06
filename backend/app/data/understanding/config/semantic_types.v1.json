@@ -1,0 +1,106 @@
+{
+  "version": "semantic-types@1",
+  "types": {
+    "identifier": {
+      "phrases": ["account number", "order number", "invoice number", "customer number", "serial number"],
+      "strong": ["id", "key", "code", "uuid", "guid", "sku", "identifier"],
+      "weak": ["number", "ref", "reference"]
+    },
+    "datetime": {
+      "phrases": ["created at", "updated at", "signup date"],
+      "strong": ["date", "datetime", "timestamp", "time", "created", "updated", "modified", "dob"],
+      "weak": ["day"]
+    },
+    "date_part": {
+      "phrases": ["fiscal year", "fiscal month"],
+      "strong": ["year", "month", "quarter", "week", "weekday", "fy", "period"],
+      "weak": ["day"]
+    },
+    "currency_amount": {
+      "phrases": ["net sales", "gross sales", "total amount", "sales amount"],
+      "strong": ["amount", "revenue", "sales", "cost", "spend", "income", "expense", "expenses", "profit", "payment", "salary", "fee", "fees", "mrr", "arr", "balance", "budget", "gmv", "charges", "turnover"],
+      "weak": ["value", "total", "invoice", "charge"]
+    },
+    "quantity": {
+      "phrases": ["number of units"],
+      "strong": ["quantity", "units", "volume", "production", "area", "weight", "ha", "hectare", "hectares", "acres", "acre", "kg", "tonnes", "tonne", "litres", "liters", "stock", "inventory", "output", "harvest"],
+      "weak": ["size", "load"]
+    },
+    "count": {
+      "phrases": ["number of"],
+      "strong": ["count", "clicks", "views", "visits", "sessions", "impressions", "headcount", "downloads", "signups"],
+      "weak": ["users", "orders", "customers"]
+    },
+    "price": {
+      "phrases": ["unit price", "unit cost", "list price", "sale price", "selling price", "cost price", "market price"],
+      "strong": ["price", "mrp", "tariff", "fare"],
+      "weak": ["rate"]
+    },
+    "rate_or_ratio": {
+      "phrases": ["conversion rate", "churn rate"],
+      "strong": ["rate", "ratio", "yield", "per"],
+      "weak": ["index", "factor", "score"]
+    },
+    "percentage": {
+      "phrases": ["per cent"],
+      "strong": ["percent", "percentage"],
+      "weak": ["share"]
+    },
+    "category": {
+      "phrases": ["customer segment", "product category"],
+      "strong": ["category", "type", "segment", "class", "group", "channel", "status", "plan", "tier", "kind", "grade", "level", "department", "brand", "season", "gender", "method", "source", "stage"],
+      "weak": ["region", "zone", "sector"]
+    },
+    "boolean_flag": {
+      "phrases": [],
+      "strong": ["is", "has", "flag", "enabled", "churned", "active"],
+      "weak": []
+    },
+    "free_text": {
+      "phrases": [],
+      "strong": ["name", "description", "notes", "note", "comment", "comments", "remarks", "title", "text", "message", "feedback", "review", "address"],
+      "weak": ["label"]
+    },
+    "geo_country": {
+      "phrases": ["country code"],
+      "strong": ["country", "nation"],
+      "weak": []
+    },
+    "geo_region": {
+      "phrases": [],
+      "strong": ["state", "province", "county"],
+      "weak": ["region", "territory", "zone"]
+    },
+    "geo_city": {
+      "phrases": [],
+      "strong": ["city", "town", "municipality"],
+      "weak": ["district"]
+    },
+    "postal_code": {
+      "phrases": ["postal code", "zip code", "post code", "pin code"],
+      "strong": ["zip", "zipcode", "postcode", "pincode", "postal"],
+      "weak": []
+    },
+    "email": {
+      "phrases": ["e mail"],
+      "strong": ["email"],
+      "weak": ["mail"]
+    },
+    "phone": {
+      "phrases": [],
+      "strong": ["phone", "mobile", "telephone", "fax"],
+      "weak": ["contact", "cell"]
+    },
+    "url": {
+      "phrases": [],
+      "strong": ["url", "website", "uri", "homepage", "link"],
+      "weak": []
+    }
+  },
+  "gazetteers": {
+    "geo_country": ["india", "united states", "usa", "united kingdom", "uk", "germany", "france", "italy", "spain", "canada", "mexico", "brazil", "argentina", "china", "japan", "south korea", "australia", "new zealand", "russia", "south africa", "nigeria", "kenya", "egypt", "pakistan", "bangladesh", "sri lanka", "nepal", "indonesia", "singapore", "malaysia", "thailand", "vietnam", "philippines", "netherlands", "belgium", "sweden", "norway", "denmark", "finland", "poland", "portugal", "ireland", "switzerland", "austria", "turkey", "saudi arabia", "united arab emirates", "uae", "israel", "chile", "colombia", "peru"],
+    "geo_region": ["andhra pradesh", "assam", "bihar", "gujarat", "haryana", "karnataka", "kerala", "madhya pradesh", "maharashtra", "odisha", "punjab", "rajasthan", "tamil nadu", "telangana", "uttar pradesh", "west bengal", "delhi", "goa", "jharkhand", "chhattisgarh", "uttarakhand", "himachal pradesh", "california", "texas", "new york", "florida", "illinois", "washington", "ohio", "georgia", "pennsylvania", "michigan", "ontario", "quebec", "bavaria", "england", "scotland", "wales", "new south wales", "victoria", "queensland"],
+    "geo_city": ["mumbai", "delhi", "new delhi", "bengaluru", "bangalore", "chennai", "kolkata", "hyderabad", "pune", "ahmedabad", "jaipur", "lucknow", "surat", "kochi", "new york", "los angeles", "chicago", "houston", "san francisco", "seattle", "boston", "london", "manchester", "paris", "berlin", "munich", "madrid", "rome", "tokyo", "osaka", "beijing", "shanghai", "singapore", "sydney", "melbourne", "toronto", "vancouver", "dubai", "sao paulo", "mexico city"]
+  },
+  "boolean_values": ["true", "false", "yes", "no", "y", "n", "t", "f", "0", "1"]
+}

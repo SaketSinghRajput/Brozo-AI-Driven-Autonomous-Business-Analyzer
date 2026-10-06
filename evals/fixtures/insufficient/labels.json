@@ -1,0 +1,94 @@
+{
+  "available_analyses": [
+    "descriptive_stats",
+    "period_totals"
+  ],
+  "dataset": "insufficient",
+  "domain": {
+    "acceptable_alternatives": [
+      "generic_sales"
+    ],
+    "expected_status": "known",
+    "primary": "retail"
+  },
+  "entities": [],
+  "generator": {
+    "script": "scripts/generate_fixtures.py",
+    "seed": 42
+  },
+  "history_months": 3,
+  "kpis": {
+    "total_revenue": {
+      "formula": "sum(quantity * unit_price)",
+      "unit": "currency:INR",
+      "value": "140876.21"
+    }
+  },
+  "relationships": [],
+  "tables": {
+    "sales": {
+      "columns": {
+        "category": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "channel": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "date": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "datetime",
+          "unit": "unitless"
+        },
+        "product": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "free_text",
+          "unit": "unitless"
+        },
+        "quantity": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "quantity",
+          "unit": "count"
+        },
+        "region": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "unit_price": {
+          "additivity": "non_additive",
+          "role": "measure",
+          "semantic_type": "price",
+          "unit": "currency:INR"
+        }
+      },
+      "row_count": 154
+    }
+  },
+  "unavailable_analyses": [
+    {
+      "analysis": "forecast",
+      "message": "Only 3 months of history; forecasting needs at least one full seasonal cycle.",
+      "reason_code": "INSUFFICIENT_HISTORY"
+    },
+    {
+      "analysis": "churn_analysis",
+      "message": "No subscription or per-customer activity history is present.",
+      "reason_code": "NO_RETENTION_HISTORY"
+    },
+    {
+      "analysis": "customer_segmentation",
+      "message": "No customer identifier column exists; rows cannot be grouped by customer.",
+      "reason_code": "NO_CUSTOMER_IDENTIFIER"
+    }
+  ]
+}

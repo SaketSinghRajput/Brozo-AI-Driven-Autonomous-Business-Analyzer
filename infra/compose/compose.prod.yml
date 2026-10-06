@@ -1,0 +1,88 @@
+# Production-like override (TASK-INFRA-006/007, TASK-SEC-014). Layer it on the base file:
+#   docker compose -f infra/compose/compose.yml -f infra/compose/compose.prod.yml \
+#     --env-file .env -p analyzer-prod up -d --build
+# (or `scripts/dev prod-up`). What changes versus dev:
+# - Only the proxy (`web`) publishes a port. postgres/migrate/api/worker live on `backend`, an
+#   internal network with no route off the host: no internet egress (PRD AC-10, CLAUDE.md 20).
+# - The proxy is the single egress: /api/ -> api, and :11434 (internal only) -> host Ollama,
+#   inference endpoints only (proxy/ollama-relay.conf). Trade-off documented in docs/SECURITY.md.
+# - Every container: non-root, cap_drop ALL, no-new-privileges, read-only rootfs + tmpfs,
+#   pids and memory limits.
+
+x-hardening: &hardening
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs: ["/tmp:size=64m"]
+
+x-app-env: &prod-env
+  APP_ENV: prod
+  APP_SECURITY__COOKIE_SECURE: "true"  # required in prod; serve over TLS (docs/MLOPS.md)
+  APP_SECURITY__AUDIT_KEY: ${APP_SECURITY__AUDIT_KEY:?set in .env for the prod profile}
+  APP_SECURITY__AUDIT_KEY_ID: ${APP_SECURITY__AUDIT_KEY_ID:-k1}
+  # Through the proxy's relay: the only host api/worker can reach besides postgres.
+  APP_LLM__ENDPOINT: http://web:11434
+  APP_LLM__ALLOWED_HOSTS: '["web"]'
+
+networks:
+  backend:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.231.1.0/24  # fixed so the proxy IP api trusts is stable
+  edge: {}
+
+services:
+  postgres:
+    <<: *hardening
+    user: "999:999"  # the image's postgres uid/gid: no gosu step, so no SETUID/CHOWN caps needed
+    tmpfs: ["/tmp:size=64m", "/var/run/postgresql:size=8m"]
+    ports: !reset []
+    networks: [backend]
+    deploy:
+      resources:
+        limits: {memory: 1g, cpus: "2", pids: 256}
+
+  migrate:
+    <<: *hardening
+    image: analyzer-backend:prod
+    networks: [backend]
+
+  api:
+    <<: *hardening
+    image: analyzer-backend:prod
+    # The proxy reaches api over `backend`; trust X-Forwarded-For from its pinned IP only.
+    command: ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000",
+              "--proxy-headers", "--forwarded-allow-ips", "10.231.1.10"]
+    environment: *prod-env
+    ports: !reset []
+    extra_hosts: !reset []
+    networks: [backend]
+    deploy:
+      resources:
+        limits: {memory: 2g, cpus: "2", pids: 256}
+
+  worker:
+    <<: *hardening
+    image: analyzer-backend:prod
+    environment: *prod-env
+    extra_hosts: !reset []
+    networks: [backend]
+    deploy:
+      resources:
+        limits: {memory: 4g, cpus: "4", pids: 256}  # DuckDB memory_limit_mb=2048 per query (design 65)
+
+  web:
+    <<: *hardening
+    image: analyzer-frontend:prod
+    volumes:
+      - ./proxy/ollama-relay.conf:/etc/nginx/conf.d/ollama-relay.conf:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks: !override  # drop the dev `default` network entirely
+      edge: {}
+      backend:
+        ipv4_address: 10.231.1.10
+    deploy:
+      resources:
+        limits: {memory: 128m, cpus: "1", pids: 256}

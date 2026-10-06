@@ -1,0 +1,13 @@
+# Allow-list for scripts/check_forbidden_providers.py (TASK-SEC-001).
+#
+# Format: one entry per line, `<repo-relative-path> | <reason>`. Lines starting with `#` and
+# blank lines are ignored. Paths are matched exactly, relative to the repo root, forward slashes.
+#
+# ARCH approval required for every entry (CLAUDE.md section 9: shared contracts / cross-cutting
+# checks are changed only by ROLE 1 or with ROLE 1 review). Record who approved and when.
+#
+# Approved by: ARCH (TASK-SEC-001 implementation, 2026-09-28) — the fixture below exists solely
+# to prove the checker itself detects a forbidden import; it contains no real usage and is never
+# executed or imported outside its own test.
+
+scripts/tests/fixtures/hosted_openai.py | TASK-SEC-001 test fixture: intentionally contains `import openai` to prove the checker fails on a real violation. Inert, never executed.

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "dashboard_id": "db_000002",
+  "dataset_version_id": "dsv_000002",
+  "plan_id": "pl_000002",
+  "generated_at": "2026-09-28T10:25:00Z",
+  "filters": [{"id": "f_plan", "dimension": "Plan", "type": "single_select"}],
+  "widgets": [
+    {
+      "id": "w1",
+      "widget_type": "kpi_card",
+      "title": "MRR (Aug 2026)",
+      "metric": "MRR",
+      "value_ref": {"evidence_id": "ev_000101", "field": "result.value"},
+      "comparison_ref": {"evidence_id": "ev_000102", "field": "result.value", "label": "vs Jul"},
+      "validation_status": "VALID",
+      "operation_id": "S1"
+    },
+    {
+      "id": "w2",
+      "widget_type": "kpi_card",
+      "title": "Logo churn rate",
+      "metric": "Churn Rate",
+      "value_ref": {"evidence_id": "ev_000103", "field": "result.value"},
+      "validation_status": "REQUIRES_REVIEW",
+      "operation_id": "S2"
+    },
+    {
+      "id": "w3",
+      "widget_type": "area_chart",
+      "title": "MRR by plan",
+      "chart": {
+        "type": "area",
+        "x": {"field": "month", "type": "time"},
+        "y": [{"field": "mrr", "type": "numeric", "unit": "currency:USD"}],
+        "series": {"field": "plan", "type": "category"},
+        "aggregation": "sum",
+        "source_operation": "pl_000002-S3",
+        "evidence_id": "ev_000104",
+        "format": {"unit": "currency:USD", "precision": 0, "locale": "en-US"}
+      },
+      "validation_status": "VALID",
+      "operation_id": "S3"
+    },
+    {
+      "id": "w4",
+      "widget_type": "table",
+      "title": "Top accounts by MRR",
+      "chart": {
+        "type": "table",
+        "y": [
+          {"field": "account", "type": "category"},
+          {"field": "mrr", "type": "numeric", "unit": "currency:USD"}
+        ],
+        "aggregation": "none",
+        "source_operation": "pl_000002-S4",
+        "evidence_id": "ev_000105",
+        "format": {"unit": "currency:USD", "precision": 0, "locale": "en-US"}
+      },
+      "validation_status": "VALID",
+      "operation_id": "S4"
+    }
+  ],
+  "layout": {
+    "columns": 12,
+    "items": [
+      {"id": "w1", "x": 0, "y": 0, "w": 3, "h": 2},
+      {"id": "w2", "x": 3, "y": 0, "w": 3, "h": 2},
+      {"id": "w3", "x": 0, "y": 2, "w": 12, "h": 4},
+      {"id": "w4", "x": 0, "y": 6, "w": 12, "h": 4}
+    ]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$defs": {
+    "ReasonCode": {
+      "description": "Why an analysis is unavailable. Shown to users via ``Unavailability`` and ``unavailable``\ndashboard widgets (typed result, not an error: TRD 35 ANALYSIS_UNAVAILABLE).",
+      "enum": [
+        "NO_TIME_DIMENSION",
+        "IRREGULAR_TIME",
+        "INSUFFICIENT_HISTORY",
+        "TOO_MANY_MISSING_PERIODS",
+        "NO_MEASURE",
+        "NO_DIMENSION",
+        "NO_CUSTOMER_IDENTIFIER",
+        "NO_RETENTION_HISTORY",
+        "NO_TARGET",
+        "INSUFFICIENT_ENTITIES",
+        "INSUFFICIENT_ROWS",
+        "NO_NUMERIC_FEATURES",
+        "LOW_MODEL_QUALITY",
+        "SIMULATION_UNSUPPORTED",
+        "ANALYSIS_FAILED"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "Unavailability": {
+      "additionalProperties": false,
+      "properties": {
+        "analysis": {
+          "title": "Analysis",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "reason_code": {
+          "$ref": "#/$defs/ReasonCode"
+        },
+        "would_enable": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Would Enable"
+        }
+      },
+      "required": [
+        "analysis",
+        "reason_code",
+        "message"
+      ],
+      "title": "Unavailability",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "attempted": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Unavailability"
+      },
+      "title": "Attempted",
+      "type": "array"
+    },
+    "available": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Available",
+      "type": "array"
+    },
+    "dataset_version_id": {
+      "pattern": "^dsv_\\w+$",
+      "title": "Dataset Version Id",
+      "type": "string"
+    },
+    "rules_version": {
+      "title": "Rules Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "semantic_model_version": {
+      "minimum": 1,
+      "title": "Semantic Model Version",
+      "type": "integer"
+    },
+    "unavailable": {
+      "items": {
+        "$ref": "#/$defs/Unavailability"
+      },
+      "title": "Unavailable",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dataset_version_id",
+    "semantic_model_version",
+    "rules_version",
+    "available",
+    "unavailable"
+  ],
+  "title": "CapabilityReport",
+  "type": "object"
+}

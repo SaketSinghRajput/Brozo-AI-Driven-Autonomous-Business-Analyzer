@@ -1,0 +1,115 @@
+# Usage (from the repo root):  docker compose -f infra/compose/compose.yml --env-file .env up -d
+# Published ports are bound to 127.0.0.1 only (SECURITY.md section 6).
+name: analyzer
+
+x-backend-build: &backend-build
+  context: ../../backend
+  dockerfile: ../infra/docker/backend.Dockerfile
+
+services:
+  postgres:
+    image: postgres:18.6
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?set in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?set in .env}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?set in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  migrate:
+    build: *backend-build
+    image: analyzer-backend:dev
+    command: ["alembic", "upgrade", "head"]
+    environment:
+      APP_MIGRATION_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?connect_timeout=5
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    image: analyzer-backend:dev
+    # Trust X-Forwarded-For only from the proxy's pinned IP (login throttling is per client IP;
+    # without this every request would come from the proxy). Direct 127.0.0.1:API_HOST_PORT
+    # calls keep their own peer address.
+    command: ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000",
+              "--proxy-headers", "--forwarded-allow-ips", "10.231.0.10"]
+    environment: &app-env
+      APP_ENV: ${APP_ENV:-dev}
+      APP_DATABASE__URL: postgresql+psycopg://analyzer_app:${APP_DB_PASSWORD}@postgres:5432/${POSTGRES_DB}?connect_timeout=5
+      APP_STORAGE__DATASTORE_PATH: /data/datastore
+      APP_SECURITY__SESSION_SECRET: ${APP_SECURITY__SESSION_SECRET:?set in .env}
+      APP_SECURITY__COOKIE_SECURE: ${APP_SECURITY__COOKIE_SECURE:-true}
+      APP_LLM__ENDPOINT: ${APP_LLM__ENDPOINT_FROM_CONTAINER:-http://host.docker.internal:11434}
+      APP_LLM__ALLOWED_HOSTS: '["host.docker.internal","127.0.0.1","localhost"]'
+      # Native Ollama on the host (ADR-0007 proposed); model per ADR-0008 proposed.
+      APP_LLM__MODEL: ${APP_LLM__MODEL:-qwen2.5:7b}
+      APP_LLM__NUM_CTX: ${APP_LLM__NUM_CTX:-8192}
+      APP_OBSERVABILITY__LOG_LEVEL: ${APP_OBSERVABILITY__LOG_LEVEL:-INFO}
+    volumes:
+      - datastore:/data/datastore
+    # Docker Desktop resolves host.docker.internal natively; Linux Engine needs this mapping
+    # (TASK-LLM-008). On Linux, Ollama must also listen on the docker bridge, see docs/MLOPS.md.
+    extra_hosts: &host-gateway
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:${API_HOST_PORT:-8000}:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready').status == 200 else 1)"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  worker:
+    image: analyzer-backend:dev
+    command: ["python", "-m", "app.jobs.worker"]
+    environment: *app-env
+    volumes:
+      - datastore:/data/datastore
+    extra_hosts: *host-gateway
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ../../frontend
+      dockerfile: ../infra/docker/frontend.Dockerfile
+    image: analyzer-frontend:dev
+    volumes:
+      # Reverse-proxy config owned by infra (upload body limit, SSE, /api only; TASK-INFRA-006).
+      - ./proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      default:
+        ipv4_address: 10.231.0.10  # the only address api trusts for X-Forwarded-For
+    ports:
+      - "127.0.0.1:${WEB_HOST_PORT:-8080}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.231.0.0/24  # fixed so the proxy IP above is stable
+
+volumes:
+  pgdata:
+  datastore:

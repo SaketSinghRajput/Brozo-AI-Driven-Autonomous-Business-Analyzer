@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "id": "agriculture",
+  "version": "1.0.0",
+  "name": "Agriculture",
+  "description": "Crop production: farms, crops, seasons, cultivated area, yield, production, input costs and market prices.",
+  "compatible_with": [],
+  "lexicon": [
+    {"term": "crop", "weight": 1.0},
+    {"term": "farm", "weight": 1.0},
+    {"term": "yield", "weight": 1.0},
+    {"term": "harvest", "weight": 1.0},
+    {"term": "kharif", "weight": 1.0},
+    {"term": "rabi", "weight": 1.0},
+    {"term": "fertilizer", "weight": 1.0},
+    {"term": "irrigation", "weight": 1.0},
+    {"term": "sowing", "weight": 1.0},
+    {"term": "livestock", "weight": 1.0},
+    {"term": "hectare", "weight": 0.9},
+    {"term": "rainfall", "weight": 0.9},
+    {"term": "soil", "weight": 0.9},
+    {"term": "ha", "weight": 0.8},
+    {"term": "acre", "weight": 0.8},
+    {"term": "seed", "weight": 0.8},
+    {"term": "season", "weight": 0.6},
+    {"term": "market price", "weight": 0.6},
+    {"term": "production", "weight": 0.5},
+    {"term": "tonne", "weight": 0.5}
+  ],
+  "concepts": [
+    {"name": "Farm", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["farm id", "farm", "plot id", "field id", "holding id"]},
+    {"name": "Area", "kind": "measure", "semantic_types": ["quantity"], "unique": true, "aliases": ["area", "area ha", "cultivated area", "sown area", "acreage", "area hectare"]},
+    {"name": "Production", "kind": "measure", "semantic_types": ["quantity"], "unique": true, "aliases": ["production", "production t", "output", "harvest", "production tonne"]},
+    {"name": "Yield", "kind": "measure", "semantic_types": ["rate_or_ratio"], "unique": true, "aliases": ["yield", "yield t per ha", "yield per hectare", "productivity"]},
+    {"name": "Input Cost", "kind": "measure", "semantic_types": ["currency_amount"], "unique": true, "aliases": ["input cost", "cost of cultivation", "input costs", "cultivation cost"]},
+    {"name": "Market Price", "kind": "measure", "semantic_types": ["price"], "unique": true, "aliases": ["market price", "market price per t", "price per tonne", "farm gate price", "price"]},
+    {"name": "Crop", "kind": "dimension", "semantic_types": ["category"], "aliases": ["crop", "crop type", "commodity", "variety"]},
+    {"name": "Season", "kind": "dimension", "semantic_types": ["category"], "aliases": ["season", "cropping season"]},
+    {"name": "Region", "kind": "dimension", "semantic_types": ["category", "geo_region"], "aliases": ["region", "district", "state"]},
+    {"name": "Crop Year", "kind": "time", "semantic_types": ["date_part", "datetime"], "unique": true, "aliases": ["year", "crop year", "harvest year", "harvest date"]}
+  ],
+  "signatures": [
+    {"id": "crop_output", "description": "Production recorded per crop", "requires": ["Crop", "Production"], "weight": 1.0},
+    {"id": "yield_per_area", "description": "Yield together with cultivated area", "requires": ["Yield", "Area"], "weight": 1.0},
+    {"id": "farm_economics", "description": "Farms with input costs", "requires": ["Farm", "Input Cost"], "weight": 0.5}
+  ],
+  "stat_hints": [
+    {"id": "yield_rate", "description": "A non-additive rate (yield per area)", "semantic_type": "rate_or_ratio", "additivity": "non_additive", "weight": 1.0}
+  ],
+  "metrics": [
+    {"name": "Total Production", "expr": "sum(measure('Production'))", "requires": ["Production"], "direction": "higher_is_better", "description": "Total production.", "source": "aggregate"},
+    {"name": "Total Area", "expr": "sum(measure('Area'))", "requires": ["Area"], "direction": "neutral", "description": "Total cultivated area.", "source": "aggregate"},
+    {"name": "Area-Weighted Yield", "expr": "sum(measure('Production')) / sum(measure('Area'))", "requires": ["Production", "Area"], "direction": "higher_is_better", "description": "Production per unit area recomputed from components (never the average of row yields).", "source": "crop_yield"},
+    {"name": "Crop Revenue", "expr": "sum(measure('Production') * measure('Market Price'))", "requires": ["Production", "Market Price"], "direction": "higher_is_better", "description": "Sum of production x market price.", "source": "revenue"},
+    {"name": "Total Input Cost", "expr": "sum(measure('Input Cost'))", "requires": ["Input Cost"], "direction": "lower_is_better", "description": "Total input cost.", "source": "aggregate"},
+    {"name": "Gross Profit", "expr": "metric('Crop Revenue') - metric('Total Input Cost')", "requires": ["Production", "Market Price", "Input Cost"], "direction": "higher_is_better", "description": "Crop revenue minus input cost (revenue minus cost of goods).", "source": "gross_margin"}
+  ],
+  "sources": [
+    {"id": "crop_yield", "title": "Crop yield (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Crop_yield"},
+    {"id": "revenue", "title": "Revenue (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Revenue"},
+    {"id": "gross_margin", "title": "Gross margin (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Gross_margin"},
+    {"id": "aggregate", "title": "Aggregate function (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Aggregate_function"}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "version": "analysis-config@1",
+  "thresholds": {
+    "kpi": {"min_rows": 1},
+    "trend": {"min_periods": {"month": 3, "quarter": 3, "year": 3}},
+    "forecast": {
+      "min_regularity": 0.8,
+      "min_periods": {"month": 12, "quarter": 8, "year": 5},
+      "horizon": {"month": 3, "quarter": 2, "year": 1}
+    },
+    "anomaly": {"min_rows": 30},
+    "segmentation": {"min_entities": 50, "min_features": 1},
+    "supervised": {"min_rows": 200, "min_features": 2},
+    "cohort": {"min_periods": {"month": 3, "quarter": 2, "year": 2}},
+    "rca": {"min_periods": {"month": 2, "quarter": 2, "year": 2}, "max_dimension_cardinality": 50}
+  },
+  "planner": {
+    "max_steps": 30,
+    "max_kpis": 5,
+    "max_dimensions": 3,
+    "seed": 42
+  }
+}

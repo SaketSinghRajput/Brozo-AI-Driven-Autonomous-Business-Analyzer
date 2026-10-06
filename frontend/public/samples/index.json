@@ -1,0 +1,17 @@
+[
+  {
+    "file": "sample-orders.csv",
+    "title": "Retail orders",
+    "description": "1,500 synthetic orders with dates, quantities, prices, regions and channels (first rows of the retail evaluation fixture)."
+  },
+  {
+    "file": "sample-subscriptions.csv",
+    "title": "SaaS subscriptions",
+    "description": "800 synthetic subscriptions with plan, monthly recurring revenue, start/end dates and status."
+  },
+  {
+    "file": "sample-production.csv",
+    "title": "Agricultural production",
+    "description": "360 synthetic farm-season records with area, yield, input cost and market price."
+  }
+]

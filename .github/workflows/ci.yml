@@ -1,0 +1,249 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: backend (lint, types, unit tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - run: uv run lint-imports
+      - name: Unit + API tests (integration tests run in the backend-integration job)
+        run: uv run pytest -q -m "not integration"
+
+  backend-integration:
+    name: backend (integration tests, Postgres)
+    runs-on: ubuntu-latest
+    needs: backend
+    services:
+      postgres:
+        image: postgres:18.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      # Superuser URL on a disposable cluster; tests/integration/conftest.py creates the
+      # analyzer_app/analyzer_ro roles and a throwaway database on top of it, then drops it.
+      APP_TEST_ADMIN_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - run: uv run pytest tests/integration -q
+      - name: Migration drift check (TASK-DB-013; single head + downgrade/upgrade round-trip)
+        run: uv run python ../scripts/check_schema_drift.py --admin-url "$APP_TEST_ADMIN_DATABASE_URL"
+
+  infra:
+    name: compose + proxy config validation (TASK-INFRA-006/007)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Compose files resolve (dev and prod override)
+        run: |
+          docker compose --env-file .env.example -f infra/compose/compose.yml config --quiet
+          # the prod override refuses to start without an audit key; any value parses
+          APP_SECURITY__AUDIT_KEY=ci-placeholder docker compose --env-file .env.example \
+            -f infra/compose/compose.yml -f infra/compose/compose.prod.yml config --quiet
+      - name: nginx proxy config parses
+        run: |
+          docker run --rm --add-host host.docker.internal:127.0.0.1 \
+            -v "$PWD/infra/compose/proxy:/etc/nginx/conf.d:ro" \
+            nginxinc/nginx-unprivileged:1.29-alpine nginx -t
+      - name: Shell scripts are POSIX-clean
+        run: shellcheck -s sh scripts/dev scripts/backup.sh
+
+  forbidden-providers:
+    name: forbidden hosted-AI-provider check (TASK-SEC-001)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - run: uv run --project backend python scripts/check_forbidden_providers.py
+      - name: Checker's own tests
+        run: uv run --project backend pytest scripts/tests -q
+
+  security:
+    name: secret scan + dependency vulnerability scan (TASK-SEC-002)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # gitleaks scans full history
+      - name: Secret scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - name: pip-audit (backend dependencies; fails on any known vulnerability)
+        working-directory: backend
+        run: uv run --with pip-audit pip-audit
+
+  image-scan:
+    name: container image vulnerability scan (TASK-SEC-014)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      # Official image pinned by version + digest (not trivy-action: its tags were rewritten in
+      # the 2026 supply-chain incident). Bump both together; see docs/SECURITY.md section 5.4.
+      TRIVY: aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the images the compose files build
+        run: |
+          docker build -t analyzer-backend:ci-scan -f infra/docker/backend.Dockerfile backend
+          docker build -t analyzer-frontend:ci-scan -f infra/docker/frontend.Dockerfile frontend
+      - name: Report HIGH/CRITICAL (informational)
+        run: |
+          for image in analyzer-backend:ci-scan analyzer-frontend:ci-scan; do
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock "$TRIVY" image \
+              --quiet --scanners vuln --severity HIGH,CRITICAL "$image"
+          done
+      - name: Fail on CRITICAL with an available fix
+        run: |
+          for image in analyzer-backend:ci-scan analyzer-frontend:ci-scan; do
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock "$TRIVY" image \
+              --quiet --scanners vuln --severity CRITICAL --ignore-unfixed --exit-code 1 "$image"
+          done
+
+  openapi-drift:
+    name: OpenAPI contract drift check
+    runs-on: ubuntu-latest
+    needs: backend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - run: uv run --project backend python scripts/export_openapi.py
+      - name: Fail if shared/openapi.json is out of date
+        run: git diff --exit-code shared/openapi.json
+      - name: Fail if shared/schemas/*.json are out of date
+        run: uv run --project backend python scripts/export_schemas.py --check
+
+  frontend:
+    name: frontend (lint, types, tests, build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # The frontend is built on a separate branch and may not exist yet on this one; detect it
+      # after checkout (hashFiles() in a job-level `if` can't see files before checkout runs) and
+      # skip the rest of the job rather than fail when it's absent.
+      - id: detect
+        run: |
+          if [ -f frontend/package.json ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v7
+        if: steps.detect.outputs.exists == 'true'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm ci
+      - if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm run lint
+      - if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm run typecheck --if-present
+      - if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm test
+      - name: Type-check the Playwright E2E specs (they run in the e2e job)
+        if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm run typecheck:e2e --if-present
+      - if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm run build
+      - name: Generated API client drift check (TASK-FOUND-014)
+        if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm run gen:api
+      - if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: git diff --exit-code src/api/generated
+      - name: npm audit (fails on high/critical; TASK-SEC-002)
+        if: steps.detect.outputs.exists == 'true'
+        working-directory: frontend
+        run: npm audit --audit-level=high
+
+  e2e:
+    # Browser journeys (TASK-TEST-004) need a running stack with the local LLM, which hosted CI
+    # does not have. The job runs only when the repository variable E2E_BASE_URL points at one
+    # (e.g. a self-hosted runner next to `scripts/dev up`); credentials come from secrets.
+    # Without the variable the job is skipped; without credentials every spec skips itself.
+    name: e2e (Playwright against a live stack)
+    if: vars.E2E_BASE_URL != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - working-directory: frontend
+        run: npm ci
+      - working-directory: frontend
+        run: npx playwright install --with-deps chromium
+      - working-directory: frontend
+        env:
+          E2E_BASE_URL: ${{ vars.E2E_BASE_URL }}
+          E2E_EMAIL: ${{ secrets.E2E_EMAIL }}
+          E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
+          E2E_VIEWER_EMAIL: ${{ secrets.E2E_VIEWER_EMAIL }}
+          E2E_VIEWER_PASSWORD: ${{ secrets.E2E_VIEWER_PASSWORD }}
+        run: npm run test:e2e
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-results
+          path: frontend/test-results/
+          retention-days: 7

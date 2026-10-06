@@ -1,0 +1,43 @@
+# Optional local hooks mirroring CI (TASK-FOUND-015). CI stays the gate; these catch issues early.
+#   uv tool install pre-commit && pre-commit install && pre-commit install --hook-type pre-push
+# Python hooks run through `uv run` so they use the exact versions pinned in backend/uv.lock.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks  # secret scan of staged changes (CI job `security` scans full history)
+
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check (backend)
+        # Same command and cwd as CI (per-file-ignores in pyproject are relative to backend/).
+        entry: bash -c 'cd backend && uv run ruff check .'
+        language: system
+        pass_filenames: false
+        files: ^backend/.*\.py$
+      - id: ruff-format
+        name: ruff format --check (backend)
+        entry: bash -c 'cd backend && uv run ruff format --check .'
+        language: system
+        pass_filenames: false
+        files: ^backend/.*\.py$
+      - id: forbidden-providers
+        name: forbidden hosted-AI-provider check (CLAUDE.md 20)
+        entry: uv run --project backend python scripts/check_forbidden_providers.py
+        language: system
+        pass_filenames: false
+      - id: mypy
+        name: mypy --strict (backend)
+        entry: bash -c 'cd backend && uv run mypy app tests'
+        language: system
+        pass_filenames: false
+        types: [python]
+        stages: [pre-push]
+      - id: import-contracts
+        name: import-linter contracts (backend)
+        entry: bash -c 'cd backend && uv run lint-imports'
+        language: system
+        pass_filenames: false
+        types: [python]
+        stages: [pre-push]

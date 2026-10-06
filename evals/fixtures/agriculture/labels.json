@@ -1,0 +1,132 @@
+{
+  "available_analyses": [
+    "yield_analysis",
+    "cost_analysis",
+    "profitability",
+    "forecast_seasonal_yearly",
+    "dashboard"
+  ],
+  "currency": "INR",
+  "dataset": "agriculture",
+  "domain": {
+    "acceptable_alternatives": [
+      "farming"
+    ],
+    "expected_status": "known",
+    "primary": "agriculture"
+  },
+  "entities": [
+    {
+      "key": [
+        "farm_id"
+      ],
+      "name": "Farm",
+      "table": "production"
+    }
+  ],
+  "generator": {
+    "script": "scripts/generate_fixtures.py",
+    "seed": 42
+  },
+  "kpis": {
+    "total_production_t_by_year": {
+      "formula": "sum(production_t) grouped by year; production_t = area_ha * yield_t_per_ha",
+      "unit": "tonne",
+      "values": {
+        "2019": "16789.60",
+        "2020": "17687.16",
+        "2021": "18135.33",
+        "2022": "17902.94",
+        "2023": "18943.49",
+        "2024": "18457.08"
+      }
+    },
+    "total_revenue_by_year": {
+      "formula": "sum(production_t * market_price_per_t) grouped by year",
+      "unit": "currency:INR",
+      "values": {
+        "2019": "102317526.29",
+        "2020": "109119600.16",
+        "2021": "108145301.61",
+        "2022": "104470218.90",
+        "2023": "109269318.76",
+        "2024": "108875464.25"
+      }
+    }
+  },
+  "relationships": [],
+  "tables": {
+    "production": {
+      "columns": {
+        "area_ha": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "quantity",
+          "unit": "hectare"
+        },
+        "crop": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "farm_id": {
+          "additivity": "n/a",
+          "role": "identifier",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "input_cost": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "currency_amount",
+          "unit": "currency:INR"
+        },
+        "market_price_per_t": {
+          "additivity": "non_additive",
+          "role": "measure",
+          "semantic_type": "price",
+          "unit": "currency:INR/tonne"
+        },
+        "production_t": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "quantity",
+          "unit": "tonne"
+        },
+        "region": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "season": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "year": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "date_part",
+          "unit": "unitless"
+        },
+        "yield_t_per_ha": {
+          "additivity": "non_additive",
+          "role": "measure",
+          "semantic_type": "rate_or_ratio",
+          "unit": "t/ha"
+        }
+      },
+      "row_count": 360
+    }
+  },
+  "unavailable_analyses": [
+    {
+      "analysis": "forecast_daily",
+      "message": "Data is at seasonal/yearly grain only; no daily/monthly time dimension is available.",
+      "reason_code": "NO_TIME_DIMENSION"
+    }
+  ]
+}

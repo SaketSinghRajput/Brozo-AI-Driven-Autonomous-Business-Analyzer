@@ -1,0 +1,989 @@
+{
+  "$defs": {
+    "ChartSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregation": {
+          "enum": [
+            "sum",
+            "avg",
+            "count",
+            "count_distinct",
+            "min",
+            "max",
+            "median",
+            "none"
+          ],
+          "title": "Aggregation",
+          "type": "string"
+        },
+        "evidence_id": {
+          "pattern": "^ev_\\w+$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "filters": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Filter"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "format": {
+          "$ref": "#/$defs/FormatSpec",
+          "default": {
+            "currency": null,
+            "locale": "en-US",
+            "precision": 0,
+            "unit": null
+          }
+        },
+        "overlays": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Overlay"
+          },
+          "title": "Overlays",
+          "type": "array"
+        },
+        "schema_version": {
+          "default": "1.1",
+          "enum": [
+            "1.0",
+            "1.1"
+          ],
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "series": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FieldRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source_operation": {
+          "title": "Source Operation",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "kpi",
+            "line",
+            "bar",
+            "stacked_bar",
+            "area",
+            "scatter",
+            "table",
+            "heatmap"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "x": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FieldRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "y": {
+          "items": {
+            "$ref": "#/$defs/FieldRef"
+          },
+          "minItems": 1,
+          "title": "Y",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "y",
+        "aggregation",
+        "source_operation",
+        "evidence_id"
+      ],
+      "title": "ChartSpec",
+      "type": "object"
+    },
+    "ChartWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "chart": {
+          "$ref": "#/$defs/ChartSpec"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "operation_id": {
+          "title": "Operation Id",
+          "type": "string"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricRequest"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "validation_status": {
+          "$ref": "#/$defs/ValidationStatus"
+        },
+        "widget_type": {
+          "enum": [
+            "line_chart",
+            "bar_chart",
+            "stacked_bar",
+            "area_chart",
+            "scatter",
+            "table",
+            "heatmap"
+          ],
+          "title": "Widget Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "widget_type",
+        "title",
+        "chart",
+        "validation_status",
+        "operation_id"
+      ],
+      "title": "ChartWidget",
+      "type": "object"
+    },
+    "ComparisonRef": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "pattern": "^ev_\\w+$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "field",
+        "label"
+      ],
+      "title": "ComparisonRef",
+      "type": "object"
+    },
+    "DashboardFilter": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension": {
+          "title": "Dimension",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "multi_select",
+            "single_select",
+            "date_range"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "dimension",
+        "type"
+      ],
+      "title": "DashboardFilter",
+      "type": "object"
+    },
+    "EvidenceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "pattern": "^ev_\\w+$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "field": {
+          "title": "Field",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "field"
+      ],
+      "title": "EvidenceRef",
+      "type": "object"
+    },
+    "EvidencedText": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "pattern": "^ev_\\w+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "evidence_ids"
+      ],
+      "title": "EvidencedText",
+      "type": "object"
+    },
+    "FieldRef": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "enum": [
+                "time",
+                "category",
+                "numeric"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "field"
+      ],
+      "title": "FieldRef",
+      "type": "object"
+    },
+    "Filter": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension": {
+          "title": "Dimension",
+          "type": "string"
+        },
+        "op": {
+          "enum": [
+            "eq",
+            "in",
+            "between",
+            "gte",
+            "lte"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "format": "date",
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "dimension",
+        "op",
+        "value"
+      ],
+      "title": "Filter",
+      "type": "object"
+    },
+    "FormatSpec": {
+      "additionalProperties": false,
+      "description": "Fixed formatting vocabulary; the frontend never evaluates format strings (design 57).",
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "precision": {
+          "default": 0,
+          "maximum": 6,
+          "minimum": 0,
+          "title": "Precision",
+          "type": "integer"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "title": "FormatSpec",
+      "type": "object"
+    },
+    "Insight": {
+      "additionalProperties": false,
+      "description": "What was observed (a calculation) kept apart from possible explanations (contributions or\nassociations, never causes). Only VALID insights are shown (PRD-DASH-006).",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "observed": {
+          "$ref": "#/$defs/EvidencedText"
+        },
+        "possible_explanations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvidencedText"
+          },
+          "title": "Possible Explanations",
+          "type": "array"
+        },
+        "validation_status": {
+          "$ref": "#/$defs/ValidationStatus"
+        }
+      },
+      "required": [
+        "id",
+        "observed",
+        "validation_status"
+      ],
+      "title": "Insight",
+      "type": "object"
+    },
+    "KpiCardWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "comparison_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComparisonRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "format": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FormatSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "metric": {
+          "title": "Metric",
+          "type": "string"
+        },
+        "operation_id": {
+          "title": "Operation Id",
+          "type": "string"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricRequest"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "undefined_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Undefined Reason"
+        },
+        "validation_status": {
+          "$ref": "#/$defs/ValidationStatus"
+        },
+        "value_ref": {
+          "$ref": "#/$defs/EvidenceRef"
+        },
+        "widget_type": {
+          "const": "kpi_card",
+          "title": "Widget Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "widget_type",
+        "title",
+        "metric",
+        "value_ref",
+        "validation_status",
+        "operation_id"
+      ],
+      "title": "KpiCardWidget",
+      "type": "object"
+    },
+    "Layout": {
+      "additionalProperties": false,
+      "properties": {
+        "columns": {
+          "const": 12,
+          "default": 12,
+          "title": "Columns",
+          "type": "integer"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/LayoutItem"
+          },
+          "title": "Items",
+          "type": "array"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "title": "Layout",
+      "type": "object"
+    },
+    "LayoutItem": {
+      "additionalProperties": false,
+      "properties": {
+        "h": {
+          "minimum": 1,
+          "title": "H",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "w": {
+          "minimum": 1,
+          "title": "W",
+          "type": "integer"
+        },
+        "x": {
+          "minimum": 0,
+          "title": "X",
+          "type": "integer"
+        },
+        "y": {
+          "minimum": 0,
+          "title": "Y",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "title": "LayoutItem",
+      "type": "object"
+    },
+    "MetricRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "compare_to": {
+          "anyOf": [
+            {
+              "enum": [
+                "previous_period",
+                "same_period_last_year"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Compare To"
+        },
+        "dimensions": {
+          "default": [],
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 5,
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "filters": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Filter"
+          },
+          "maxItems": 20,
+          "title": "Filters",
+          "type": "array"
+        },
+        "limit": {
+          "default": 1000,
+          "maximum": 10000,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "metric": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Metric",
+          "type": "string"
+        },
+        "time": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimeSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "time_dimension": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Time Dimension"
+        }
+      },
+      "required": [
+        "metric"
+      ],
+      "title": "MetricRequest",
+      "type": "object"
+    },
+    "Overlay": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "pattern": "^ev_\\w+$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "forecast_band",
+            "anomaly_markers"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "evidence_id"
+      ],
+      "title": "Overlay",
+      "type": "object"
+    },
+    "ReasonCode": {
+      "description": "Why an analysis is unavailable. Shown to users via ``Unavailability`` and ``unavailable``\ndashboard widgets (typed result, not an error: TRD 35 ANALYSIS_UNAVAILABLE).",
+      "enum": [
+        "NO_TIME_DIMENSION",
+        "IRREGULAR_TIME",
+        "INSUFFICIENT_HISTORY",
+        "TOO_MANY_MISSING_PERIODS",
+        "NO_MEASURE",
+        "NO_DIMENSION",
+        "NO_CUSTOMER_IDENTIFIER",
+        "NO_RETENTION_HISTORY",
+        "NO_TARGET",
+        "INSUFFICIENT_ENTITIES",
+        "INSUFFICIENT_ROWS",
+        "NO_NUMERIC_FEATURES",
+        "LOW_MODEL_QUALITY",
+        "SIMULATION_UNSUPPORTED",
+        "ANALYSIS_FAILED"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "SummarySentence": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "pattern": "^ev_\\w+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "validation_status": {
+          "$ref": "#/$defs/ValidationStatus"
+        }
+      },
+      "required": [
+        "text",
+        "evidence_ids",
+        "validation_status"
+      ],
+      "title": "SummarySentence",
+      "type": "object"
+    },
+    "TimeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "calendar": {
+          "const": "gregorian",
+          "default": "gregorian",
+          "title": "Calendar",
+          "type": "string"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "grain": {
+          "enum": [
+            "second",
+            "minute",
+            "hour",
+            "day",
+            "week",
+            "month",
+            "quarter",
+            "year"
+          ],
+          "title": "Grain",
+          "type": "string"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        }
+      },
+      "required": [
+        "grain"
+      ],
+      "title": "TimeSpec",
+      "type": "object"
+    },
+    "UnavailableWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "reason_code": {
+          "$ref": "#/$defs/ReasonCode"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "widget_type": {
+          "const": "unavailable",
+          "title": "Widget Type",
+          "type": "string"
+        },
+        "would_enable": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Would Enable"
+        }
+      },
+      "required": [
+        "id",
+        "widget_type",
+        "title",
+        "reason_code",
+        "message"
+      ],
+      "title": "UnavailableWidget",
+      "type": "object"
+    },
+    "ValidationStatus": {
+      "enum": [
+        "VALID",
+        "INVALID",
+        "UNCERTAIN",
+        "REQUIRES_REVIEW"
+      ],
+      "title": "ValidationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dashboard_id": {
+      "pattern": "^db_\\w+$",
+      "title": "Dashboard Id",
+      "type": "string"
+    },
+    "dataset_version_id": {
+      "pattern": "^dsv_\\w+$",
+      "title": "Dataset Version Id",
+      "type": "string"
+    },
+    "filters": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/DashboardFilter"
+      },
+      "title": "Filters",
+      "type": "array"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "insights": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Insight"
+      },
+      "title": "Insights",
+      "type": "array"
+    },
+    "layout": {
+      "$ref": "#/$defs/Layout"
+    },
+    "plan_id": {
+      "pattern": "^pl_\\w+$",
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.1",
+      "enum": [
+        "1.0",
+        "1.1"
+      ],
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "stale": {
+      "default": false,
+      "title": "Stale",
+      "type": "boolean"
+    },
+    "summary": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SummarySentence"
+      },
+      "maxItems": 3,
+      "title": "Summary",
+      "type": "array"
+    },
+    "widgets": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "area_chart": "#/$defs/ChartWidget",
+            "bar_chart": "#/$defs/ChartWidget",
+            "heatmap": "#/$defs/ChartWidget",
+            "kpi_card": "#/$defs/KpiCardWidget",
+            "line_chart": "#/$defs/ChartWidget",
+            "scatter": "#/$defs/ChartWidget",
+            "stacked_bar": "#/$defs/ChartWidget",
+            "table": "#/$defs/ChartWidget",
+            "unavailable": "#/$defs/UnavailableWidget"
+          },
+          "propertyName": "widget_type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/KpiCardWidget"
+          },
+          {
+            "$ref": "#/$defs/ChartWidget"
+          },
+          {
+            "$ref": "#/$defs/UnavailableWidget"
+          }
+        ]
+      },
+      "title": "Widgets",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dashboard_id",
+    "dataset_version_id",
+    "plan_id",
+    "generated_at",
+    "widgets",
+    "layout"
+  ],
+  "title": "DashboardSpec",
+  "type": "object"
+}

@@ -1,0 +1,440 @@
+{
+  "capability_report": {
+    "attempted": [],
+    "available": [
+      "kpi",
+      "trend",
+      "anomaly_detection",
+      "customer_segmentation",
+      "churn_analysis",
+      "rca"
+    ],
+    "dataset_version_id": "dsv_subscriptions",
+    "rules_version": "1.0.0",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "unavailable": [
+      {
+        "analysis": "forecast",
+        "message": "Insufficient data: forecasting needs regularly spaced dates (regularity >= 0.80); column 'start_date' has 0.70.",
+        "reason_code": "IRREGULAR_TIME",
+        "would_enable": "dates recorded at a regular interval (e.g. daily or monthly)"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs at least 2 numeric columns; the data has 1.",
+        "reason_code": "NO_NUMERIC_FEATURES",
+        "would_enable": "more numeric columns"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs at least 2 numeric columns; the data has 1.",
+        "reason_code": "NO_NUMERIC_FEATURES",
+        "would_enable": "more numeric columns"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ]
+  },
+  "default_plan": {
+    "dataset_version_id": "dsv_subscriptions",
+    "intent": {
+      "compare_to": null,
+      "dimensions": [],
+      "filters": [],
+      "metrics": [
+        "MRR Total",
+        "ARR (from MRR)",
+        "Subscriptions",
+        "Customers",
+        "ARPA"
+      ],
+      "objective": "overview",
+      "schema_version": "1.0",
+      "source": "system_default",
+      "time": null,
+      "time_dimension": null
+    },
+    "plan_id": "pl_f5378e81de4f66f5ff2fdee454",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "steps": [
+      {
+        "args": {
+          "metric": "MRR Total"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S1",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "ARR (from MRR)"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S2",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Subscriptions"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S3",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Customers"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S4",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "ARPA"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S5",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "end": "2026-07-31",
+          "grain": "month",
+          "metric": "MRR Total",
+          "start": "2024-09-12",
+          "time_dimension": "Start Date"
+        },
+        "depends_on": [],
+        "expected_output": "TrendOutput",
+        "id": "S6",
+        "tool": "analytics.trend",
+        "type": "timeseries_trend",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "end": "2026-07-31",
+          "metric": "MRR Total",
+          "start": "2026-07-01",
+          "time_dimension": "Start Date"
+        },
+        "depends_on": [],
+        "expected_output": "GrowthOutput",
+        "id": "S7",
+        "tool": "analytics.growth",
+        "type": "growth_rate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Subscription Status"
+          ],
+          "metric": "MRR Total"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S8",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Plan"
+          ],
+          "metric": "MRR Total"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S9",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "current_end": "2026-07-31",
+          "current_start": "2026-07-01",
+          "dimensions": [
+            "Subscription Status",
+            "Plan"
+          ],
+          "grain": "month",
+          "metric": "MRR Total",
+          "time_dimension": "Start Date"
+        },
+        "depends_on": [],
+        "expected_output": "ExplainChangeOutput",
+        "id": "S10",
+        "tool": "analytics.explain_change",
+        "type": "explain_change",
+        "validation": [
+          "schema",
+          "numeric",
+          "logic"
+        ]
+      }
+    ],
+    "unavailable": [
+      {
+        "analysis": "forecast",
+        "message": "Insufficient data: forecasting needs regularly spaced dates (regularity >= 0.80); column 'start_date' has 0.70.",
+        "reason_code": "IRREGULAR_TIME",
+        "would_enable": "dates recorded at a regular interval (e.g. daily or monthly)"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs at least 2 numeric columns; the data has 1.",
+        "reason_code": "NO_NUMERIC_FEATURES",
+        "would_enable": "more numeric columns"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs at least 2 numeric columns; the data has 1.",
+        "reason_code": "NO_NUMERIC_FEATURES",
+        "would_enable": "more numeric columns"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ],
+    "version": 1
+  },
+  "deferred": {
+    "anomalies": "tool ml.anomalies is not registered yet",
+    "segments": "tool ml.segments is not registered yet"
+  },
+  "domain": {
+    "candidates": [
+      {
+        "domain": "saas",
+        "evidence": [
+          {
+            "detail": "column 'subscription_id' (identifier) matches term 'subscription'",
+            "kind": "lexicon",
+            "weight": 0.8
+          },
+          {
+            "detail": "column 'plan' (dimension) matches term 'plan'",
+            "kind": "lexicon",
+            "weight": 0.42
+          },
+          {
+            "detail": "column 'mrr' (measure) matches term 'mrr'",
+            "kind": "lexicon",
+            "weight": 1.0
+          },
+          {
+            "detail": "signature recurring_revenue: 2/2 ['Subscription', 'MRR']",
+            "kind": "signature",
+            "weight": 1.0
+          },
+          {
+            "detail": "signature subscription_lifecycle: 3/3 ['Subscription', 'Start Date', 'Subscription Status']",
+            "kind": "signature",
+            "weight": 0.7
+          },
+          {
+            "detail": "Subscription belongs_to Customer",
+            "kind": "entity_graph",
+            "weight": 1.0
+          },
+          {
+            "detail": "stat hint snapshot_revenue",
+            "kind": "statistical",
+            "weight": 1.0
+          }
+        ],
+        "score": 0.8971
+      },
+      {
+        "domain": "retail",
+        "evidence": [
+          {
+            "detail": "column 'customer_id' (identifier) matches term 'customer'",
+            "kind": "lexicon",
+            "weight": 0.4
+          },
+          {
+            "detail": "signature customer_orders: 1/2 ['Customer']",
+            "kind": "signature",
+            "weight": 0.25
+          }
+        ],
+        "score": 0.107
+      }
+    ],
+    "confidence": 0.8971,
+    "pack_versions": {
+      "agriculture": "1.0.0",
+      "generic": "1.0.0",
+      "retail": "1.0.2",
+      "saas": "1.0.0"
+    },
+    "primary": "saas",
+    "schema_version": "1.0",
+    "status": "KNOWN"
+  },
+  "fixture_table": "subscriptions",
+  "metric_totals": {
+    "ARPA": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 4130.372325
+    },
+    "ARR (from MRR)": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 39651574.32
+    },
+    "Customers": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 800.0
+    },
+    "MRR Total": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 3304297.86
+    },
+    "Subscriptions": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 800.0
+    }
+  },
+  "semantic_model": {
+    "dimensions": {
+      "End Date": [
+        "end_date",
+        "time"
+      ],
+      "Plan": [
+        "plan",
+        "category"
+      ],
+      "Start Date": [
+        "start_date",
+        "time"
+      ],
+      "Subscription Status": [
+        "status",
+        "category"
+      ]
+    },
+    "measures": {
+      "MRR": [
+        "mrr",
+        "currency",
+        "sum"
+      ]
+    },
+    "metrics": {
+      "ARPA": {
+        "expr": "metric('MRR Total') / count_distinct(dimension_key('Customer'))",
+        "unit": "currency"
+      },
+      "ARR (from MRR)": {
+        "expr": "sum(measure('MRR')) * 12",
+        "unit": "currency"
+      },
+      "Customers": {
+        "expr": "count_distinct(dimension_key('Customer'))",
+        "unit": null
+      },
+      "MRR Total": {
+        "expr": "sum(measure('MRR'))",
+        "unit": "currency"
+      },
+      "Subscriptions": {
+        "expr": "count_distinct(dimension_key('Subscription'))",
+        "unit": null
+      }
+    }
+  }
+}

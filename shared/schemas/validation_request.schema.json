@@ -1,0 +1,168 @@
+{
+  "$defs": {
+    "CaveatSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "const": "caveat",
+          "default": "caveat",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "CaveatSegment",
+      "type": "object"
+    },
+    "NumberSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "pattern": "^ev_\\w+$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "type": {
+          "const": "number",
+          "default": "number",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "field",
+        "format"
+      ],
+      "title": "NumberSegment",
+      "type": "object"
+    },
+    "TextSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "const": "text",
+          "default": "text",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextSegment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "evidence_ids": {
+      "items": {
+        "pattern": "^ev_\\w+$",
+        "type": "string"
+      },
+      "title": "Evidence Ids",
+      "type": "array"
+    },
+    "impact": {
+      "default": "normal",
+      "enum": [
+        "normal",
+        "high"
+      ],
+      "title": "Impact",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "segments": {
+      "anyOf": [
+        {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "caveat": "#/$defs/CaveatSegment",
+                "number": "#/$defs/NumberSegment",
+                "text": "#/$defs/TextSegment"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/TextSegment"
+              },
+              {
+                "$ref": "#/$defs/NumberSegment"
+              },
+              {
+                "$ref": "#/$defs/CaveatSegment"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Segments"
+    },
+    "semantic_model_version": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Semantic Model Version"
+    },
+    "subject_id": {
+      "title": "Subject Id",
+      "type": "string"
+    },
+    "subject_type": {
+      "enum": [
+        "answer",
+        "widget",
+        "tool_result",
+        "insight"
+      ],
+      "title": "Subject Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "subject_type",
+    "subject_id",
+    "evidence_ids"
+  ],
+  "title": "ValidationRequest",
+  "type": "object"
+}

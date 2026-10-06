@@ -1,0 +1,35 @@
+{
+  "files": {
+    "agriculture.jsonl": {
+      "items": 21,
+      "sha256": "sha256:3800d4d95c419fd408143c4716ab2e743b7c4c5dc79f6aee29403f6352bb6b2f"
+    },
+    "ambiguous.jsonl": {
+      "items": 5,
+      "sha256": "sha256:61817501cd34384289278a97c8691c49c78096b726253f8bb404b35e8d558d3d"
+    },
+    "insufficient.jsonl": {
+      "items": 14,
+      "sha256": "sha256:7fdaa7a25f59af296ce5cd6bbdf8e1014bf3e05286c3b556ca713bba33d516c9"
+    },
+    "retail.jsonl": {
+      "items": 32,
+      "sha256": "sha256:f66ee1c03e7fe57a97d5fedfba661b847794e203ee3a6503538c497d7f4bc4d0"
+    },
+    "saas.jsonl": {
+      "items": 23,
+      "sha256": "sha256:dc773c3afa0c12bcaac9f11c7a0e78e4854349d04d78f04b34ca559113e18593"
+    }
+  },
+  "fixtures_sha256": {
+    "agriculture/production.csv": "sha256:8119d3b6fcae296381fea6f5179c19b5254783140133fc08bf8d64624fc9378d",
+    "ambiguous/data.csv": "sha256:78988259e6b4f3d88ba66020e5462ce9b22bbf8b895a96a5f95ab189287e90a4",
+    "insufficient/sales.csv": "sha256:5995900587bf70e3e084d21ccd4c20194606eb9359e14cf62e0ebca288f3537a",
+    "retail/orders.csv": "sha256:541c618c34ec8e96eca12edd5e2e0aaccd786811a278b5ec580267a43d983ddc",
+    "saas/subscriptions.csv": "sha256:0a4903cbf6c5596bc631386d6f5df027758dbb72f68996e10885416ff771e0dd"
+  },
+  "generator": "evals/golden/build.py",
+  "golden_version": "1.0.0",
+  "spec_sha256": "sha256:046c5899b7693b06399c6a3d83393df136220a9946fe92fce13221a7d9b692d7",
+  "total_items": 95
+}

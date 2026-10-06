@@ -1,0 +1,597 @@
+{
+  "anomaly_ground_truth": [
+    {
+      "category": "Electronics",
+      "date": "2025-03-15",
+      "order_id": "O02584",
+      "quantity": 250,
+      "region": "South",
+      "type": "QUANTITY_OUTLIER",
+      "unit_price": "187.53"
+    },
+    {
+      "category": "Home & Kitchen",
+      "date": "2025-07-10",
+      "order_id": "O04168",
+      "quantity": 2,
+      "region": "West",
+      "type": "PRICE_OUTLIER",
+      "unit_price": "461.52"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06003",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06004",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06005",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06006",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06007",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06008",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06009",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06010",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06011",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06012",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06013",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06014",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06015",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06016",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06017",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06018",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06019",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06020",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06021",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06022",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06023",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06024",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06025",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06026",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06027",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06028",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06029",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06030",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06031",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06032",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06033",
+      "quantity": 3,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06034",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06035",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06036",
+      "quantity": 2,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    },
+    {
+      "category": "Grocery",
+      "date": "2025-11-20",
+      "order_id": "O06037",
+      "quantity": 1,
+      "region": "East",
+      "type": "VOLUME_SPIKE_DAY",
+      "unit_price": "7.90"
+    }
+  ],
+  "available_analyses": [
+    "trend",
+    "forecast",
+    "anomaly_detection",
+    "customer_segmentation",
+    "rca",
+    "dashboard"
+  ],
+  "currency": "INR",
+  "dataset": "retail",
+  "domain": {
+    "acceptable_alternatives": [
+      "ecommerce"
+    ],
+    "expected_status": "known",
+    "primary": "retail"
+  },
+  "entities": [
+    {
+      "key": [
+        "order_id"
+      ],
+      "name": "Order",
+      "table": "orders"
+    },
+    {
+      "key": [
+        "customer_id"
+      ],
+      "name": "Customer",
+      "table": "customers"
+    },
+    {
+      "key": [
+        "product_id"
+      ],
+      "name": "Product",
+      "table": "products"
+    }
+  ],
+  "generator": {
+    "script": "scripts/generate_fixtures.py",
+    "seed": 42
+  },
+  "kpis": {
+    "net_revenue_by_month": {
+      "formula": "sum(quantity * unit_price * (1 - discount_pct/100)) grouped by month(order_date)",
+      "semantic_metric": "Net Revenue",
+      "unit": "currency:INR",
+      "values": {
+        "2024-09": "44974.58",
+        "2024-10": "48397.52",
+        "2024-11": "46267.76",
+        "2024-12": "50359.80",
+        "2025-01": "49760.35",
+        "2025-02": "48587.23",
+        "2025-03": "95320.79",
+        "2025-04": "49811.16",
+        "2025-05": "47217.81",
+        "2025-06": "50957.89",
+        "2025-07": "48738.24",
+        "2025-08": "49460.01",
+        "2025-09": "52867.01",
+        "2025-10": "51019.58",
+        "2025-11": "54678.21",
+        "2025-12": "52866.01",
+        "2026-01": "53137.31",
+        "2026-02": "52648.07",
+        "2026-03": "49863.99",
+        "2026-04": "53584.98",
+        "2026-05": "55614.84",
+        "2026-06": "55527.52",
+        "2026-07": "54529.60",
+        "2026-08": "50720.54"
+      }
+    }
+  },
+  "rca_ground_truth": {
+    "allowed_wording": [
+      "associated with",
+      "the largest contributor to the change",
+      "evidence suggests"
+    ],
+    "blocked_wording": [
+      "caused",
+      "because of",
+      "due to"
+    ],
+    "compare": {
+      "from_month": "2026-07",
+      "to_month": "2026-08"
+    },
+    "contribution_share_pct_by_category": {
+      "Apparel": 3.73,
+      "Beauty": 3.42,
+      "Books": -0.5,
+      "Electronics": 105.79,
+      "Grocery": 1.56,
+      "Home & Kitchen": -7.5,
+      "Sports": -0.66,
+      "Toys": -5.85
+    },
+    "delta_by_category": {
+      "Apparel": "-245.21",
+      "Beauty": "-224.62",
+      "Books": "32.67",
+      "Electronics": "-6949.01",
+      "Grocery": "-102.77",
+      "Home & Kitchen": "492.93",
+      "Sports": "43.29",
+      "Toys": "384.25"
+    },
+    "dimension": "category",
+    "expected_dominant_category": "Electronics",
+    "formula": "delta_i = revenue_i(to_month) - revenue_i(from_month); share_i_pct = 100 * delta_i / sum(delta)",
+    "metric": "revenue",
+    "narrative": "Electronics order volume in the North region fell sharply in 2026-08; it is the largest contributor to the North region's revenue decline that month (share=105.8%). Presented as a contributing factor, not a proven cause.",
+    "region_total_delta": "-6568.47",
+    "region_total_driver": "8899.04",
+    "region_total_prev": "15467.51",
+    "scope": {
+      "region": "North"
+    }
+  },
+  "relationships": [
+    {
+      "cardinality": "many_to_one",
+      "from_column": "customer_id",
+      "from_table": "orders",
+      "to_column": "customer_id",
+      "to_table": "customers"
+    },
+    {
+      "cardinality": "many_to_one",
+      "from_column": "product_id",
+      "from_table": "orders",
+      "to_column": "product_id",
+      "to_table": "products"
+    }
+  ],
+  "tables": {
+    "customers": {
+      "columns": {
+        "customer_id": {
+          "additivity": "n/a",
+          "role": "identifier",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "region": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "segment": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "signup_date": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "datetime",
+          "unit": "unitless"
+        }
+      },
+      "row_count": 500
+    },
+    "orders": {
+      "columns": {
+        "channel": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "customer_id": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "discount_pct": {
+          "additivity": "non_additive",
+          "role": "measure",
+          "semantic_type": "percentage",
+          "unit": "pct"
+        },
+        "order_date": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "datetime",
+          "unit": "unitless"
+        },
+        "order_id": {
+          "additivity": "n/a",
+          "role": "identifier",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "product_id": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "quantity": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "quantity",
+          "unit": "count"
+        },
+        "region": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "unit_price": {
+          "additivity": "non_additive",
+          "role": "measure",
+          "semantic_type": "price",
+          "unit": "currency:INR"
+        }
+      },
+      "row_count": 10202
+    },
+    "products": {
+      "columns": {
+        "category": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "product_id": {
+          "additivity": "n/a",
+          "role": "identifier",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "product_name": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "free_text",
+          "unit": "unitless"
+        },
+        "unit_cost": {
+          "additivity": "non_additive",
+          "role": "measure",
+          "semantic_type": "price",
+          "unit": "currency:INR"
+        }
+      },
+      "row_count": 40
+    }
+  },
+  "unavailable_analyses": []
+}

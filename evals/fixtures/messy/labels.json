@@ -1,0 +1,57 @@
+{
+  "dataset": "messy",
+  "files": {
+    "duplicate_headers_mixed_types.csv": {
+      "duplicate_row_count": 3,
+      "expected_outcome": "accept_with_flags",
+      "flags": [
+        "DUPLICATE_COLUMN_NAMES",
+        "MIXED_TYPES_IN_COLUMN",
+        "MISSING_VALUE_TOKENS",
+        "DUPLICATE_ROWS",
+        "MIXED_DATE_FORMATS"
+      ],
+      "missing_value_tokens": [
+        "",
+        "NA",
+        "null",
+        "-"
+      ],
+      "notes": "Header has 'amount' twice; second 'amount' mixes numeric strings and missing tokens; 'date' mixes 4 formats.",
+      "row_count": 49
+    },
+    "latin1_semicolon.csv": {
+      "delimiter": ";",
+      "encoding": "latin-1",
+      "expected_outcome": "accept_with_flags",
+      "flags": [
+        "ENCODING_NON_UTF8",
+        "DELIMITER_NOT_COMMA",
+        "DECIMAL_COMMA",
+        "THOUSANDS_SEPARATOR",
+        "DATE_FORMAT_DMY"
+      ],
+      "notes": "prix uses '.' as thousands separator and ',' as decimal (e.g. \"1.234,56\" == 1234.56); date is DD/MM/YYYY.",
+      "row_count": 40
+    },
+    "malformed_rows.csv": {
+      "expected_header_field_count": 4,
+      "expected_outcome": "accept_with_flags",
+      "flags": [
+        "MALFORMED_ROW_FIELD_COUNT"
+      ],
+      "malformed_row_ids": [
+        9005,
+        9012,
+        9020,
+        9025
+      ],
+      "notes": "Rows whose field count != 4 are quarantined/flagged; well-formed rows ingest normally.",
+      "row_count": 30
+    }
+  },
+  "generator": {
+    "script": "scripts/generate_fixtures.py",
+    "seed": 42
+  }
+}

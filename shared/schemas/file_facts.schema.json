@@ -1,0 +1,74 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bom": {
+      "title": "Bom",
+      "type": "boolean"
+    },
+    "container": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Container"
+    },
+    "detected_type": {
+      "enum": [
+        "csv",
+        "xlsx",
+        "json",
+        "jsonl",
+        "pdf",
+        "docx",
+        "txt",
+        "unknown"
+      ],
+      "title": "Detected Type",
+      "type": "string"
+    },
+    "encoding": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Encoding"
+    },
+    "path": {
+      "format": "path",
+      "title": "Path",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "size_bytes": {
+      "minimum": 0,
+      "title": "Size Bytes",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "path",
+    "size_bytes",
+    "detected_type",
+    "encoding",
+    "bom",
+    "container"
+  ],
+  "title": "FileFacts",
+  "type": "object"
+}

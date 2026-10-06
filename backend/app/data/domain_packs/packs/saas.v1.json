@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "id": "saas",
+  "version": "1.0.0",
+  "name": "SaaS",
+  "description": "Subscription software: subscriptions, plans, recurring revenue (MRR/ARR), churn and acquisition spend.",
+  "compatible_with": [],
+  "lexicon": [
+    {"term": "subscription", "weight": 1.0},
+    {"term": "mrr", "weight": 1.0},
+    {"term": "arr", "weight": 1.0},
+    {"term": "churn", "weight": 1.0},
+    {"term": "churned", "weight": 1.0},
+    {"term": "recurring", "weight": 1.0},
+    {"term": "arpu", "weight": 1.0},
+    {"term": "cac", "weight": 1.0},
+    {"term": "ltv", "weight": 1.0},
+    {"term": "renewal", "weight": 0.9},
+    {"term": "trial", "weight": 0.8},
+    {"term": "seat", "weight": 0.8},
+    {"term": "seats", "weight": 0.8},
+    {"term": "tenant", "weight": 0.8},
+    {"term": "plan", "weight": 0.7},
+    {"term": "license", "weight": 0.6},
+    {"term": "signup", "weight": 0.6},
+    {"term": "spend", "weight": 0.5},
+    {"term": "marketing", "weight": 0.5}
+  ],
+  "concepts": [
+    {"name": "Subscription", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["subscription id", "subscription", "contract id", "license id"]},
+    {"name": "Customer", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["customer id", "account id", "customer", "account", "tenant id", "org id"]},
+    {"name": "MRR", "kind": "measure", "semantic_types": ["currency_amount"], "unique": true, "aliases": ["mrr", "monthly recurring revenue", "recurring revenue", "monthly revenue"]},
+    {"name": "ARR", "kind": "measure", "semantic_types": ["currency_amount"], "unique": true, "aliases": ["arr", "annual recurring revenue"]},
+    {"name": "Marketing Spend", "kind": "measure", "semantic_types": ["currency_amount"], "unique": true, "aliases": ["spend", "marketing spend", "ad spend", "marketing cost", "acquisition cost"]},
+    {"name": "Seats", "kind": "measure", "semantic_types": ["quantity", "count"], "aliases": ["seats", "licenses", "users"]},
+    {"name": "Plan", "kind": "dimension", "semantic_types": ["category"], "aliases": ["plan", "tier", "pricing plan", "package", "edition"]},
+    {"name": "Subscription Status", "kind": "dimension", "semantic_types": ["category", "boolean_flag"], "aliases": ["status", "subscription status", "state", "churned", "is active"]},
+    {"name": "Acquisition Channel", "kind": "dimension", "semantic_types": ["category"], "aliases": ["channel", "acquisition channel", "marketing channel", "source"]},
+    {"name": "Start Date", "kind": "time", "semantic_types": ["datetime"], "unique": true, "aliases": ["start date", "subscription start", "signup date", "activation date", "created at"]},
+    {"name": "End Date", "kind": "time", "semantic_types": ["datetime"], "unique": true, "aliases": ["end date", "churn date", "cancellation date", "cancel date", "expiry date"]},
+    {"name": "Spend Month", "kind": "time", "semantic_types": ["date_part"], "aliases": ["month", "period"]}
+  ],
+  "signatures": [
+    {"id": "recurring_revenue", "description": "Subscriptions carrying a recurring amount", "requires": ["Subscription", "MRR"], "weight": 1.0},
+    {"id": "subscription_lifecycle", "description": "Subscriptions with start dates and a status", "requires": ["Subscription", "Start Date", "Subscription Status"], "weight": 0.7},
+    {"id": "acquisition_spend", "description": "Marketing spend by channel", "requires": ["Marketing Spend", "Acquisition Channel"], "weight": 0.3}
+  ],
+  "entity_graph": [
+    {"from": "Subscription", "to": "Customer", "verb": "belongs_to"}
+  ],
+  "stat_hints": [
+    {"id": "snapshot_revenue", "description": "A semi-additive (point-in-time) currency level such as MRR", "semantic_type": "currency_amount", "additivity": "semi_additive", "weight": 1.0}
+  ],
+  "metrics": [
+    {"name": "MRR Total", "expr": "sum(measure('MRR'))", "requires": ["MRR"], "direction": "higher_is_better", "description": "Sum of MRR across subscriptions at a point in time (semi-additive: LAST over time).", "source": "recurring_revenue"},
+    {"name": "ARR (from MRR)", "expr": "sum(measure('MRR')) * 12", "requires": ["MRR"], "direction": "higher_is_better", "description": "Annualised recurring revenue = MRR x 12.", "source": "recurring_revenue"},
+    {"name": "Subscriptions", "expr": "count_distinct(dimension_key('Subscription'))", "requires": ["Subscription"], "direction": "higher_is_better", "description": "Number of distinct subscriptions.", "source": "aggregate"},
+    {"name": "Customers", "expr": "count_distinct(dimension_key('Customer'))", "requires": ["Customer"], "direction": "higher_is_better", "description": "Number of distinct customers.", "source": "aggregate"},
+    {"name": "ARPA", "expr": "metric('MRR Total') / count_distinct(dimension_key('Customer'))", "requires": ["MRR", "Customer"], "direction": "higher_is_better", "description": "Average recurring revenue per account.", "source": "arpu"},
+    {"name": "Marketing Spend Total", "expr": "sum(measure('Marketing Spend'))", "requires": ["Marketing Spend"], "direction": "lower_is_better", "description": "Total acquisition spend. CAC and churn rate need period filters (grammar v2) and are computed by analytics tools, not templates.", "source": "cac"}
+  ],
+  "sources": [
+    {"id": "recurring_revenue", "title": "Recurring revenue (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Recurring_revenue"},
+    {"id": "arpu", "title": "Average revenue per user (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Average_revenue_per_user"},
+    {"id": "cac", "title": "Customer acquisition cost (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Customer_acquisition_cost"},
+    {"id": "churn", "title": "Churn rate (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Churn_rate"},
+    {"id": "aggregate", "title": "Aggregate function (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Aggregate_function"}
+  ]
+}

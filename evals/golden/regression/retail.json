@@ -1,0 +1,451 @@
+{
+  "capability_report": {
+    "attempted": [],
+    "available": [
+      "kpi",
+      "trend",
+      "forecast",
+      "anomaly_detection",
+      "customer_segmentation",
+      "churn_analysis",
+      "cohort_analysis",
+      "rca"
+    ],
+    "dataset_version_id": "dsv_orders",
+    "rules_version": "1.0.0",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "unavailable": [
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      }
+    ]
+  },
+  "default_plan": {
+    "dataset_version_id": "dsv_orders",
+    "intent": {
+      "compare_to": null,
+      "dimensions": [],
+      "filters": [],
+      "metrics": [
+        "Revenue",
+        "Net Revenue",
+        "Units Sold",
+        "Orders",
+        "Customers"
+      ],
+      "objective": "overview",
+      "schema_version": "1.0",
+      "source": "system_default",
+      "time": null,
+      "time_dimension": null
+    },
+    "plan_id": "pl_629e41e96af33dd587569e85d5",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "steps": [
+      {
+        "args": {
+          "metric": "Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S1",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Net Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S2",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Units Sold"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S3",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Orders"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S4",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Customers"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S5",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "end": "2026-08-31",
+          "grain": "month",
+          "metric": "Revenue",
+          "start": "2024-09-01",
+          "time_dimension": "Order Date"
+        },
+        "depends_on": [],
+        "expected_output": "TrendOutput",
+        "id": "S6",
+        "tool": "analytics.trend",
+        "type": "timeseries_trend",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "end": "2026-08-31",
+          "metric": "Revenue",
+          "start": "2026-08-01",
+          "time_dimension": "Order Date"
+        },
+        "depends_on": [],
+        "expected_output": "GrowthOutput",
+        "id": "S7",
+        "tool": "analytics.growth",
+        "type": "growth_rate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Sales Channel"
+          ],
+          "metric": "Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S8",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Region"
+          ],
+          "metric": "Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S9",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "current_end": "2026-08-31",
+          "current_start": "2026-08-01",
+          "dimensions": [
+            "Sales Channel",
+            "Region"
+          ],
+          "grain": "month",
+          "metric": "Revenue",
+          "time_dimension": "Order Date"
+        },
+        "depends_on": [],
+        "expected_output": "ExplainChangeOutput",
+        "id": "S10",
+        "tool": "analytics.explain_change",
+        "type": "explain_change",
+        "validation": [
+          "schema",
+          "numeric",
+          "logic"
+        ]
+      }
+    ],
+    "unavailable": [
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      }
+    ],
+    "version": 1
+  },
+  "deferred": {
+    "anomalies": "tool ml.anomalies is not registered yet",
+    "forecast": "tool ml.forecast is not registered yet",
+    "segments": "tool ml.segments is not registered yet"
+  },
+  "domain": {
+    "candidates": [
+      {
+        "domain": "retail",
+        "evidence": [
+          {
+            "detail": "column 'order_id' (identifier) matches term 'order'",
+            "kind": "lexicon",
+            "weight": 0.8
+          },
+          {
+            "detail": "column 'customer_id' (identifier) matches term 'customer'",
+            "kind": "lexicon",
+            "weight": 0.4
+          },
+          {
+            "detail": "column 'product_id' (identifier) matches term 'product'",
+            "kind": "lexicon",
+            "weight": 0.72
+          },
+          {
+            "detail": "column 'order_date' (time) matches term 'order'",
+            "kind": "lexicon",
+            "weight": 0.4
+          },
+          {
+            "detail": "column 'quantity' (measure) matches term 'quantity'",
+            "kind": "lexicon",
+            "weight": 0.4
+          },
+          {
+            "detail": "column 'unit_price' (measure) matches term 'unit price'",
+            "kind": "lexicon",
+            "weight": 0.9
+          },
+          {
+            "detail": "column 'discount_pct' (measure) matches term 'discount'",
+            "kind": "lexicon",
+            "weight": 0.8
+          },
+          {
+            "detail": "signature priced_sales_lines: 2/2 ['Quantity', 'Unit Price']",
+            "kind": "signature",
+            "weight": 1.0
+          },
+          {
+            "detail": "signature order_lines: 3/3 ['Order', 'Product', 'Quantity']",
+            "kind": "signature",
+            "weight": 1.0
+          },
+          {
+            "detail": "signature customer_orders: 2/2 ['Order', 'Customer']",
+            "kind": "signature",
+            "weight": 0.5
+          },
+          {
+            "detail": "Customer places Order",
+            "kind": "entity_graph",
+            "weight": 1.0
+          },
+          {
+            "detail": "Order contains Product",
+            "kind": "entity_graph",
+            "weight": 1.0
+          },
+          {
+            "detail": "stat hint unit_price_present",
+            "kind": "statistical",
+            "weight": 1.0
+          },
+          {
+            "detail": "stat hint additive_quantity",
+            "kind": "statistical",
+            "weight": 1.0
+          }
+        ],
+        "score": 1.0
+      },
+      {
+        "domain": "saas",
+        "evidence": [
+          {
+            "detail": "signature acquisition_spend: 1/2 ['Acquisition Channel']",
+            "kind": "signature",
+            "weight": 0.15
+          }
+        ],
+        "score": 0.0262
+      }
+    ],
+    "confidence": 1.0,
+    "pack_versions": {
+      "agriculture": "1.0.0",
+      "generic": "1.0.0",
+      "retail": "1.0.2",
+      "saas": "1.0.0"
+    },
+    "primary": "retail",
+    "schema_version": "1.0",
+    "status": "KNOWN"
+  },
+  "fixture_table": "orders",
+  "metric_totals": {
+    "Average Order Value": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 129.234628
+    },
+    "Customers": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 500.0
+    },
+    "Net Revenue": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 1266907.986
+    },
+    "Orders": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 10202.0
+    },
+    "Revenue": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 1318451.67
+    },
+    "Total Quantity": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 23057.0
+    },
+    "Units Sold": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 23057.0
+    }
+  },
+  "semantic_model": {
+    "dimensions": {
+      "Order Date": [
+        "order_date",
+        "time"
+      ],
+      "Region": [
+        "region",
+        "category"
+      ],
+      "Sales Channel": [
+        "channel",
+        "category"
+      ]
+    },
+    "measures": {
+      "Discount": [
+        "discount_pct",
+        "pct",
+        "avg"
+      ],
+      "Quantity": [
+        "quantity",
+        "count",
+        "sum"
+      ],
+      "Unit Price": [
+        "unit_price",
+        "currency",
+        "avg"
+      ]
+    },
+    "metrics": {
+      "Average Order Value": {
+        "expr": "metric('Revenue') / count_distinct(dimension_key('Order'))",
+        "unit": "currency"
+      },
+      "Customers": {
+        "expr": "count_distinct(dimension_key('Customer'))",
+        "unit": null
+      },
+      "Net Revenue": {
+        "expr": "sum(measure('Quantity') * measure('Unit Price') * (1 - measure('Discount')))",
+        "unit": "currency"
+      },
+      "Orders": {
+        "expr": "count_distinct(dimension_key('Order'))",
+        "unit": null
+      },
+      "Revenue": {
+        "expr": "sum(measure('Quantity') * measure('Unit Price'))",
+        "unit": "currency"
+      },
+      "Total Quantity": {
+        "expr": "sum(measure('Quantity'))",
+        "unit": "count"
+      },
+      "Units Sold": {
+        "expr": "sum(measure('Quantity'))",
+        "unit": "count"
+      }
+    }
+  }
+}

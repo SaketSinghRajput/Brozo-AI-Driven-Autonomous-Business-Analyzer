@@ -1,0 +1,122 @@
+{
+  "$defs": {
+    "MLTask": {
+      "enum": [
+        "forecast",
+        "anomaly",
+        "segmentation",
+        "classification",
+        "regression"
+      ],
+      "title": "MLTask",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dataset_version_id": {
+      "pattern": "^dsv_\\w+$",
+      "title": "Dataset Version Id",
+      "type": "string"
+    },
+    "features": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Features",
+      "type": "array"
+    },
+    "grain": {
+      "anyOf": [
+        {
+          "enum": [
+            "second",
+            "minute",
+            "hour",
+            "day",
+            "week",
+            "month",
+            "quarter",
+            "year"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Grain"
+    },
+    "horizon": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Horizon"
+    },
+    "metric": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Metric"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Target"
+    },
+    "task": {
+      "$ref": "#/$defs/MLTask"
+    },
+    "time_column": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Time Column"
+    }
+  },
+  "required": [
+    "task",
+    "dataset_version_id",
+    "seed"
+  ],
+  "title": "TaskSpec",
+  "type": "object"
+}

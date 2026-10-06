@@ -1,0 +1,41 @@
+product_id,product_name,category,unit_cost
+P0001,Electronics Item 1,Electronics,125.02
+P0002,Electronics Item 2,Electronics,102.90
+P0003,Electronics Item 3,Electronics,111.90
+P0004,Electronics Item 4,Electronics,110.04
+P0005,Electronics Item 5,Electronics,128.51
+P0006,Apparel Item 1,Apparel,18.95
+P0007,Apparel Item 2,Apparel,20.12
+P0008,Apparel Item 3,Apparel,15.77
+P0009,Apparel Item 4,Apparel,17.58
+P0010,Apparel Item 5,Apparel,15.46
+P0011,Home Item 1,Home & Kitchen,32.05
+P0012,Home Item 2,Home & Kitchen,35.06
+P0013,Home Item 3,Home & Kitchen,30.03
+P0014,Home Item 4,Home & Kitchen,31.84
+P0015,Home Item 5,Home & Kitchen,36.58
+P0016,Grocery Item 1,Grocery,6.08
+P0017,Grocery Item 2,Grocery,5.50
+P0018,Grocery Item 3,Grocery,6.16
+P0019,Grocery Item 4,Grocery,6.56
+P0020,Grocery Item 5,Grocery,5.11
+P0021,Sports Item 1,Sports,27.29
+P0022,Sports Item 2,Sports,26.49
+P0023,Sports Item 3,Sports,23.80
+P0024,Sports Item 4,Sports,22.42
+P0025,Sports Item 5,Sports,28.43
+P0026,Beauty Item 1,Beauty,14.27
+P0027,Beauty Item 2,Beauty,13.17
+P0028,Beauty Item 3,Beauty,13.19
+P0029,Beauty Item 4,Beauty,16.56
+P0030,Beauty Item 5,Beauty,15.47
+P0031,Toys Item 1,Toys,21.84
+P0032,Toys Item 2,Toys,21.38
+P0033,Toys Item 3,Toys,20.22
+P0034,Toys Item 4,Toys,22.84
+P0035,Toys Item 5,Toys,19.27
+P0036,Books Item 1,Books,9.14
+P0037,Books Item 2,Books,9.89
+P0038,Books Item 3,Books,9.32
+P0039,Books Item 4,Books,9.98
+P0040,Books Item 5,Books,9.21

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "id": "retail",
+  "version": "1.0.2",
+  "name": "Retail",
+  "description": "Retail and store/e-commerce sales: orders, order lines, products, customers, prices and discounts.",
+  "compatible_with": [],
+  "lexicon": [
+    {"term": "order", "weight": 1.0},
+    {"term": "sku", "weight": 1.0},
+    {"term": "basket", "weight": 1.0},
+    {"term": "retail", "weight": 1.0},
+    {"term": "receipt", "weight": 0.9},
+    {"term": "product", "weight": 0.9},
+    {"term": "store", "weight": 0.9},
+    {"term": "unit price", "weight": 0.9},
+    {"term": "merchandise", "weight": 0.9},
+    {"term": "shopper", "weight": 0.9},
+    {"term": "cart", "weight": 0.8},
+    {"term": "discount", "weight": 0.8},
+    {"term": "pos", "weight": 0.8},
+    {"term": "invoice", "weight": 0.6},
+    {"term": "unit cost", "weight": 0.6},
+    {"term": "customer", "weight": 0.5},
+    {"term": "quantity", "weight": 0.4}
+  ],
+  "concepts": [
+    {"name": "Order", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["order id", "order", "order number", "invoice id", "transaction id", "receipt id"]},
+    {"name": "Customer", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["customer id", "customer", "client id", "buyer id", "shopper id"]},
+    {"name": "Product", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["product id", "product", "sku", "item id", "item code", "product code"]},
+    {"name": "Store", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["store id", "store", "outlet id", "branch id"]},
+    {"name": "Sales Amount", "kind": "measure", "semantic_types": ["currency_amount"], "unique": true, "aliases": ["sales", "net sales", "sales value", "total amount", "revenue", "sales amount", "gross sales", "order value", "line total"]},
+    {"name": "Quantity", "kind": "measure", "semantic_types": ["quantity", "count"], "aliases": ["quantity", "units", "units sold", "quantity sold", "items"]},
+    {"name": "Unit Price", "kind": "measure", "semantic_types": ["price"], "unique": true, "aliases": ["unit price", "price", "selling price", "sale price", "list price", "mrp"]},
+    {"name": "Unit Cost", "kind": "measure", "semantic_types": ["price"], "unique": true, "aliases": ["unit cost", "cost price", "product cost", "cogs per unit"]},
+    {"name": "Discount", "kind": "measure", "semantic_types": ["percentage", "rate_or_ratio"], "aliases": ["discount", "discount percent", "discount rate", "markdown"]},
+    {"name": "Order Date", "kind": "time", "semantic_types": ["datetime"], "unique": true, "aliases": ["order date", "transaction date", "sale date", "invoice date", "purchase date"]},
+    {"name": "Product Category", "kind": "dimension", "semantic_types": ["category"], "aliases": ["category", "product category", "department"]},
+    {"name": "Product Name", "kind": "dimension", "semantic_types": ["free_text", "category"], "aliases": ["product name", "item name", "product"]},
+    {"name": "Sales Channel", "kind": "dimension", "semantic_types": ["category"], "aliases": ["channel", "sales channel"]},
+    {"name": "Customer Segment", "kind": "dimension", "semantic_types": ["category"], "aliases": ["segment", "customer segment"]},
+    {"name": "Region", "kind": "dimension", "semantic_types": ["category", "geo_region"], "aliases": ["region", "zone", "territory"]}
+  ],
+  "signatures": [
+    {"id": "priced_sales_lines", "description": "Quantity sold at a unit price", "requires": ["Quantity", "Unit Price"], "weight": 1.0},
+    {"id": "order_lines", "description": "Orders containing products", "requires": ["Order", "Product", "Quantity"], "weight": 1.0},
+    {"id": "customer_orders", "description": "Orders placed by customers", "requires": ["Order", "Customer"], "weight": 0.5}
+  ],
+  "entity_graph": [
+    {"from": "Customer", "to": "Order", "verb": "places"},
+    {"from": "Order", "to": "Product", "verb": "contains"}
+  ],
+  "stat_hints": [
+    {"id": "unit_price_present", "description": "A non-additive unit price measure", "semantic_type": "price", "additivity": "non_additive", "weight": 1.0},
+    {"id": "additive_quantity", "description": "An additive quantity measure", "semantic_type": "quantity", "additivity": "additive", "weight": 1.0}
+  ],
+  "metrics": [
+    {"name": "Revenue", "expr": "sum(measure('Quantity') * measure('Unit Price'))", "requires": ["Quantity", "Unit Price"], "direction": "higher_is_better", "description": "Sales revenue = sum of quantity x unit price over order lines.", "source": "revenue"},
+    {"name": "Net Revenue", "expr": "sum(measure('Quantity') * measure('Unit Price') * (1 - measure('Discount')))", "requires": ["Quantity", "Unit Price", "Discount"], "direction": "higher_is_better", "description": "Revenue net of line discounts = sum of quantity x unit price x (1 - discount); the discount is a fraction (unit pct, TRD 25.1). Only proposed when a discount is mapped; Revenue stays gross.", "source": "revenue"},
+    {"name": "Total Sales", "expr": "sum(measure('Sales Amount'))", "requires": ["Sales Amount"], "direction": "higher_is_better", "description": "Sum of the recorded sales amount.", "source": "revenue"},
+    {"name": "Units Sold", "expr": "sum(measure('Quantity'))", "requires": ["Quantity"], "direction": "higher_is_better", "description": "Total quantity sold.", "source": "aggregate"},
+    {"name": "Orders", "expr": "count_distinct(dimension_key('Order'))", "requires": ["Order"], "direction": "higher_is_better", "description": "Number of distinct orders.", "source": "aggregate"},
+    {"name": "Customers", "expr": "count_distinct(dimension_key('Customer'))", "requires": ["Customer"], "direction": "higher_is_better", "description": "Number of distinct customers.", "source": "aggregate"},
+    {"name": "Average Order Value", "expr": "metric('Revenue') / count_distinct(dimension_key('Order'))", "requires": ["Quantity", "Unit Price", "Order"], "direction": "higher_is_better", "description": "Revenue per distinct order (derived from the revenue definition; no separate external definition cited).", "source": "revenue"},
+    {"name": "Gross Margin", "expr": "(metric('Revenue') - sum(measure('Quantity') * measure('Unit Cost'))) / metric('Revenue')", "requires": ["Quantity", "Unit Price", "Unit Cost"], "unit": "pct", "direction": "higher_is_better", "description": "(Revenue - COGS) / Revenue as a fraction (unit pct, TRD 25.1), COGS = quantity x unit cost. Only proposed when a unit cost is mapped.", "source": "gross_margin"}
+  ],
+  "sources": [
+    {"id": "revenue", "title": "Revenue (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Revenue"},
+    {"id": "gross_margin", "title": "Gross margin (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Gross_margin"},
+    {"id": "aggregate", "title": "Aggregate function (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Aggregate_function"}
+  ]
+}

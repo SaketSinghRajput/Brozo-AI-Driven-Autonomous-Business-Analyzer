@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "BaselineScore": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "values"
+      ],
+      "title": "BaselineScore",
+      "type": "object"
+    },
+    "ForecastPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lower"
+        },
+        "period": {
+          "title": "Period",
+          "type": "string"
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Upper"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "period",
+        "value"
+      ],
+      "title": "ForecastPoint",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BaselineScore"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "primary": {
+          "title": "Primary",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "primary",
+        "values"
+      ],
+      "title": "Metrics",
+      "type": "object"
+    },
+    "ModelInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "library": {
+          "title": "Library",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "default": {},
+          "title": "Params",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "library"
+      ],
+      "title": "ModelInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "backtest": {
+      "$ref": "#/$defs/Metrics"
+    },
+    "grain": {
+      "enum": [
+        "second",
+        "minute",
+        "hour",
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year"
+      ],
+      "title": "Grain",
+      "type": "string"
+    },
+    "horizon": {
+      "minimum": 1,
+      "title": "Horizon",
+      "type": "integer"
+    },
+    "interval_level": {
+      "anyOf": [
+        {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Interval Level"
+    },
+    "label": {
+      "const": "estimate",
+      "default": "estimate",
+      "title": "Label",
+      "type": "string"
+    },
+    "metric": {
+      "title": "Metric",
+      "type": "string"
+    },
+    "model": {
+      "$ref": "#/$defs/ModelInfo"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    },
+    "points": {
+      "items": {
+        "$ref": "#/$defs/ForecastPoint"
+      },
+      "title": "Points",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "metric",
+    "grain",
+    "horizon",
+    "points",
+    "model",
+    "backtest",
+    "assumptions"
+  ],
+  "title": "ForecastResult",
+  "type": "object"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "id": "generic",
+  "version": "1.0.0",
+  "name": "Generic",
+  "description": "Domain-agnostic fallback concepts used for every dataset and alone when the domain is UNKNOWN or AMBIGUOUS (CLAUDE.md section 11). Never scored as a domain.",
+  "scorable": false,
+  "concepts": [
+    {"name": "Record", "kind": "entity", "semantic_types": ["identifier"], "aliases": ["id", "record id", "key", "row id"]},
+    {"name": "Amount", "kind": "measure", "semantic_types": ["currency_amount"], "aliases": ["amount", "value", "total", "sum"]},
+    {"name": "Quantity", "kind": "measure", "semantic_types": ["quantity", "count"], "aliases": ["quantity", "units", "count", "volume"]},
+    {"name": "Price", "kind": "measure", "semantic_types": ["price"], "aliases": ["price", "unit price", "unit cost"]},
+    {"name": "Rate", "kind": "measure", "semantic_types": ["rate_or_ratio", "percentage"], "aliases": ["rate", "ratio", "percent", "percentage"]},
+    {"name": "Date", "kind": "time", "semantic_types": ["datetime", "date_part"], "aliases": ["date", "time", "timestamp", "period", "year", "month"]},
+    {"name": "Category", "kind": "dimension", "semantic_types": ["category", "boolean_flag", "free_text"], "aliases": ["category", "type", "group", "class", "segment", "status"]},
+    {"name": "Location", "kind": "dimension", "semantic_types": ["geo_country", "geo_region", "geo_city", "postal_code"], "aliases": ["country", "region", "state", "city", "location"]}
+  ],
+  "metrics": [
+    {"name": "Record Count", "expr": "count()", "requires": ["Record"], "direction": "neutral", "description": "Number of rows.", "source": "aggregate"},
+    {"name": "Total Amount", "expr": "sum(measure('Amount'))", "requires": ["Amount"], "direction": "neutral", "description": "Sum of the amount measure.", "source": "aggregate"},
+    {"name": "Total Quantity", "expr": "sum(measure('Quantity'))", "requires": ["Quantity"], "direction": "neutral", "description": "Sum of the quantity measure.", "source": "aggregate"}
+  ],
+  "sources": [
+    {"id": "aggregate", "title": "Aggregate function (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Aggregate_function"}
+  ]
+}

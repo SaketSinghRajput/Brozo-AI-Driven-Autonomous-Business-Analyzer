@@ -1,0 +1,235 @@
+{
+  "$defs": {
+    "Filter": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension": {
+          "title": "Dimension",
+          "type": "string"
+        },
+        "op": {
+          "enum": [
+            "eq",
+            "in",
+            "between",
+            "gte",
+            "lte"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "format": "date",
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "dimension",
+        "op",
+        "value"
+      ],
+      "title": "Filter",
+      "type": "object"
+    },
+    "TimeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "calendar": {
+          "const": "gregorian",
+          "default": "gregorian",
+          "title": "Calendar",
+          "type": "string"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "grain": {
+          "enum": [
+            "second",
+            "minute",
+            "hour",
+            "day",
+            "week",
+            "month",
+            "quarter",
+            "year"
+          ],
+          "title": "Grain",
+          "type": "string"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        }
+      },
+      "required": [
+        "grain"
+      ],
+      "title": "TimeSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "compare_to": {
+      "anyOf": [
+        {
+          "enum": [
+            "previous_period",
+            "same_period_last_year"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Compare To"
+    },
+    "dimensions": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Dimensions",
+      "type": "array"
+    },
+    "filters": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Filter"
+      },
+      "title": "Filters",
+      "type": "array"
+    },
+    "metrics": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Metrics",
+      "type": "array"
+    },
+    "objective": {
+      "enum": [
+        "overview",
+        "metric_value",
+        "trend",
+        "compare",
+        "rank",
+        "explain_change",
+        "forecast",
+        "anomalies",
+        "segments",
+        "predict",
+        "simulate",
+        "document_lookup"
+      ],
+      "title": "Objective",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source": {
+      "enum": [
+        "system_default",
+        "user_question"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "time": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TimeSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "time_dimension": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Time Dimension"
+    }
+  },
+  "required": [
+    "objective",
+    "source"
+  ],
+  "title": "AnalysisIntent",
+  "type": "object"
+}

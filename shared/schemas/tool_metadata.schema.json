@@ -1,0 +1,96 @@
+{
+  "$defs": {
+    "ToolPermission": {
+      "enum": [
+        "SQL_READ",
+        "PYTHON_ANALYTICS",
+        "MODEL_RUN",
+        "MODEL_TRAIN",
+        "DOCUMENT_SEARCH",
+        "MEMORY_READ",
+        "MEMORY_WRITE",
+        "SIMULATION",
+        "CODE_EXECUTION",
+        "PATCH_PROPOSE"
+      ],
+      "title": "ToolPermission",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "max_calls_per_turn": {
+      "minimum": 1,
+      "title": "Max Calls Per Turn",
+      "type": "integer"
+    },
+    "name": {
+      "pattern": "^[a-z]+(\\.[a-z_]+)+$",
+      "title": "Name",
+      "type": "string"
+    },
+    "parallel_safe": {
+      "title": "Parallel Safe",
+      "type": "boolean"
+    },
+    "permission": {
+      "$ref": "#/$defs/ToolPermission"
+    },
+    "produces_evidence": {
+      "default": true,
+      "title": "Produces Evidence",
+      "type": "boolean"
+    },
+    "runs_in": {
+      "enum": [
+        "api",
+        "worker"
+      ],
+      "title": "Runs In",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "side_effects": {
+      "enum": [
+        "none",
+        "writes_memory",
+        "creates_artifact",
+        "proposes_patch"
+      ],
+      "title": "Side Effects",
+      "type": "string"
+    },
+    "timeout_s": {
+      "exclusiveMinimum": 0,
+      "title": "Timeout S",
+      "type": "number"
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "description",
+    "permission",
+    "side_effects",
+    "timeout_s",
+    "max_calls_per_turn",
+    "parallel_safe",
+    "runs_in"
+  ],
+  "title": "ToolMetadata",
+  "type": "object"
+}

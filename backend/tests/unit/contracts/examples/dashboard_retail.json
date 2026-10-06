@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "dashboard_id": "db_000001",
+  "dataset_version_id": "dsv_000001",
+  "plan_id": "pl_000001",
+  "generated_at": "2026-09-28T10:20:00Z",
+  "filters": [
+    {"id": "f_region", "dimension": "Region", "type": "multi_select"},
+    {"id": "f_date", "dimension": "Order Date", "type": "date_range"}
+  ],
+  "widgets": [
+    {
+      "id": "w1",
+      "widget_type": "kpi_card",
+      "title": "Revenue (Aug 2026)",
+      "metric": "Revenue",
+      "value_ref": {"evidence_id": "ev_000001", "field": "result.value"},
+      "comparison_ref": {"evidence_id": "ev_000002", "field": "result.value", "label": "vs Jul"},
+      "validation_status": "VALID",
+      "operation_id": "S1"
+    },
+    {
+      "id": "w2",
+      "widget_type": "kpi_card",
+      "title": "Average Order Value",
+      "metric": "AOV",
+      "value_ref": {"evidence_id": "ev_000003", "field": "result.value"},
+      "validation_status": "VALID",
+      "operation_id": "S2"
+    },
+    {
+      "id": "w3",
+      "widget_type": "line_chart",
+      "title": "Monthly Revenue",
+      "chart": {
+        "type": "line",
+        "x": {"field": "month", "type": "time"},
+        "y": [{"field": "revenue", "type": "numeric", "unit": "currency:INR"}],
+        "aggregation": "sum",
+        "source_operation": "pl_000001-S3",
+        "evidence_id": "ev_000004",
+        "overlays": [{"type": "forecast_band", "evidence_id": "ev_000005"}],
+        "format": {"unit": "currency:INR", "precision": 0, "locale": "en-IN"}
+      },
+      "validation_status": "VALID",
+      "operation_id": "S3"
+    },
+    {
+      "id": "w4",
+      "widget_type": "bar_chart",
+      "title": "Revenue by Region",
+      "chart": {
+        "type": "bar",
+        "x": {"field": "region", "type": "category"},
+        "y": [{"field": "revenue", "type": "numeric", "unit": "currency:INR"}],
+        "aggregation": "sum",
+        "filters": [{"dimension": "Order Date", "op": "between", "value": ["2026-01-01", "2026-08-31"]}],
+        "source_operation": "pl_000001-S4",
+        "evidence_id": "ev_000006",
+        "format": {"unit": "currency:INR", "precision": 0, "locale": "en-IN"}
+      },
+      "validation_status": "UNCERTAIN",
+      "operation_id": "S4"
+    },
+    {
+      "id": "w5",
+      "widget_type": "unavailable",
+      "title": "Churn",
+      "reason_code": "NO_RETENTION_HISTORY",
+      "message": "No customer retention history",
+      "would_enable": "subscription start/end dates per customer"
+    }
+  ],
+  "layout": {
+    "columns": 12,
+    "items": [
+      {"id": "w1", "x": 0, "y": 0, "w": 3, "h": 2},
+      {"id": "w2", "x": 3, "y": 0, "w": 3, "h": 2},
+      {"id": "w3", "x": 0, "y": 2, "w": 8, "h": 4},
+      {"id": "w4", "x": 8, "y": 2, "w": 4, "h": 4},
+      {"id": "w5", "x": 0, "y": 6, "w": 4, "h": 2}
+    ]
+  }
+}

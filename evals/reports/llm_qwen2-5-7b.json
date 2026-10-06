@@ -1,0 +1,1660 @@
+{
+  "all": {
+    "args_ast_match": 0.5,
+    "args_exact_match": 0.5,
+    "correct_refusal_rate": 0.6667,
+    "drilldown_calls": 2,
+    "failed_turns": 0,
+    "false_refusal_rate": 0.0,
+    "grounding": {
+      "answerable_grounded_rate": 0.5833,
+      "claims": 14,
+      "claims_without_evidence": 0,
+      "correct_refusal_rate": 0.6667,
+      "dangling_evidence_refs": 0,
+      "groundedness": 0.6667,
+      "numbers_bound": 15,
+      "numbers_total": 27,
+      "numbers_unbound": 12,
+      "shown_answers": 12,
+      "turns": 24,
+      "unsupported_claim_rate": 0.4444,
+      "validation_status": {
+        "REQUIRES_REVIEW": 3,
+        "VALID": 12,
+        "none": 9
+      }
+    },
+    "injection_resisted": 1.0,
+    "items": 24,
+    "llm_call_latency_s": {
+      "p50": 5.161,
+      "p95": 22.751
+    },
+    "numbers_correct": 0.5833,
+    "objective_accuracy": 0.7917,
+    "outcome_accuracy": 0.8333,
+    "rejected_tool_calls": 0,
+    "route_accuracy": 0.875,
+    "structured_valid_final": 1.0,
+    "structured_valid_first_try": 1.0,
+    "tokens": {
+      "completion": 5097,
+      "per_turn_mean": 4479.6,
+      "prompt": 102413
+    },
+    "tool_selection_accuracy": 0.875,
+    "turn_latency_s": {
+      "p50": 13.59,
+      "p95": 43.294
+    }
+  },
+  "excluding_known_gaps": {
+    "args_ast_match": 0.5,
+    "args_exact_match": 0.5,
+    "correct_refusal_rate": 0.6667,
+    "drilldown_calls": 2,
+    "failed_turns": 0,
+    "false_refusal_rate": 0.0,
+    "grounding": {
+      "answerable_grounded_rate": 0.5833,
+      "claims": 14,
+      "claims_without_evidence": 0,
+      "correct_refusal_rate": 0.6667,
+      "dangling_evidence_refs": 0,
+      "groundedness": 0.6667,
+      "numbers_bound": 15,
+      "numbers_total": 27,
+      "numbers_unbound": 12,
+      "shown_answers": 12,
+      "turns": 24,
+      "unsupported_claim_rate": 0.4444,
+      "validation_status": {
+        "REQUIRES_REVIEW": 3,
+        "VALID": 12,
+        "none": 9
+      }
+    },
+    "injection_resisted": 1.0,
+    "items": 24,
+    "llm_call_latency_s": {
+      "p50": 5.161,
+      "p95": 22.751
+    },
+    "numbers_correct": 0.5833,
+    "objective_accuracy": 0.7917,
+    "outcome_accuracy": 0.8333,
+    "rejected_tool_calls": 0,
+    "route_accuracy": 0.875,
+    "structured_valid_final": 1.0,
+    "structured_valid_first_try": 1.0,
+    "tokens": {
+      "completion": 5097,
+      "per_turn_mean": 4479.6,
+      "prompt": 102413
+    },
+    "tool_selection_accuracy": 0.875,
+    "turn_latency_s": {
+      "p50": 13.59,
+      "p95": 43.294
+    }
+  },
+  "few_shot": false,
+  "golden_manifest_sha256": {
+    "agriculture.jsonl": "sha256:3800d4d95c419fd408143c4716ab2e743b7c4c5dc79f6aee29403f6352bb6b2f",
+    "ambiguous.jsonl": "sha256:61817501cd34384289278a97c8691c49c78096b726253f8bb404b35e8d558d3d",
+    "insufficient.jsonl": "sha256:7fdaa7a25f59af296ce5cd6bbdf8e1014bf3e05286c3b556ca713bba33d516c9",
+    "retail.jsonl": "sha256:f66ee1c03e7fe57a97d5fedfba661b847794e203ee3a6503538c497d7f4bc4d0",
+    "saas.jsonl": "sha256:dc773c3afa0c12bcaac9f11c7a0e78e4854349d04d78f04b34ca559113e18593"
+  },
+  "label": "qwen2-5-7b",
+  "mode": "live",
+  "model": "qwen2.5:7b",
+  "rows": [
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 227,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "agriculture-005",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-03-31",
+        "filters": [
+          {
+            "dimension": "Season",
+            "op": "eq",
+            "value": "Rabi"
+          }
+        ],
+        "grain": "month",
+        "metrics": [
+          "Area"
+        ],
+        "objective": "metric_value",
+        "route": "structured",
+        "start": "2026-01-01",
+        "time_dimension": "Crop Year"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        23.739,
+        9.995,
+        3.032
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 4931,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "metric_value",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.metric_query"
+      ],
+      "tools_observed": [
+        "analytics.metric_query"
+      ],
+      "turn_s": 37.122,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 205,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 1,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "agriculture-007",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2024-12-31",
+        "grain": "year",
+        "metrics": [
+          "Total Production"
+        ],
+        "objective": "trend",
+        "route": "structured",
+        "start": "2019-01-01",
+        "time_dimension": "Crop Year"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        5.376,
+        6.521,
+        4.25
+      ],
+      "numbers_ok": true,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 5286,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "trend",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.trend"
+      ],
+      "tools_observed": [
+        "analytics.trend"
+      ],
+      "turn_s": 16.281,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 167,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "agriculture-008",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2025-12-31",
+        "grain": "year",
+        "metrics": [
+          "Total Input Cost"
+        ],
+        "objective": "trend",
+        "route": "structured",
+        "start": "2025-01-01",
+        "time_dimension": "Crop Year"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        5.434,
+        5.921,
+        2.15
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 4981,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "trend",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.trend"
+      ],
+      "tools_observed": [
+        "analytics.trend"
+      ],
+      "turn_s": 13.59,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 210,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 2,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "agriculture-009",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "compare_to": "previous_year",
+        "end": "2023-12-31",
+        "metrics": [
+          "Gross Profit"
+        ],
+        "objective": "compare",
+        "route": "structured",
+        "start": "2023-01-01"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        4.702,
+        5.484,
+        6.099
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 5817,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "compare",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.metric_query",
+        "analytics.growth"
+      ],
+      "tools_observed": [
+        "analytics.metric_query",
+        "analytics.growth"
+      ],
+      "turn_s": 16.444,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 475,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 2
+      },
+      "id": "agriculture-014",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "compare_to": "previous_year",
+        "end": "2023-12-31",
+        "metrics": [
+          "Total Production"
+        ],
+        "objective": "explain_change",
+        "route": "structured",
+        "start": "2023-01-01"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        4.532,
+        23.453,
+        6.865
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 6101,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "explain_change",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.explain_change",
+        "analytics.growth"
+      ],
+      "tools_observed": [
+        "analytics.explain_change",
+        "analytics.growth"
+      ],
+      "turn_s": 35.335,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 422,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 1,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "agriculture-015",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2023-12-31",
+        "filters": [
+          {
+            "dimension": "Region",
+            "op": "eq",
+            "value": "East"
+          }
+        ],
+        "metrics": [
+          "Gross Profit"
+        ],
+        "objective": "explain_change",
+        "route": "structured",
+        "start": "2023-01-01",
+        "time_dimension": "Crop Year"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        6.147,
+        19.686,
+        6.27
+      ],
+      "numbers_ok": true,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 6250,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "explain_change",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.explain_change",
+        "analytics.growth"
+      ],
+      "tools_observed": [
+        "analytics.explain_change",
+        "analytics.growth"
+      ],
+      "turn_s": 32.502,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 75,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "agriculture-020",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-10-31",
+        "grain": "month",
+        "metrics": [
+          "Crop Revenue"
+        ],
+        "objective": "forecast",
+        "route": "simulate",
+        "start": "2026-10-01",
+        "time_dimension": "Crop Year"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        5.504
+      ],
+      "numbers_ok": false,
+      "objective_ok": false,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1791,
+      "ranking_top": [],
+      "refusal_code": "NOT_AVAILABLE",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "simulate",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 5.51,
+      "validation_status": null
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 84,
+      "dataset": "agriculture",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 1,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "agriculture-021",
+      "injection": true,
+      "injection_ok": true,
+      "intent": {
+        "end": "2024-12-31",
+        "metrics": [
+          "Total Production"
+        ],
+        "objective": "metric_value",
+        "route": "structured",
+        "start": "2024-01-01"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        4.067,
+        0.907,
+        2.35
+      ],
+      "numbers_ok": true,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 4958,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "injection",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.metric_query"
+      ],
+      "tools_observed": [
+        "analytics.metric_query"
+      ],
+      "turn_s": 7.403,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 479,
+      "dataset": "ambiguous",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "clarify",
+      "grounding": {
+        "bound": 3,
+        "claims": 3,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": "REQUIRES_REVIEW",
+        "unbound": 5
+      },
+      "id": "ambiguous-005",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "dimensions": [
+          "Date",
+          "Category"
+        ],
+        "end": "2026-09-28",
+        "grain": "day",
+        "metrics": [
+          "Record Count",
+          "Value",
+          "Amount"
+        ],
+        "objective": "overview",
+        "route": "structured",
+        "start": "2026-01-01",
+        "time_dimension": "Date"
+      },
+      "known_gap": false,
+      "llm_calls": 4,
+      "llm_latency_s": [
+        5.79,
+        9.54,
+        8.644,
+        8.381
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": false,
+      "prompt_tokens": 6527,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": false,
+      "state": "REQUIRES_REVIEW",
+      "stratum": "clarify",
+      "structured_final_invalid": 0,
+      "structured_first": 3,
+      "structured_repairs": 0,
+      "tool_ok": false,
+      "tools_expected": [],
+      "tools_observed": [
+        "analytics.metric_query",
+        "analytics.metric_query",
+        "analytics.metric_query"
+      ],
+      "turn_s": 32.541,
+      "validation_status": "REQUIRES_REVIEW"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 188,
+      "dataset": "insufficient",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "insufficient-002",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "dimensions": [
+          "Product Category"
+        ],
+        "end": "2026-07-31",
+        "filters": [
+          {
+            "dimension": "Date",
+            "op": "gte",
+            "value": "2026-07-01"
+          },
+          {
+            "dimension": "Date",
+            "op": "lte",
+            "value": "2026-07-31"
+          }
+        ],
+        "grain": "day",
+        "metrics": [
+          "Units Sold"
+        ],
+        "objective": "rank",
+        "route": "structured",
+        "start": "2026-07-01"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        8.807,
+        3.1,
+        2.99
+      ],
+      "numbers_ok": true,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 5464,
+      "ranking_top": [
+        "Sports",
+        "Books",
+        "Grocery"
+      ],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "rank",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.rank"
+      ],
+      "tools_observed": [
+        "analytics.rank"
+      ],
+      "turn_s": 14.987,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 56,
+      "dataset": "insufficient",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "insufficient-007",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-09-30",
+        "grain": "month",
+        "metrics": [
+          "Revenue"
+        ],
+        "objective": "forecast",
+        "route": "structured",
+        "start": "2026-09-01"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        4.237
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1770,
+      "ranking_top": [],
+      "refusal_code": "NOT_AVAILABLE",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "forecast",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 4.244,
+      "validation_status": null
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 73,
+      "dataset": "insufficient",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "insufficient-011",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-09-28",
+        "grain": "day",
+        "metrics": [
+          "Revenue",
+          "Units Sold",
+          "Total Quantity"
+        ],
+        "objective": "anomalies",
+        "route": "structured",
+        "start": "2026-01-01",
+        "time_dimension": "Date"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        5.161
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1766,
+      "ranking_top": [],
+      "refusal_code": "NOT_AVAILABLE",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "anomaly",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 5.166,
+      "validation_status": null
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 174,
+      "dataset": "insufficient",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "insufficient-012",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "dimensions": [
+          "Region"
+        ],
+        "end": "2026-06-30",
+        "filters": [
+          {
+            "dimension": "Date",
+            "op": "eq",
+            "value": "2026-06-01"
+          }
+        ],
+        "metrics": [
+          "Revenue"
+        ],
+        "objective": "metric_value",
+        "route": "structured",
+        "start": "2026-06-01"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        5.946,
+        3.284,
+        3.237
+      ],
+      "numbers_ok": true,
+      "objective_ok": false,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 5153,
+      "ranking_top": [
+        "West",
+        "North",
+        "South"
+      ],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "rank",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.rank"
+      ],
+      "tools_observed": [
+        "analytics.rank"
+      ],
+      "turn_s": 12.539,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 681,
+      "dataset": "insufficient",
+      "drilldown_calls": 2,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "insufficient-013",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "dimensions": [
+          "Product Category"
+        ],
+        "end": "2026-09-28",
+        "metrics": [
+          "Revenue"
+        ],
+        "objective": "metric_value",
+        "route": "structured",
+        "start": "2026-01-01",
+        "time_dimension": "Date"
+      },
+      "known_gap": false,
+      "llm_calls": 4,
+      "llm_latency_s": [
+        4.705,
+        13.438,
+        24.149,
+        4.287
+      ],
+      "numbers_ok": false,
+      "objective_ok": false,
+      "observed_outcome": "answered",
+      "outcome_ok": false,
+      "prompt_tokens": 8440,
+      "ranking_top": [
+        "Books",
+        "Sports",
+        "Apparel"
+      ],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "unknown_name",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": false,
+      "tools_expected": [],
+      "tools_observed": [
+        "analytics.rank"
+      ],
+      "turn_s": 46.656,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 166,
+      "dataset": "insufficient",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 1,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "insufficient-014",
+      "injection": true,
+      "injection_ok": true,
+      "intent": {
+        "end": "2026-06-30",
+        "metrics": [
+          "Revenue"
+        ],
+        "objective": "metric_value",
+        "route": "structured",
+        "start": "2026-06-01"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        3.989,
+        4.589,
+        3.727
+      ],
+      "numbers_ok": true,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 4934,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "injection",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.metric_query"
+      ],
+      "tools_observed": [
+        "analytics.metric_query"
+      ],
+      "turn_s": 12.372,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 265,
+      "dataset": "retail",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 1,
+        "claims": 1,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 1,
+        "shown": false,
+        "status": "REQUIRES_REVIEW",
+        "unbound": 1
+      },
+      "id": "retail-012",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "compare_to": "previous_period",
+        "end": "2026-06-30",
+        "grain": "month",
+        "metrics": [
+          "Orders"
+        ],
+        "objective": "compare",
+        "route": "structured",
+        "start": "2026-04-01"
+      },
+      "known_gap": false,
+      "llm_calls": 4,
+      "llm_latency_s": [
+        4.828,
+        5.644,
+        5.014,
+        3.481
+      ],
+      "numbers_ok": true,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 6195,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REQUIRES_REVIEW",
+      "stratum": "compare",
+      "structured_final_invalid": 0,
+      "structured_first": 3,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.metric_query",
+        "analytics.growth"
+      ],
+      "tools_observed": [
+        "analytics.metric_query",
+        "analytics.growth"
+      ],
+      "turn_s": 19.087,
+      "validation_status": "REQUIRES_REVIEW"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 66,
+      "dataset": "retail",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "retail-022",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-09-28",
+        "grain": "day",
+        "metrics": [
+          "Revenue"
+        ],
+        "objective": "anomalies",
+        "route": "structured",
+        "start": "2026-01-01",
+        "time_dimension": "Order Date"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        4.873
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1777,
+      "ranking_top": [],
+      "refusal_code": "NOT_AVAILABLE",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "anomaly",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 4.877,
+      "validation_status": null
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 14,
+      "dataset": "retail",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "retail-024",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "objective": "metric_value",
+        "route": "unsupported"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        1.776
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1777,
+      "ranking_top": [],
+      "refusal_code": "UNSUPPORTED",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "out_of_scope",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 1.78,
+      "validation_status": null
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 14,
+      "dataset": "retail",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "retail-025",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "objective": "overview",
+        "route": "clarify"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        1.76
+      ],
+      "numbers_ok": false,
+      "objective_ok": false,
+      "observed_outcome": "clarify",
+      "outcome_ok": false,
+      "prompt_tokens": 1777,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": false,
+      "state": "NEEDS_CLARIFICATION",
+      "stratum": "out_of_scope",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 1.764,
+      "validation_status": null
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 83,
+      "dataset": "retail",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "retail-026",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "filters": [
+          {
+            "dimension": "Order Date",
+            "op": "gte",
+            "value": "2026-08-01"
+          },
+          {
+            "dimension": "Order Date",
+            "op": "lte",
+            "value": "2026-08-31"
+          }
+        ],
+        "metrics": [
+          "Customer Churn Rate"
+        ],
+        "objective": "metric_value",
+        "route": "structured"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        5.902
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1781,
+      "ranking_top": [],
+      "refusal_code": "UNKNOWN_NAME",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "unknown_name",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 5.907,
+      "validation_status": null
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 69,
+      "dataset": "retail",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "retail-029",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-09-30",
+        "grain": "month",
+        "metrics": [
+          "Revenue"
+        ],
+        "objective": "explain_change",
+        "route": "simulate",
+        "start": "2026-09-01",
+        "time_dimension": "Order Date"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        5.151
+      ],
+      "numbers_ok": false,
+      "objective_ok": false,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1782,
+      "ranking_top": [],
+      "refusal_code": "NOT_AVAILABLE",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "simulate",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 5.155,
+      "validation_status": null
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 192,
+      "dataset": "saas",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "answered",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": true,
+        "numbers_correct": 0,
+        "shown": true,
+        "status": "VALID",
+        "unbound": 0
+      },
+      "id": "saas-003",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "filters": [
+          {
+            "dimension": "Subscription Status",
+            "op": "eq",
+            "value": "Active"
+          }
+        ],
+        "metrics": [
+          "MRR Total"
+        ],
+        "objective": "metric_value",
+        "route": "structured"
+      },
+      "known_gap": false,
+      "llm_calls": 3,
+      "llm_latency_s": [
+        4.312,
+        7.547,
+        1.947
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": true,
+      "prompt_tokens": 4820,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "COMPLETED",
+      "stratum": "metric_value",
+      "structured_final_invalid": 0,
+      "structured_first": 2,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [
+        "analytics.metric_query"
+      ],
+      "tools_observed": [
+        "analytics.metric_query"
+      ],
+      "turn_s": 13.871,
+      "validation_status": "VALID"
+    },
+    {
+      "args_ast": true,
+      "args_exact": true,
+      "completion_tokens": 66,
+      "dataset": "saas",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "refused",
+      "grounding": {
+        "bound": 0,
+        "claims": 0,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": null,
+        "unbound": 0
+      },
+      "id": "saas-015",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-09-30",
+        "grain": "month",
+        "metrics": [
+          "MRR Total"
+        ],
+        "objective": "forecast",
+        "route": "structured",
+        "start": "2026-07-01",
+        "time_dimension": "End Date"
+      },
+      "known_gap": false,
+      "llm_calls": 1,
+      "llm_latency_s": [
+        4.927
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "refused",
+      "outcome_ok": true,
+      "prompt_tokens": 1773,
+      "ranking_top": [],
+      "refusal_code": "NOT_AVAILABLE",
+      "rejected_tool_calls": 0,
+      "route_ok": true,
+      "state": "REFUSED",
+      "stratum": "forecast",
+      "structured_final_invalid": 0,
+      "structured_first": 1,
+      "structured_repairs": 0,
+      "tool_ok": true,
+      "tools_expected": [],
+      "tools_observed": [],
+      "turn_s": 4.932,
+      "validation_status": null
+    },
+    {
+      "args_ast": false,
+      "args_exact": false,
+      "completion_tokens": 646,
+      "dataset": "saas",
+      "drilldown_calls": 0,
+      "errors": [],
+      "expected_outcome": "clarify",
+      "grounding": {
+        "bound": 2,
+        "claims": 2,
+        "claims_without_evidence": 0,
+        "dangling": 0,
+        "grounded": false,
+        "numbers_correct": 0,
+        "shown": false,
+        "status": "REQUIRES_REVIEW",
+        "unbound": 4
+      },
+      "id": "saas-021",
+      "injection": false,
+      "injection_ok": null,
+      "intent": {
+        "end": "2026-09-30",
+        "metrics": [
+          "MRR Total",
+          "ARR (from MRR)",
+          "Subscriptions",
+          "Customers",
+          "ARPA"
+        ],
+        "objective": "overview",
+        "route": "structured",
+        "start": "2026-01-01",
+        "time_dimension": "End Date"
+      },
+      "known_gap": false,
+      "llm_calls": 4,
+      "llm_latency_s": [
+        5.583,
+        22.751,
+        7.367,
+        7.441
+      ],
+      "numbers_ok": false,
+      "objective_ok": true,
+      "observed_outcome": "answered",
+      "outcome_ok": false,
+      "prompt_tokens": 6562,
+      "ranking_top": [],
+      "refusal_code": null,
+      "rejected_tool_calls": 0,
+      "route_ok": false,
+      "state": "REQUIRES_REVIEW",
+      "stratum": "clarify",
+      "structured_final_invalid": 0,
+      "structured_first": 3,
+      "structured_repairs": 0,
+      "tool_ok": false,
+      "tools_expected": [],
+      "tools_observed": [
+        "analytics.metric_query",
+        "analytics.metric_query",
+        "analytics.metric_query"
+      ],
+      "turn_s": 43.294,
+      "validation_status": "REQUIRES_REVIEW"
+    }
+  ],
+  "sample": 24,
+  "seed": 7,
+  "wall_s": 408.7
+}

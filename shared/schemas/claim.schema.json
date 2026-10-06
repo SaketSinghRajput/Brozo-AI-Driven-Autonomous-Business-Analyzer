@@ -1,0 +1,89 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "claim_id": {
+      "pattern": "^cl_\\w+$",
+      "title": "Claim Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "evidence_ids": {
+      "items": {
+        "pattern": "^ev_\\w+$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Evidence Ids",
+      "type": "array"
+    },
+    "kind": {
+      "enum": [
+        "answer_sentence",
+        "widget"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Text"
+    },
+    "validation_id": {
+      "anyOf": [
+        {
+          "pattern": "^va_\\w+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Validation Id"
+    },
+    "widget_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Widget Id"
+    },
+    "workspace_id": {
+      "pattern": "^ws_\\w+$",
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "claim_id",
+    "workspace_id",
+    "kind",
+    "evidence_ids",
+    "created_at"
+  ],
+  "title": "Claim",
+  "type": "object"
+}

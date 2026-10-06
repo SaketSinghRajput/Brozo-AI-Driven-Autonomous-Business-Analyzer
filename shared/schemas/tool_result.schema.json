@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "ErrorInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "title": "Retryable",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ],
+      "title": "ErrorInfo",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "ReasonCode": {
+      "description": "Why an analysis is unavailable. Shown to users via ``Unavailability`` and ``unavailable``\ndashboard widgets (typed result, not an error: TRD 35 ANALYSIS_UNAVAILABLE).",
+      "enum": [
+        "NO_TIME_DIMENSION",
+        "IRREGULAR_TIME",
+        "INSUFFICIENT_HISTORY",
+        "TOO_MANY_MISSING_PERIODS",
+        "NO_MEASURE",
+        "NO_DIMENSION",
+        "NO_CUSTOMER_IDENTIFIER",
+        "NO_RETENTION_HISTORY",
+        "NO_TARGET",
+        "INSUFFICIENT_ENTITIES",
+        "INSUFFICIENT_ROWS",
+        "NO_NUMERIC_FEATURES",
+        "LOW_MODEL_QUALITY",
+        "SIMULATION_UNSUPPORTED",
+        "ANALYSIS_FAILED"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "Unavailability": {
+      "additionalProperties": false,
+      "properties": {
+        "analysis": {
+          "title": "Analysis",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "reason_code": {
+          "$ref": "#/$defs/ReasonCode"
+        },
+        "would_enable": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Would Enable"
+        }
+      },
+      "required": [
+        "analysis",
+        "reason_code",
+        "message"
+      ],
+      "title": "Unavailability",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "duration_ms": {
+      "minimum": 0,
+      "title": "Duration Ms",
+      "type": "integer"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorInfo"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "evidence_id": {
+      "anyOf": [
+        {
+          "pattern": "^ev_\\w+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Id"
+    },
+    "output": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Output"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ok",
+        "unavailable",
+        "error"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "tool": {
+      "pattern": "^[a-z]+(\\.[a-z_]+)+$",
+      "title": "Tool",
+      "type": "string"
+    },
+    "tool_version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Tool Version",
+      "type": "string"
+    },
+    "unavailable": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Unavailability"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "tool",
+    "tool_version",
+    "status",
+    "duration_ms"
+  ],
+  "title": "ToolResult",
+  "type": "object"
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "rules_version": "1.0.0",
+  "analyses": {
+    "kpi": {
+      "description": "Headline metric values (KPI cards)",
+      "requires": [
+        {"check": "measure", "reason_code": "NO_MEASURE"},
+        {"check": "row_count", "params": {"min": "config.kpi.min_rows"}, "reason_code": "INSUFFICIENT_ROWS"}
+      ]
+    },
+    "trend": {
+      "description": "Metric over time with growth and a trend test",
+      "requires": [
+        {"check": "time_dimension", "reason_code": "NO_TIME_DIMENSION"},
+        {"check": "measure", "params": {"additivity_in": ["additive", "semi_additive"]}, "reason_code": "NO_MEASURE"},
+        {"check": "history_periods", "params": {"min": "config.trend.min_periods"}, "reason_code": "INSUFFICIENT_HISTORY"}
+      ]
+    },
+    "forecast": {
+      "description": "Future values of a metric (estimates)",
+      "requires": [
+        {"check": "time_dimension", "reason_code": "NO_TIME_DIMENSION"},
+        {"check": "time_regularity", "params": {"min": "config.forecast.min_regularity"}, "reason_code": "IRREGULAR_TIME"},
+        {"check": "measure", "params": {"additivity_in": ["additive", "semi_additive"]}, "reason_code": "NO_MEASURE"},
+        {"check": "history_periods", "params": {"min": "config.forecast.min_periods"}, "reason_code": "INSUFFICIENT_HISTORY"}
+      ]
+    },
+    "anomaly_detection": {
+      "description": "Unusual values of a measure",
+      "requires": [
+        {"check": "measure", "reason_code": "NO_MEASURE"},
+        {"check": "row_count", "params": {"min": "config.anomaly.min_rows"}, "reason_code": "INSUFFICIENT_ROWS"}
+      ]
+    },
+    "customer_segmentation": {
+      "description": "Groups of similar customers",
+      "requires": [
+        {"check": "entity", "params": {"name": "Customer"}, "reason_code": "NO_CUSTOMER_IDENTIFIER"},
+        {"check": "entity_count", "params": {"min": "config.segmentation.min_entities"}, "reason_code": "INSUFFICIENT_ENTITIES"},
+        {"check": "numeric_features", "params": {"min": "config.segmentation.min_features"}, "reason_code": "NO_NUMERIC_FEATURES"}
+      ]
+    },
+    "classification": {
+      "description": "Predict a categorical outcome",
+      "requires": [
+        {"check": "target", "reason_code": "NO_TARGET"},
+        {"check": "row_count", "params": {"min": "config.supervised.min_rows"}, "reason_code": "INSUFFICIENT_ROWS"},
+        {"check": "numeric_features", "params": {"min": "config.supervised.min_features"}, "reason_code": "NO_NUMERIC_FEATURES"}
+      ]
+    },
+    "regression": {
+      "description": "Predict a numeric outcome",
+      "requires": [
+        {"check": "target", "reason_code": "NO_TARGET"},
+        {"check": "row_count", "params": {"min": "config.supervised.min_rows"}, "reason_code": "INSUFFICIENT_ROWS"},
+        {"check": "numeric_features", "params": {"min": "config.supervised.min_features"}, "reason_code": "NO_NUMERIC_FEATURES"}
+      ]
+    },
+    "churn_analysis": {
+      "description": "Which customers stop, and when",
+      "requires": [
+        {"check": "entity", "params": {"name": "Customer"}, "reason_code": "NO_CUSTOMER_IDENTIFIER"},
+        {
+          "check": "any_of",
+          "reason_code": "NO_RETENTION_HISTORY",
+          "any_of": [{"check": "subscription_status"}, {"check": "activity_history_per_customer"}]
+        }
+      ]
+    },
+    "cohort_analysis": {
+      "description": "Behaviour of customer cohorts over time",
+      "requires": [
+        {"check": "entity", "params": {"name": "Customer"}, "reason_code": "NO_CUSTOMER_IDENTIFIER"},
+        {"check": "time_dimension", "reason_code": "NO_TIME_DIMENSION"},
+        {"check": "activity_history_per_customer", "reason_code": "NO_RETENTION_HISTORY"},
+        {"check": "history_periods", "params": {"min": "config.cohort.min_periods"}, "reason_code": "INSUFFICIENT_HISTORY"}
+      ]
+    },
+    "rca": {
+      "description": "Why a metric changed (contributions, not proven causes)",
+      "requires": [
+        {"check": "time_dimension", "reason_code": "NO_TIME_DIMENSION"},
+        {"check": "measure", "params": {"additivity_in": ["additive", "semi_additive"]}, "reason_code": "NO_MEASURE"},
+        {"check": "dimension", "params": {"max_cardinality": "config.rca.max_dimension_cardinality"}, "reason_code": "NO_DIMENSION"},
+        {"check": "history_periods", "params": {"min": "config.rca.min_periods"}, "reason_code": "INSUFFICIENT_HISTORY"}
+      ]
+    }
+  }
+}

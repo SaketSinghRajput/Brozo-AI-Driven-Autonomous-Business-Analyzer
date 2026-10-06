@@ -1,0 +1,158 @@
+{
+  "bench": "BENCH-008",
+  "python": "3.14.4",
+  "platform": "Windows-11",
+  "repeats": 20,
+  "tiers": [
+    {
+      "rows": 10000,
+      "csv_bytes": 603087,
+      "rows_ingested": 10000,
+      "metrics": [
+        "Revenue",
+        "Units Sold",
+        "Orders",
+        "Customers",
+        "Average Order Value",
+        "Total Quantity"
+      ],
+      "domain": "KNOWN:retail",
+      "stages_s": {
+        "ingest": 0.512,
+        "profile": 0.143,
+        "understand": 0.031
+      },
+      "pipeline_s": 0.69,
+      "ingest_rows_per_s": 19538,
+      "pipeline_rows_per_s": 14503,
+      "queries": {
+        "q_total": {
+          "tool": "analytics.metric_query",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 22.3,
+          "p95_ms": 26.23,
+          "max_ms": 26.96
+        },
+        "q_group": {
+          "tool": "analytics.rank",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 31.64,
+          "p95_ms": 44.8,
+          "max_ms": 45.46
+        },
+        "q_trend": {
+          "tool": "analytics.trend",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 27.88,
+          "p95_ms": 43.23,
+          "max_ms": 44.31
+        }
+      },
+      "peak_rss_mb": 382.1,
+      "process_wall_s": 12.75
+    },
+    {
+      "rows": 100000,
+      "csv_bytes": 6029389,
+      "rows_ingested": 100000,
+      "metrics": [
+        "Revenue",
+        "Units Sold",
+        "Orders",
+        "Customers",
+        "Average Order Value",
+        "Total Quantity"
+      ],
+      "domain": "KNOWN:retail",
+      "stages_s": {
+        "ingest": 2.72,
+        "profile": 0.355,
+        "understand": 0.027
+      },
+      "pipeline_s": 3.107,
+      "ingest_rows_per_s": 36761,
+      "pipeline_rows_per_s": 32180,
+      "queries": {
+        "q_total": {
+          "tool": "analytics.metric_query",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 26.93,
+          "p95_ms": 30.98,
+          "max_ms": 32.82
+        },
+        "q_group": {
+          "tool": "analytics.rank",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 33.06,
+          "p95_ms": 36.46,
+          "max_ms": 51.06
+        },
+        "q_trend": {
+          "tool": "analytics.trend",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 35.72,
+          "p95_ms": 40.72,
+          "max_ms": 42.29
+        }
+      },
+      "peak_rss_mb": 535.1,
+      "process_wall_s": 13.51
+    },
+    {
+      "rows": 1000000,
+      "csv_bytes": 60294594,
+      "rows_ingested": 1000000,
+      "metrics": [
+        "Revenue",
+        "Units Sold",
+        "Orders",
+        "Customers",
+        "Average Order Value",
+        "Total Quantity"
+      ],
+      "domain": "KNOWN:retail",
+      "stages_s": {
+        "ingest": 14.221,
+        "profile": 2.505,
+        "understand": 0.035
+      },
+      "pipeline_s": 16.767,
+      "ingest_rows_per_s": 70316,
+      "pipeline_rows_per_s": 59641,
+      "queries": {
+        "q_total": {
+          "tool": "analytics.metric_query",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 27.63,
+          "p95_ms": 37.09,
+          "max_ms": 41.21
+        },
+        "q_group": {
+          "tool": "analytics.rank",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 51.59,
+          "p95_ms": 64.51,
+          "max_ms": 67.96
+        },
+        "q_trend": {
+          "tool": "analytics.trend",
+          "status": "ok",
+          "runs": 20,
+          "p50_ms": 65.04,
+          "p95_ms": 74.32,
+          "max_ms": 76.89
+        }
+      },
+      "peak_rss_mb": 1032.5,
+      "process_wall_s": 27.84
+    }
+  ]
+}

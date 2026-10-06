@@ -1,0 +1,487 @@
+{
+  "capability_report": {
+    "attempted": [],
+    "available": [
+      "kpi",
+      "trend",
+      "anomaly_detection",
+      "rca"
+    ],
+    "dataset_version_id": "dsv_sales",
+    "rules_version": "1.0.0",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "unavailable": [
+      {
+        "analysis": "forecast",
+        "message": "Insufficient data: forecasting needs at least 12 monthly periods of history; the data covers 3.",
+        "reason_code": "INSUFFICIENT_HISTORY",
+        "would_enable": "a longer history covering more periods"
+      },
+      {
+        "analysis": "customer_segmentation",
+        "message": "Insufficient data: customer segmentation needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs at least 200 rows; the data has 154.",
+        "reason_code": "INSUFFICIENT_ROWS",
+        "would_enable": "more rows"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs at least 200 rows; the data has 154.",
+        "reason_code": "INSUFFICIENT_ROWS",
+        "would_enable": "more rows"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs one of: a subscription status or end date column; or repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ]
+  },
+  "default_plan": {
+    "dataset_version_id": "dsv_sales",
+    "intent": {
+      "compare_to": null,
+      "dimensions": [],
+      "filters": [],
+      "metrics": [
+        "Revenue",
+        "Units Sold",
+        "Total Quantity",
+        "Quantity",
+        "Unit Price"
+      ],
+      "objective": "overview",
+      "schema_version": "1.0",
+      "source": "system_default",
+      "time": null,
+      "time_dimension": null
+    },
+    "plan_id": "pl_f9a14b42fd7338106f9089adba",
+    "schema_version": "1.0",
+    "semantic_model_version": 1,
+    "steps": [
+      {
+        "args": {
+          "metric": "Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S1",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Units Sold"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S2",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Total Quantity"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S3",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Quantity"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S4",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "metric": "Unit Price"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S5",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "end": "2026-08-31",
+          "grain": "month",
+          "metric": "Revenue",
+          "start": "2026-06-01",
+          "time_dimension": "Date"
+        },
+        "depends_on": [],
+        "expected_output": "TrendOutput",
+        "id": "S6",
+        "tool": "analytics.trend",
+        "type": "timeseries_trend",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "end": "2026-08-31",
+          "metric": "Revenue",
+          "start": "2026-08-01",
+          "time_dimension": "Date"
+        },
+        "depends_on": [],
+        "expected_output": "GrowthOutput",
+        "id": "S7",
+        "tool": "analytics.growth",
+        "type": "growth_rate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Sales Channel"
+          ],
+          "metric": "Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S8",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Region"
+          ],
+          "metric": "Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S9",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "dimensions": [
+            "Product Category"
+          ],
+          "metric": "Revenue"
+        },
+        "depends_on": [],
+        "expected_output": "MetricQueryOutput",
+        "id": "S10",
+        "tool": "analytics.metric_query",
+        "type": "aggregate",
+        "validation": [
+          "schema",
+          "numeric"
+        ]
+      },
+      {
+        "args": {
+          "compare_to": "previous_period",
+          "current_end": "2026-08-31",
+          "current_start": "2026-08-01",
+          "dimensions": [
+            "Sales Channel",
+            "Region",
+            "Product Category"
+          ],
+          "grain": "month",
+          "metric": "Revenue",
+          "time_dimension": "Date"
+        },
+        "depends_on": [],
+        "expected_output": "ExplainChangeOutput",
+        "id": "S11",
+        "tool": "analytics.explain_change",
+        "type": "explain_change",
+        "validation": [
+          "schema",
+          "numeric",
+          "logic"
+        ]
+      }
+    ],
+    "unavailable": [
+      {
+        "analysis": "forecast",
+        "message": "Insufficient data: forecasting needs at least 12 monthly periods of history; the data covers 3.",
+        "reason_code": "INSUFFICIENT_HISTORY",
+        "would_enable": "a longer history covering more periods"
+      },
+      {
+        "analysis": "customer_segmentation",
+        "message": "Insufficient data: customer segmentation needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "classification",
+        "message": "Insufficient data: classification needs at least 200 rows; the data has 154.",
+        "reason_code": "INSUFFICIENT_ROWS",
+        "would_enable": "more rows"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs a chosen target column to predict (none was chosen).",
+        "reason_code": "NO_TARGET",
+        "would_enable": "choosing the column to predict"
+      },
+      {
+        "analysis": "regression",
+        "message": "Insufficient data: regression needs at least 200 rows; the data has 154.",
+        "reason_code": "INSUFFICIENT_ROWS",
+        "would_enable": "more rows"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "churn_analysis",
+        "message": "Insufficient data: churn analysis needs one of: a subscription status or end date column; or repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs a Customer identifier column.",
+        "reason_code": "NO_CUSTOMER_IDENTIFIER",
+        "would_enable": "a customer id column"
+      },
+      {
+        "analysis": "cohort_analysis",
+        "message": "Insufficient data: cohort analysis needs repeated, dated activity per customer.",
+        "reason_code": "NO_RETENTION_HISTORY",
+        "would_enable": "subscription status or start/end dates per customer, or repeated dated activity per customer"
+      }
+    ],
+    "version": 1
+  },
+  "deferred": {
+    "anomalies": "tool ml.anomalies is not registered yet"
+  },
+  "domain": {
+    "candidates": [
+      {
+        "domain": "retail",
+        "evidence": [
+          {
+            "detail": "column 'product' (dimension) matches term 'product'",
+            "kind": "lexicon",
+            "weight": 0.54
+          },
+          {
+            "detail": "column 'quantity' (measure) matches term 'quantity'",
+            "kind": "lexicon",
+            "weight": 0.4
+          },
+          {
+            "detail": "column 'unit_price' (measure) matches term 'unit price'",
+            "kind": "lexicon",
+            "weight": 0.9
+          },
+          {
+            "detail": "signature priced_sales_lines: 2/2 ['Quantity', 'Unit Price']",
+            "kind": "signature",
+            "weight": 1.0
+          },
+          {
+            "detail": "signature order_lines: 1/3 ['Quantity']",
+            "kind": "signature",
+            "weight": 0.3333333333333333
+          },
+          {
+            "detail": "stat hint unit_price_present",
+            "kind": "statistical",
+            "weight": 1.0
+          },
+          {
+            "detail": "stat hint additive_quantity",
+            "kind": "statistical",
+            "weight": 1.0
+          }
+        ],
+        "score": 0.6179
+      },
+      {
+        "domain": "saas",
+        "evidence": [
+          {
+            "detail": "signature acquisition_spend: 1/2 ['Acquisition Channel']",
+            "kind": "signature",
+            "weight": 0.15
+          }
+        ],
+        "score": 0.0262
+      }
+    ],
+    "confidence": 0.6179,
+    "pack_versions": {
+      "agriculture": "1.0.0",
+      "generic": "1.0.0",
+      "retail": "1.0.2",
+      "saas": "1.0.0"
+    },
+    "primary": "retail",
+    "schema_version": "1.0",
+    "status": "KNOWN"
+  },
+  "fixture_table": "sales",
+  "metric_totals": {
+    "Revenue": {
+      "error": null,
+      "status": "ok",
+      "unit": "currency",
+      "value": 140876.21
+    },
+    "Total Quantity": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 555.0
+    },
+    "Units Sold": {
+      "error": null,
+      "status": "ok",
+      "unit": "count",
+      "value": 555.0
+    }
+  },
+  "semantic_model": {
+    "dimensions": {
+      "Date": [
+        "date",
+        "time"
+      ],
+      "Product Category": [
+        "category",
+        "category"
+      ],
+      "Product Name": [
+        "product",
+        "category"
+      ],
+      "Region": [
+        "region",
+        "category"
+      ],
+      "Sales Channel": [
+        "channel",
+        "category"
+      ]
+    },
+    "measures": {
+      "Quantity": [
+        "quantity",
+        "count",
+        "sum"
+      ],
+      "Unit Price": [
+        "unit_price",
+        "currency",
+        "avg"
+      ]
+    },
+    "metrics": {
+      "Revenue": {
+        "expr": "sum(measure('Quantity') * measure('Unit Price'))",
+        "unit": "currency"
+      },
+      "Total Quantity": {
+        "expr": "sum(measure('Quantity'))",
+        "unit": "count"
+      },
+      "Units Sold": {
+        "expr": "sum(measure('Quantity'))",
+        "unit": "count"
+      }
+    }
+  }
+}

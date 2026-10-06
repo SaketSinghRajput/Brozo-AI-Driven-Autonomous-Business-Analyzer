@@ -1,0 +1,300 @@
+{
+  "$defs": {
+    "FieldRef": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "enum": [
+                "time",
+                "category",
+                "numeric"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "field"
+      ],
+      "title": "FieldRef",
+      "type": "object"
+    },
+    "Filter": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension": {
+          "title": "Dimension",
+          "type": "string"
+        },
+        "op": {
+          "enum": [
+            "eq",
+            "in",
+            "between",
+            "gte",
+            "lte"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "format": "date",
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "dimension",
+        "op",
+        "value"
+      ],
+      "title": "Filter",
+      "type": "object"
+    },
+    "FormatSpec": {
+      "additionalProperties": false,
+      "description": "Fixed formatting vocabulary; the frontend never evaluates format strings (design 57).",
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Currency"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "precision": {
+          "default": 0,
+          "maximum": 6,
+          "minimum": 0,
+          "title": "Precision",
+          "type": "integer"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "title": "FormatSpec",
+      "type": "object"
+    },
+    "Overlay": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "pattern": "^ev_\\w+$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "forecast_band",
+            "anomaly_markers"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "evidence_id"
+      ],
+      "title": "Overlay",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "aggregation": {
+      "enum": [
+        "sum",
+        "avg",
+        "count",
+        "count_distinct",
+        "min",
+        "max",
+        "median",
+        "none"
+      ],
+      "title": "Aggregation",
+      "type": "string"
+    },
+    "evidence_id": {
+      "pattern": "^ev_\\w+$",
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "filters": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Filter"
+      },
+      "title": "Filters",
+      "type": "array"
+    },
+    "format": {
+      "$ref": "#/$defs/FormatSpec",
+      "default": {
+        "currency": null,
+        "locale": "en-US",
+        "precision": 0,
+        "unit": null
+      }
+    },
+    "overlays": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Overlay"
+      },
+      "title": "Overlays",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.1",
+      "enum": [
+        "1.0",
+        "1.1"
+      ],
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "series": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FieldRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "source_operation": {
+      "title": "Source Operation",
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "kpi",
+        "line",
+        "bar",
+        "stacked_bar",
+        "area",
+        "scatter",
+        "table",
+        "heatmap"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "x": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FieldRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "y": {
+      "items": {
+        "$ref": "#/$defs/FieldRef"
+      },
+      "minItems": 1,
+      "title": "Y",
+      "type": "array"
+    }
+  },
+  "required": [
+    "type",
+    "y",
+    "aggregation",
+    "source_operation",
+    "evidence_id"
+  ],
+  "title": "ChartSpec",
+  "type": "object"
+}

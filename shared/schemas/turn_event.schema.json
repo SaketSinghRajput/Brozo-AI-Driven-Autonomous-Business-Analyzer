@@ -1,0 +1,678 @@
+{
+  "$defs": {
+    "CaveatSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "const": "caveat",
+          "default": "caveat",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "CaveatSegment",
+      "type": "object"
+    },
+    "ConfidenceSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Basis",
+          "type": "array"
+        },
+        "level": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "level",
+        "score",
+        "basis"
+      ],
+      "title": "ConfidenceSummary",
+      "type": "object"
+    },
+    "ErrorEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "$ref": "#/$defs/TurnError"
+        },
+        "type": {
+          "const": "error",
+          "default": "error",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "ErrorEvent",
+      "type": "object"
+    },
+    "FinalEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "answer_source": {
+          "anyOf": [
+            {
+              "const": "template",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Answer Source"
+        },
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "mode": {
+          "default": "normal",
+          "enum": [
+            "normal",
+            "degraded"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "refusal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Refusal"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "state": {
+          "$ref": "#/$defs/TurnState"
+        },
+        "type": {
+          "const": "final",
+          "default": "final",
+          "title": "Type",
+          "type": "string"
+        },
+        "usage": {
+          "$ref": "#/$defs/TurnUsage"
+        },
+        "validation_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ValidationStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "message_id",
+        "state",
+        "usage"
+      ],
+      "title": "FinalEvent",
+      "type": "object"
+    },
+    "FindingView": {
+      "additionalProperties": false,
+      "description": "One ranked RCA factor for the RCA panel (``analytics.explain_change`` finding).",
+      "properties": {
+        "change": {
+          "title": "Change",
+          "type": "number"
+        },
+        "factor": {
+          "title": "Factor",
+          "type": "string"
+        },
+        "relation_type": {
+          "enum": [
+            "contribution",
+            "association",
+            "correlation",
+            "causation"
+          ],
+          "title": "Relation Type",
+          "type": "string"
+        },
+        "share": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Share"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "factor",
+        "change",
+        "unit",
+        "share",
+        "relation_type"
+      ],
+      "title": "FindingView",
+      "type": "object"
+    },
+    "NumberView": {
+      "additionalProperties": false,
+      "description": "A number segment as shown: the validator's NumberSegment plus the evidence value.",
+      "properties": {
+        "absolute": {
+          "default": false,
+          "title": "Absolute",
+          "type": "boolean"
+        },
+        "evidence_id": {
+          "pattern": "^ev_\\w+$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "format": {
+          "title": "Format",
+          "type": "string"
+        },
+        "type": {
+          "const": "number",
+          "default": "number",
+          "title": "Type",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "field",
+        "format",
+        "value",
+        "unit"
+      ],
+      "title": "NumberView",
+      "type": "object"
+    },
+    "Refusal": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "UNSUPPORTED",
+            "UNKNOWN_NAME",
+            "INSUFFICIENT_DATA",
+            "NOT_AVAILABLE"
+          ],
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "suggestions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggestions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Refusal",
+      "type": "object"
+    },
+    "SegmentEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "segment": {
+          "discriminator": {
+            "mapping": {
+              "caveat": "#/$defs/CaveatSegment",
+              "number": "#/$defs/NumberView",
+              "text": "#/$defs/TextSegment"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/TextSegment"
+            },
+            {
+              "$ref": "#/$defs/NumberView"
+            },
+            {
+              "$ref": "#/$defs/CaveatSegment"
+            }
+          ],
+          "title": "Segment"
+        },
+        "type": {
+          "const": "segment",
+          "default": "segment",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "index",
+        "segment"
+      ],
+      "title": "SegmentEvent",
+      "type": "object"
+    },
+    "StatusEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "$ref": "#/$defs/TurnState"
+        },
+        "type": {
+          "const": "status",
+          "default": "status",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "StatusEvent",
+      "type": "object"
+    },
+    "TextSegment": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "const": "text",
+          "default": "text",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TextSegment",
+      "type": "object"
+    },
+    "ToolCallEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "args_summary": {
+          "title": "Args Summary",
+          "type": "string"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "evidence_id": {
+          "anyOf": [
+            {
+              "pattern": "^ev_\\w+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Id"
+        },
+        "findings": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/FindingView"
+              },
+              "maxItems": 10,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Findings"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "unavailable",
+            "error",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "type": {
+          "const": "tool_call",
+          "default": "tool_call",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "args_summary",
+        "status"
+      ],
+      "title": "ToolCallEvent",
+      "type": "object"
+    },
+    "TurnError": {
+      "additionalProperties": false,
+      "properties": {
+        "error_code": {
+          "title": "Error Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "trace_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Trace Id"
+        }
+      },
+      "required": [
+        "error_code",
+        "message",
+        "retryable",
+        "trace_id"
+      ],
+      "title": "TurnError",
+      "type": "object"
+    },
+    "TurnState": {
+      "description": "design §33. Deviation: any non-terminal state may go to FAILED on a fatal error.",
+      "enum": [
+        "IDLE",
+        "CLASSIFYING",
+        "NEEDS_CLARIFICATION",
+        "REFUSED",
+        "PLANNING",
+        "EXECUTING",
+        "WAITING_FOR_TOOL",
+        "COMPOSING",
+        "VALIDATING",
+        "RETRYING",
+        "COMPLETED",
+        "REQUIRES_REVIEW",
+        "FAILED",
+        "RECOVERED"
+      ],
+      "title": "TurnState",
+      "type": "string"
+    },
+    "TurnUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "llm_tokens": {
+          "title": "Llm Tokens",
+          "type": "integer"
+        },
+        "retries": {
+          "title": "Retries",
+          "type": "integer"
+        },
+        "steps": {
+          "title": "Steps",
+          "type": "integer"
+        },
+        "tool_calls": {
+          "title": "Tool Calls",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "steps",
+        "tool_calls",
+        "llm_tokens",
+        "retries"
+      ],
+      "title": "TurnUsage",
+      "type": "object"
+    },
+    "ValidationEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "$ref": "#/$defs/ConfidenceSummary"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/ValidationIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/ValidationStatus"
+        },
+        "type": {
+          "const": "validation",
+          "default": "validation",
+          "title": "Type",
+          "type": "string"
+        },
+        "validation_id": {
+          "title": "Validation Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "validation_id",
+        "status",
+        "issues",
+        "confidence"
+      ],
+      "title": "ValidationEvent",
+      "type": "object"
+    },
+    "ValidationIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "hard",
+            "soft"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "severity",
+        "target",
+        "detail"
+      ],
+      "title": "ValidationIssue",
+      "type": "object"
+    },
+    "ValidationStatus": {
+      "enum": [
+        "VALID",
+        "INVALID",
+        "UNCERTAIN",
+        "REQUIRES_REVIEW"
+      ],
+      "title": "ValidationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Exported contract (shared/schemas/turn_event.schema.json): one SSE ``data`` payload.\n\n``seq`` equals the SSE ``id`` and ``event.type`` the SSE ``event`` name.",
+  "properties": {
+    "event": {
+      "discriminator": {
+        "mapping": {
+          "error": "#/$defs/ErrorEvent",
+          "final": "#/$defs/FinalEvent",
+          "segment": "#/$defs/SegmentEvent",
+          "status": "#/$defs/StatusEvent",
+          "tool_call": "#/$defs/ToolCallEvent",
+          "validation": "#/$defs/ValidationEvent"
+        },
+        "propertyName": "type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/StatusEvent"
+        },
+        {
+          "$ref": "#/$defs/ToolCallEvent"
+        },
+        {
+          "$ref": "#/$defs/SegmentEvent"
+        },
+        {
+          "$ref": "#/$defs/ValidationEvent"
+        },
+        {
+          "$ref": "#/$defs/FinalEvent"
+        },
+        {
+          "$ref": "#/$defs/ErrorEvent"
+        }
+      ],
+      "title": "Event"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "seq": {
+      "minimum": 0,
+      "title": "Seq",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "seq",
+    "event"
+  ],
+  "title": "TurnEvent",
+  "type": "object"
+}

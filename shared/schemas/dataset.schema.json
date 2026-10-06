@@ -1,0 +1,49 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^ds_\\w+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 255,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_type": {
+      "enum": [
+        "file_upload",
+        "postgres_snapshot"
+      ],
+      "title": "Source Type",
+      "type": "string"
+    },
+    "workspace_id": {
+      "pattern": "^ws_\\w+$",
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "workspace_id",
+    "name",
+    "source_type",
+    "created_at"
+  ],
+  "title": "Dataset",
+  "type": "object"
+}

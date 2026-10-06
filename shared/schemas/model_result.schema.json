@@ -1,0 +1,278 @@
+{
+  "$defs": {
+    "BaselineScore": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "values"
+      ],
+      "title": "BaselineScore",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "MLTask": {
+      "enum": [
+        "forecast",
+        "anomaly",
+        "segmentation",
+        "classification",
+        "regression"
+      ],
+      "title": "MLTask",
+      "type": "string"
+    },
+    "Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BaselineScore"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "primary": {
+          "title": "Primary",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "primary",
+        "values"
+      ],
+      "title": "Metrics",
+      "type": "object"
+    },
+    "ModelInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "library": {
+          "title": "Library",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "default": {},
+          "title": "Params",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "library"
+      ],
+      "title": "ModelInfo",
+      "type": "object"
+    },
+    "ModelInputs": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_version_id": {
+          "pattern": "^dsv_\\w+$",
+          "title": "Dataset Version Id",
+          "type": "string"
+        },
+        "grain": {
+          "anyOf": [
+            {
+              "enum": [
+                "second",
+                "minute",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "quarter",
+                "year"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Grain"
+        },
+        "metric": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric"
+        },
+        "rows": {
+          "minimum": 0,
+          "title": "Rows",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "dataset_version_id",
+        "rows"
+      ],
+      "title": "ModelInputs",
+      "type": "object"
+    },
+    "TrainingInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "folds": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Folds"
+        },
+        "horizon": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Horizon"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "split": {
+          "enum": [
+            "rolling_origin",
+            "temporal",
+            "stratified_kfold",
+            "kfold",
+            "holdout",
+            "none"
+          ],
+          "title": "Split",
+          "type": "string"
+        }
+      },
+      "required": [
+        "split",
+        "seed"
+      ],
+      "title": "TrainingInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "evidence_id": {
+      "anyOf": [
+        {
+          "pattern": "^ev_\\w+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Id"
+    },
+    "inputs": {
+      "$ref": "#/$defs/ModelInputs"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "metrics": {
+      "$ref": "#/$defs/Metrics"
+    },
+    "model": {
+      "$ref": "#/$defs/ModelInfo"
+    },
+    "model_run_id": {
+      "pattern": "^mr_\\w+$",
+      "title": "Model Run Id",
+      "type": "string"
+    },
+    "result_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Result Ref"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "task": {
+      "$ref": "#/$defs/MLTask"
+    },
+    "training": {
+      "$ref": "#/$defs/TrainingInfo"
+    }
+  },
+  "required": [
+    "model_run_id",
+    "task",
+    "model",
+    "inputs",
+    "training",
+    "metrics"
+  ],
+  "title": "ModelResult",
+  "type": "object"
+}

@@ -1,0 +1,428 @@
+{
+  "$defs": {
+    "Concept": {
+      "additionalProperties": false,
+      "properties": {
+        "aliases": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Aliases",
+          "type": "array"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "entity",
+            "measure",
+            "dimension",
+            "time"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "semantic_types": {
+          "items": {
+            "$ref": "#/$defs/SemanticType"
+          },
+          "minItems": 1,
+          "title": "Semantic Types",
+          "type": "array"
+        },
+        "unique": {
+          "default": false,
+          "title": "Unique",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "semantic_types",
+        "aliases"
+      ],
+      "title": "Concept",
+      "type": "object"
+    },
+    "EntityEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "From",
+          "type": "string"
+        },
+        "to": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "To",
+          "type": "string"
+        },
+        "verb": {
+          "enum": [
+            "places",
+            "contains",
+            "belongs_to",
+            "references"
+          ],
+          "title": "Verb",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "verb"
+      ],
+      "title": "EntityEdge",
+      "type": "object"
+    },
+    "LexiconTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "term": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Term",
+          "type": "string"
+        },
+        "weight": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "term",
+        "weight"
+      ],
+      "title": "LexiconTerm",
+      "type": "object"
+    },
+    "MetricTemplate": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "direction": {
+          "default": "neutral",
+          "enum": [
+            "higher_is_better",
+            "lower_is_better",
+            "neutral"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "expr": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Expr",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "requires": {
+          "items": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Requires",
+          "type": "array"
+        },
+        "source": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Source",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "expr",
+        "requires",
+        "source"
+      ],
+      "title": "MetricTemplate",
+      "type": "object"
+    },
+    "SemanticType": {
+      "enum": [
+        "identifier",
+        "datetime",
+        "date_part",
+        "currency_amount",
+        "quantity",
+        "count",
+        "price",
+        "rate_or_ratio",
+        "percentage",
+        "category",
+        "boolean_flag",
+        "free_text",
+        "geo_country",
+        "geo_region",
+        "geo_city",
+        "postal_code",
+        "email",
+        "phone",
+        "url",
+        "unknown"
+      ],
+      "title": "SemanticType",
+      "type": "string"
+    },
+    "Signature": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "requires": {
+          "items": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Requires",
+          "type": "array"
+        },
+        "weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "requires"
+      ],
+      "title": "Signature",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "url"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "StatHint": {
+      "additionalProperties": false,
+      "properties": {
+        "additivity": {
+          "anyOf": [
+            {
+              "enum": [
+                "additive",
+                "semi_additive",
+                "non_additive"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Additivity"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]{1,31}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "semantic_type": {
+          "$ref": "#/$defs/SemanticType"
+        },
+        "weight": {
+          "default": 1.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "semantic_type"
+      ],
+      "title": "StatHint",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "compatible_with": {
+      "default": [],
+      "items": {
+        "pattern": "^[a-z][a-z0-9_]{1,31}$",
+        "type": "string"
+      },
+      "title": "Compatible With",
+      "type": "array"
+    },
+    "concepts": {
+      "items": {
+        "$ref": "#/$defs/Concept"
+      },
+      "title": "Concepts",
+      "type": "array"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "entity_graph": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/EntityEdge"
+      },
+      "title": "Entity Graph",
+      "type": "array"
+    },
+    "id": {
+      "pattern": "^[a-z][a-z0-9_]{1,31}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "lexicon": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/LexiconTerm"
+      },
+      "title": "Lexicon",
+      "type": "array"
+    },
+    "metrics": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/MetricTemplate"
+      },
+      "title": "Metrics",
+      "type": "array"
+    },
+    "name": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scorable": {
+      "default": true,
+      "title": "Scorable",
+      "type": "boolean"
+    },
+    "signatures": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Signature"
+      },
+      "title": "Signatures",
+      "type": "array"
+    },
+    "sources": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "stat_hints": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/StatHint"
+      },
+      "title": "Stat Hints",
+      "type": "array"
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "name",
+    "description",
+    "concepts"
+  ],
+  "title": "DomainPack",
+  "type": "object"
+}

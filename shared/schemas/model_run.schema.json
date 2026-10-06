@@ -1,0 +1,219 @@
+{
+  "$defs": {
+    "BaselineScore": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "values"
+      ],
+      "title": "BaselineScore",
+      "type": "object"
+    },
+    "ExcludedCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate": {
+          "title": "Candidate",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate",
+        "reason"
+      ],
+      "title": "ExcludedCandidate",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "MLTask": {
+      "enum": [
+        "forecast",
+        "anomaly",
+        "segmentation",
+        "classification",
+        "regression"
+      ],
+      "title": "MLTask",
+      "type": "string"
+    },
+    "Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BaselineScore"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "primary": {
+          "title": "Primary",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "primary",
+        "values"
+      ],
+      "title": "Metrics",
+      "type": "object"
+    },
+    "Selection": {
+      "additionalProperties": false,
+      "properties": {
+        "best": {
+          "title": "Best",
+          "type": "string"
+        },
+        "data_characteristics": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "default": {},
+          "title": "Data Characteristics",
+          "type": "object"
+        },
+        "excluded": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ExcludedCandidate"
+          },
+          "title": "Excluded",
+          "type": "array"
+        },
+        "fell_back_to_baseline": {
+          "title": "Fell Back To Baseline",
+          "type": "boolean"
+        },
+        "margin_rule": {
+          "title": "Margin Rule",
+          "type": "string"
+        },
+        "primary_metric": {
+          "title": "Primary Metric",
+          "type": "string"
+        },
+        "scores": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Scores",
+          "type": "object"
+        }
+      },
+      "required": [
+        "best",
+        "primary_metric",
+        "scores",
+        "margin_rule",
+        "fell_back_to_baseline"
+      ],
+      "title": "Selection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "evidence_id": {
+      "anyOf": [
+        {
+          "pattern": "^ev_\\w+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Id"
+    },
+    "id": {
+      "pattern": "^mr_\\w+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "metrics": {
+      "$ref": "#/$defs/Metrics"
+    },
+    "params": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Params",
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    },
+    "selection": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Selection"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "task": {
+      "$ref": "#/$defs/MLTask"
+    },
+    "workspace_id": {
+      "pattern": "^ws_\\w+$",
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "workspace_id",
+    "task",
+    "params",
+    "metrics",
+    "seed",
+    "created_at"
+  ],
+  "title": "ModelRun",
+  "type": "object"
+}

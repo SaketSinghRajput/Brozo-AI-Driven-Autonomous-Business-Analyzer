@@ -1,0 +1,364 @@
+{
+  "$defs": {
+    "Confidence": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Basis",
+          "type": "array"
+        },
+        "level": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "level",
+        "score",
+        "basis"
+      ],
+      "title": "Confidence",
+      "type": "object"
+    },
+    "EvidenceResult": {
+      "additionalProperties": false,
+      "properties": {
+        "result_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Result Hash",
+          "type": "string"
+        },
+        "rows": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rows"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "result_hash"
+      ],
+      "title": "EvidenceResult",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "LlmRef": {
+      "additionalProperties": false,
+      "properties": {
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "prompt_id": {
+          "title": "Prompt Id",
+          "type": "string"
+        },
+        "prompt_version": {
+          "title": "Prompt Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model_version",
+        "prompt_id",
+        "prompt_version"
+      ],
+      "title": "LlmRef",
+      "type": "object"
+    },
+    "ModelRef": {
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Id"
+        },
+        "model_run_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Run Id"
+        },
+        "model_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Version"
+        }
+      },
+      "title": "ModelRef",
+      "type": "object"
+    },
+    "QueryInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "engine": {
+          "title": "Engine",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "default": {},
+          "title": "Params",
+          "type": "object"
+        },
+        "sql": {
+          "title": "Sql",
+          "type": "string"
+        }
+      },
+      "required": [
+        "engine",
+        "sql"
+      ],
+      "title": "QueryInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "arguments": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Arguments",
+      "type": "object"
+    },
+    "calculation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Calculation"
+    },
+    "confidence": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Confidence"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "dataset_content_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Dataset Content Hash"
+    },
+    "dataset_id": {
+      "anyOf": [
+        {
+          "pattern": "^ds_\\w+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Dataset Id"
+    },
+    "dataset_version_id": {
+      "anyOf": [
+        {
+          "pattern": "^dsv_\\w+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Dataset Version Id"
+    },
+    "evidence_id": {
+      "pattern": "^ev_\\w+$",
+      "title": "Evidence Id",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "tool_result",
+        "citation",
+        "simulation"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "llm": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LlmRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "model": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ModelRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "operation": {
+      "title": "Operation",
+      "type": "string"
+    },
+    "query": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/QueryInfo"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "result": {
+      "$ref": "#/$defs/EvidenceResult"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "semantic_model_version": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Semantic Model Version"
+    },
+    "software_version": {
+      "title": "Software Version",
+      "type": "string"
+    },
+    "tool_version": {
+      "title": "Tool Version",
+      "type": "string"
+    },
+    "workspace_id": {
+      "pattern": "^ws_\\w+$",
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "evidence_id",
+    "workspace_id",
+    "kind",
+    "dataset_id",
+    "dataset_version_id",
+    "dataset_content_hash",
+    "semantic_model_version",
+    "operation",
+    "tool_version",
+    "arguments",
+    "result",
+    "created_at",
+    "software_version"
+  ],
+  "title": "Evidence",
+  "type": "object"
+}

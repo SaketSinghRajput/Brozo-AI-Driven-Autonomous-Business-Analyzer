@@ -1,0 +1,155 @@
+date,product,category,region,quantity,unit_price,channel
+2026-06-01,Item 8,Books,North,5,188.70,Retail Store
+2026-06-02,Item 6,Books,West,4,422.59,Retail Store
+2026-06-02,Item 8,Apparel,North,2,493.28,Marketplace
+2026-06-02,Item 1,Sports,South,4,56.19,Online
+2026-06-03,Item 6,Grocery,West,4,107.34,Marketplace
+2026-06-04,Item 10,Books,North,5,37.42,Online
+2026-06-05,Item 7,Apparel,West,6,426.90,Marketplace
+2026-06-05,Item 9,Beauty,South,1,35.74,Retail Store
+2026-06-06,Item 8,Sports,North,3,160.76,Retail Store
+2026-06-06,Item 4,Sports,East,3,463.59,Retail Store
+2026-06-07,Item 3,Toys,South,2,202.94,Marketplace
+2026-06-07,Item 9,Apparel,South,3,52.41,Marketplace
+2026-06-08,Item 10,Sports,North,2,98.36,Retail Store
+2026-06-08,Item 10,Home & Kitchen,West,3,451.38,Retail Store
+2026-06-08,Item 8,Apparel,South,4,496.84,Retail Store
+2026-06-09,Item 7,Apparel,West,5,482.12,Online
+2026-06-09,Item 2,Apparel,South,1,45.04,Marketplace
+2026-06-10,Item 9,Books,West,5,225.22,Marketplace
+2026-06-10,Item 10,Home & Kitchen,South,6,264.62,Online
+2026-06-11,Item 3,Beauty,East,4,476.11,Online
+2026-06-11,Item 1,Toys,South,1,305.02,Marketplace
+2026-06-12,Item 5,Toys,West,5,498.57,Marketplace
+2026-06-13,Item 1,Toys,North,3,442.43,Online
+2026-06-14,Item 3,Books,South,6,187.97,Retail Store
+2026-06-14,Item 1,Books,North,6,281.56,Retail Store
+2026-06-15,Item 5,Apparel,West,5,18.28,Marketplace
+2026-06-15,Item 3,Grocery,West,1,250.43,Marketplace
+2026-06-15,Item 4,Electronics,North,6,223.01,Retail Store
+2026-06-16,Item 2,Home & Kitchen,East,2,381.27,Online
+2026-06-16,Item 5,Books,North,5,491.42,Retail Store
+2026-06-16,Item 6,Electronics,South,5,189.49,Online
+2026-06-17,Item 5,Sports,West,4,485.27,Online
+2026-06-18,Item 4,Books,North,4,182.29,Retail Store
+2026-06-18,Item 1,Electronics,West,6,355.30,Retail Store
+2026-06-18,Item 9,Home & Kitchen,West,5,259.89,Marketplace
+2026-06-19,Item 1,Home & Kitchen,North,1,45.53,Retail Store
+2026-06-20,Item 3,Electronics,West,4,468.54,Marketplace
+2026-06-20,Item 8,Beauty,West,6,389.99,Retail Store
+2026-06-21,Item 9,Toys,West,1,366.36,Online
+2026-06-21,Item 1,Toys,West,3,12.78,Online
+2026-06-22,Item 10,Sports,South,5,226.90,Marketplace
+2026-06-23,Item 2,Electronics,North,6,176.59,Retail Store
+2026-06-24,Item 6,Books,North,1,498.00,Marketplace
+2026-06-24,Item 4,Toys,West,1,297.56,Marketplace
+2026-06-25,Item 9,Apparel,South,4,183.45,Retail Store
+2026-06-26,Item 8,Apparel,South,1,213.37,Retail Store
+2026-06-26,Item 8,Beauty,East,3,346.01,Marketplace
+2026-06-27,Item 8,Home & Kitchen,West,1,402.38,Retail Store
+2026-06-28,Item 5,Sports,East,5,478.51,Online
+2026-06-28,Item 9,Beauty,East,3,35.41,Marketplace
+2026-06-28,Item 1,Books,West,5,480.21,Online
+2026-06-29,Item 4,Beauty,West,4,192.06,Marketplace
+2026-06-30,Item 9,Apparel,West,2,414.93,Marketplace
+2026-07-01,Item 4,Toys,East,1,9.72,Retail Store
+2026-07-02,Item 3,Toys,South,1,57.25,Marketplace
+2026-07-03,Item 5,Books,West,6,72.52,Online
+2026-07-03,Item 4,Sports,West,5,390.84,Retail Store
+2026-07-04,Item 4,Apparel,North,4,26.60,Marketplace
+2026-07-04,Item 7,Home & Kitchen,East,5,268.95,Retail Store
+2026-07-05,Item 8,Apparel,South,1,457.42,Retail Store
+2026-07-06,Item 2,Electronics,West,2,433.83,Marketplace
+2026-07-07,Item 7,Beauty,West,4,421.64,Retail Store
+2026-07-08,Item 10,Apparel,North,1,145.31,Online
+2026-07-08,Item 8,Grocery,West,4,137.18,Retail Store
+2026-07-09,Item 3,Apparel,South,4,488.14,Retail Store
+2026-07-10,Item 7,Sports,North,6,426.00,Retail Store
+2026-07-10,Item 3,Apparel,South,3,239.73,Online
+2026-07-11,Item 10,Toys,South,5,46.09,Marketplace
+2026-07-11,Item 3,Home & Kitchen,West,6,443.75,Retail Store
+2026-07-12,Item 1,Books,North,2,93.46,Marketplace
+2026-07-13,Item 4,Grocery,West,3,18.72,Retail Store
+2026-07-14,Item 10,Sports,South,5,147.25,Retail Store
+2026-07-14,Item 8,Books,East,5,106.76,Retail Store
+2026-07-15,Item 6,Books,North,2,478.96,Marketplace
+2026-07-16,Item 7,Sports,West,3,139.29,Online
+2026-07-16,Item 1,Sports,North,4,345.03,Marketplace
+2026-07-16,Item 2,Books,West,2,450.35,Online
+2026-07-17,Item 10,Sports,East,4,490.99,Retail Store
+2026-07-18,Item 7,Grocery,South,5,98.14,Retail Store
+2026-07-19,Item 10,Beauty,East,1,158.59,Marketplace
+2026-07-20,Item 3,Electronics,North,4,475.23,Retail Store
+2026-07-20,Item 2,Toys,North,2,489.81,Marketplace
+2026-07-21,Item 3,Grocery,West,5,94.73,Marketplace
+2026-07-22,Item 6,Grocery,South,6,243.53,Marketplace
+2026-07-23,Item 2,Books,East,5,114.90,Marketplace
+2026-07-23,Item 9,Sports,North,5,30.37,Marketplace
+2026-07-24,Item 3,Sports,West,6,158.37,Retail Store
+2026-07-24,Item 2,Apparel,North,6,457.73,Online
+2026-07-25,Item 1,Toys,North,4,228.66,Retail Store
+2026-07-25,Item 5,Books,South,5,111.30,Marketplace
+2026-07-26,Item 8,Electronics,West,6,201.18,Online
+2026-07-27,Item 3,Home & Kitchen,West,3,23.13,Online
+2026-07-28,Item 5,Toys,East,3,27.78,Marketplace
+2026-07-29,Item 10,Electronics,North,3,495.14,Retail Store
+2026-07-29,Item 5,Electronics,North,3,487.25,Online
+2026-07-30,Item 10,Grocery,East,3,17.17,Retail Store
+2026-07-31,Item 8,Books,North,3,51.34,Online
+2026-07-31,Item 4,Books,South,6,183.56,Marketplace
+2026-08-01,Item 2,Home & Kitchen,South,5,88.37,Marketplace
+2026-08-01,Item 2,Books,East,6,66.27,Marketplace
+2026-08-02,Item 5,Grocery,South,1,392.47,Retail Store
+2026-08-02,Item 5,Grocery,South,2,270.61,Online
+2026-08-03,Item 4,Beauty,West,4,25.53,Retail Store
+2026-08-03,Item 5,Home & Kitchen,East,2,298.45,Retail Store
+2026-08-04,Item 7,Sports,West,2,82.83,Online
+2026-08-05,Item 4,Sports,South,2,322.63,Online
+2026-08-05,Item 4,Home & Kitchen,South,6,192.49,Online
+2026-08-06,Item 8,Beauty,South,3,190.86,Retail Store
+2026-08-06,Item 2,Books,South,6,139.69,Online
+2026-08-07,Item 2,Apparel,South,5,401.88,Retail Store
+2026-08-07,Item 3,Sports,North,6,455.50,Online
+2026-08-08,Item 10,Books,East,2,181.32,Online
+2026-08-08,Item 9,Grocery,South,2,258.81,Online
+2026-08-09,Item 5,Electronics,North,2,296.39,Marketplace
+2026-08-09,Item 7,Books,West,2,307.45,Marketplace
+2026-08-10,Item 6,Beauty,East,1,141.42,Marketplace
+2026-08-11,Item 5,Home & Kitchen,West,3,140.32,Online
+2026-08-11,Item 9,Grocery,South,4,77.68,Online
+2026-08-12,Item 4,Books,East,3,268.83,Retail Store
+2026-08-13,Item 4,Books,East,4,320.77,Online
+2026-08-13,Item 4,Apparel,North,2,484.72,Retail Store
+2026-08-13,Item 3,Toys,East,3,111.71,Retail Store
+2026-08-14,Item 7,Books,East,6,372.50,Retail Store
+2026-08-14,Item 2,Books,North,1,180.40,Retail Store
+2026-08-14,Item 9,Grocery,South,5,324.59,Online
+2026-08-15,Item 6,Beauty,North,4,87.61,Online
+2026-08-16,Item 1,Grocery,East,5,156.02,Online
+2026-08-17,Item 3,Electronics,South,2,223.35,Online
+2026-08-18,Item 9,Home & Kitchen,South,4,118.11,Marketplace
+2026-08-19,Item 7,Toys,West,1,481.05,Retail Store
+2026-08-20,Item 10,Toys,East,4,13.16,Marketplace
+2026-08-21,Item 10,Books,East,4,402.19,Retail Store
+2026-08-21,Item 10,Home & Kitchen,East,5,473.67,Marketplace
+2026-08-21,Item 1,Home & Kitchen,East,1,47.77,Marketplace
+2026-08-22,Item 6,Electronics,South,5,430.88,Online
+2026-08-22,Item 3,Toys,East,4,187.71,Marketplace
+2026-08-23,Item 3,Electronics,North,2,436.93,Online
+2026-08-23,Item 1,Toys,East,6,469.47,Online
+2026-08-24,Item 7,Apparel,North,2,302.26,Marketplace
+2026-08-25,Item 2,Apparel,East,4,158.01,Online
+2026-08-25,Item 5,Toys,East,6,195.75,Marketplace
+2026-08-26,Item 6,Books,South,2,312.81,Retail Store
+2026-08-26,Item 9,Electronics,North,5,14.30,Retail Store
+2026-08-26,Item 3,Home & Kitchen,West,4,6.54,Online
+2026-08-27,Item 9,Sports,South,5,254.46,Marketplace
+2026-08-27,Item 5,Books,South,1,104.60,Online
+2026-08-28,Item 4,Grocery,North,1,483.64,Online
+2026-08-28,Item 5,Sports,South,5,353.20,Marketplace
+2026-08-28,Item 7,Apparel,West,2,122.90,Online
+2026-08-29,Item 10,Books,South,1,333.58,Marketplace
+2026-08-29,Item 4,Home & Kitchen,North,5,313.78,Online
+2026-08-30,Item 2,Beauty,North,6,51.78,Online
+2026-08-30,Item 10,Books,East,4,486.43,Marketplace
+2026-08-31,Item 3,Electronics,West,1,144.35,Marketplace

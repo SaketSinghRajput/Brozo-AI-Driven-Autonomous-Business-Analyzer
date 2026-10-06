@@ -1,0 +1,504 @@
+{
+  "$defs": {
+    "ColumnProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "cardinality": {
+          "minimum": 0,
+          "title": "Cardinality",
+          "type": "integer"
+        },
+        "categorical": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TopK"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "null_ratio": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Null Ratio",
+          "type": "number"
+        },
+        "numeric": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumericStats"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "outliers": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OutlierSummary"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "parse_success_ratio": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Parse Success Ratio",
+          "type": "number"
+        },
+        "physical_type": {
+          "enum": [
+            "int",
+            "float",
+            "decimal",
+            "bool",
+            "datetime",
+            "date",
+            "string",
+            "mixed"
+          ],
+          "title": "Physical Type",
+          "type": "string"
+        },
+        "temporal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TemporalStats"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "text": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TextStats"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "unique_ratio": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Unique Ratio",
+          "type": "number"
+        },
+        "unit_hint": {
+          "anyOf": [
+            {
+              "enum": [
+                "currency",
+                "percent"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Hint"
+        }
+      },
+      "required": [
+        "name",
+        "physical_type",
+        "parse_success_ratio",
+        "null_ratio",
+        "unique_ratio",
+        "cardinality"
+      ],
+      "title": "ColumnProfile",
+      "type": "object"
+    },
+    "CorrelationPair": {
+      "additionalProperties": false,
+      "properties": {
+        "a": {
+          "title": "A",
+          "type": "string"
+        },
+        "b": {
+          "title": "B",
+          "type": "string"
+        },
+        "coefficient": {
+          "maximum": 1.0,
+          "minimum": -1.0,
+          "title": "Coefficient",
+          "type": "number"
+        },
+        "method": {
+          "enum": [
+            "pearson",
+            "spearman"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "n": {
+          "minimum": 2,
+          "title": "N",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "a",
+        "b",
+        "method",
+        "coefficient",
+        "n"
+      ],
+      "title": "CorrelationPair",
+      "type": "object"
+    },
+    "NumericStats": {
+      "additionalProperties": false,
+      "properties": {
+        "max": {
+          "title": "Max",
+          "type": "number"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "median": {
+          "title": "Median",
+          "type": "number"
+        },
+        "min": {
+          "title": "Min",
+          "type": "number"
+        },
+        "neg_ratio": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Neg Ratio",
+          "type": "number"
+        },
+        "quantiles": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Quantiles",
+          "type": "object"
+        },
+        "skew": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Skew"
+        },
+        "std": {
+          "title": "Std",
+          "type": "number"
+        },
+        "var": {
+          "title": "Var",
+          "type": "number"
+        },
+        "zero_ratio": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Zero Ratio",
+          "type": "number"
+        }
+      },
+      "required": [
+        "min",
+        "max",
+        "mean",
+        "median",
+        "std",
+        "var",
+        "skew",
+        "quantiles",
+        "zero_ratio",
+        "neg_ratio"
+      ],
+      "title": "NumericStats",
+      "type": "object"
+    },
+    "OutlierSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "method": {
+          "enum": [
+            "iqr",
+            "mad"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "sample_indices": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Sample Indices",
+          "type": "array"
+        }
+      },
+      "required": [
+        "method",
+        "count",
+        "sample_indices"
+      ],
+      "title": "OutlierSummary",
+      "type": "object"
+    },
+    "TemporalStats": {
+      "additionalProperties": false,
+      "properties": {
+        "gaps": {
+          "minimum": 0,
+          "title": "Gaps",
+          "type": "integer"
+        },
+        "granularity": {
+          "anyOf": [
+            {
+              "enum": [
+                "second",
+                "minute",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "quarter",
+                "year"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Granularity"
+        },
+        "max": {
+          "format": "date-time",
+          "title": "Max",
+          "type": "string"
+        },
+        "min": {
+          "format": "date-time",
+          "title": "Min",
+          "type": "string"
+        },
+        "regularity": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Regularity",
+          "type": "number"
+        },
+        "tz_mixed": {
+          "title": "Tz Mixed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "min",
+        "max",
+        "granularity",
+        "regularity",
+        "gaps",
+        "tz_mixed"
+      ],
+      "title": "TemporalStats",
+      "type": "object"
+    },
+    "TextStats": {
+      "additionalProperties": false,
+      "properties": {
+        "max_length": {
+          "minimum": 0,
+          "title": "Max Length",
+          "type": "integer"
+        },
+        "mean_length": {
+          "minimum": 0,
+          "title": "Mean Length",
+          "type": "number"
+        },
+        "min_length": {
+          "minimum": 0,
+          "title": "Min Length",
+          "type": "integer"
+        },
+        "pattern_classes": {
+          "additionalProperties": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "type": "number"
+          },
+          "title": "Pattern Classes",
+          "type": "object"
+        },
+        "regex_hit_ratios": {
+          "additionalProperties": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "type": "number"
+          },
+          "title": "Regex Hit Ratios",
+          "type": "object"
+        }
+      },
+      "required": [
+        "min_length",
+        "max_length",
+        "mean_length",
+        "pattern_classes",
+        "regex_hit_ratios"
+      ],
+      "title": "TextStats",
+      "type": "object"
+    },
+    "TopK": {
+      "additionalProperties": false,
+      "properties": {
+        "masked": {
+          "title": "Masked",
+          "type": "boolean"
+        },
+        "values": {
+          "items": {
+            "$ref": "#/$defs/TopKValue"
+          },
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "values",
+        "masked"
+      ],
+      "title": "TopK",
+      "type": "object"
+    },
+    "TopKValue": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "frequency": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Frequency",
+          "type": "number"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "count",
+        "frequency"
+      ],
+      "title": "TopKValue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "columns": {
+      "items": {
+        "$ref": "#/$defs/ColumnProfile"
+      },
+      "title": "Columns",
+      "type": "array"
+    },
+    "correlations": {
+      "items": {
+        "$ref": "#/$defs/CorrelationPair"
+      },
+      "title": "Correlations",
+      "type": "array"
+    },
+    "dataset_version_id": {
+      "pattern": "^dsv_\\w+$",
+      "title": "Dataset Version Id",
+      "type": "string"
+    },
+    "duplicate_rows": {
+      "minimum": 0,
+      "title": "Duplicate Rows",
+      "type": "integer"
+    },
+    "engine_version": {
+      "title": "Engine Version",
+      "type": "string"
+    },
+    "row_count": {
+      "minimum": 0,
+      "title": "Row Count",
+      "type": "integer"
+    },
+    "sample_size": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Sample Size"
+    },
+    "sampled": {
+      "title": "Sampled",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "dataset_version_id",
+    "engine_version",
+    "row_count",
+    "duplicate_rows",
+    "columns",
+    "correlations",
+    "sampled",
+    "sample_size"
+  ],
+  "title": "ProfileResult",
+  "type": "object"
+}

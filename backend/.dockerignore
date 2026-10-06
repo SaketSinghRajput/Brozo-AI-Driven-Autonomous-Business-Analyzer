@@ -1,0 +1,8 @@
+.venv
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.import_linter_cache
+.coverage
+__pycache__
+tests

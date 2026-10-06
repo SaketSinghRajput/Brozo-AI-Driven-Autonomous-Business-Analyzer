@@ -1,0 +1,131 @@
+/*
+ * Design tokens (UI-UX.md §44-47). Starting point is the §46 color table;
+ * `--color-border` was darkened/lightened from the proposed value in both
+ * themes because it failed the required 3:1 non-text contrast ratio against
+ * `--color-surface` (see src/test/contrast.test.ts and the task report).
+ *
+ * Colors, radii, shadows and typography are declared inside @theme so
+ * Tailwind (v4) generates matching utilities (bg-bg, text-text-muted,
+ * border-border, rounded-md, shadow-sm, text-h1, font-sans, ...). Components
+ * MUST consume these utilities only - no raw hex values in component code.
+ * The 4px spacing scale and tabular numerals reuse Tailwind's own built-in
+ * defaults (already 4px-based / `tabular-nums`), so no separate spacing
+ * tokens are declared here (see report for this deliberate simplification).
+ */
+
+@theme {
+  /* color.* - light values (default) */
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-text: #111827;
+  --color-text-muted: #4b5563;
+  --color-border: #8e9093; /* CHANGED from #E2E5EA - see note above */
+  --color-primary: #2f5bd3;
+  --color-secondary: #475569;
+  --color-success: #177245;
+  --color-warning: #9a5b00;
+  --color-error: #b42318;
+  --color-info: #1d5fa8;
+  --color-focus: #2f5bd3;
+
+  /* radius.* (UI-UX §47) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* shadow.* (UI-UX §47) - subtle elevation */
+  --shadow-sm: 0 1px 2px 0 rgb(15 17 21 / 0.06), 0 1px 1px 0 rgb(15 17 21 / 0.04);
+  --shadow-md: 0 4px 8px -2px rgb(15 17 21 / 0.1), 0 2px 4px -2px rgb(15 17 21 / 0.06);
+  --shadow-lg: 0 12px 24px -6px rgb(15 17 21 / 0.14), 0 4px 8px -4px rgb(15 17 21 / 0.08);
+
+  /* motion.duration.* / motion.easing.* (UI-UX §62) */
+  --motion-duration-fast: 150ms; /* processing timeline step, tooltip */
+  --motion-duration-base: 200ms; /* drawer/panel open-close */
+  --motion-duration-slow: 300ms; /* chart first render */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0.1, 1);
+
+  /* typography.* (UI-UX §45) */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-display: 2rem; /* 32px */
+  --text-display--line-height: 2.5rem; /* 40px */
+  --text-h1: 1.5rem; /* 24px */
+  --text-h1--line-height: 2rem; /* 32px */
+  --text-h2: 1.25rem; /* 20px */
+  --text-h2--line-height: 1.75rem; /* 28px */
+  --text-h3: 1rem; /* 16px */
+  --text-h3--line-height: 1.5rem; /* 24px */
+  --text-body: 0.875rem; /* 14px */
+  --text-body--line-height: 1.25rem; /* 20px */
+  --text-caption: 0.75rem; /* 12px */
+  --text-caption--line-height: 1rem; /* 16px */
+  --text-label: 0.75rem; /* 12px */
+  --text-label--line-height: 1rem; /* 16px */
+}
+
+/*
+ * chart.categorical.* (UI-UX §46.2): Okabe-Ito, colour-vision-deficiency safe. Same palette in
+ * both themes (§46.1); yellow is omitted because it needs a dark outline on light surfaces.
+ * Declared on :root, not in @theme: Tailwind only emits @theme variables that a utility class
+ * uses, and these are consumed by Recharts as var(--color-chart-N) in SVG attributes.
+ */
+:root {
+  --color-chart-1: #0072b2;
+  --color-chart-2: #e69f00;
+  --color-chart-3: #009e73;
+  --color-chart-4: #cc79a7;
+  --color-chart-5: #56b4e9;
+  --color-chart-6: #d55e00;
+}
+
+/* color.* - dark theme, explicit choice (`data-theme="dark"` on <html>) */
+:root[data-theme="dark"] {
+  --color-bg: #0f1115;
+  --color-surface: #171a21;
+  --color-surface-raised: #1e222b;
+  --color-text: #e6e8ec;
+  --color-text-muted: #a3aab5;
+  --color-border: #666971; /* CHANGED from #2A2F3A - see note above */
+  --color-primary: #7c9cf0;
+  --color-secondary: #94a3b8;
+  --color-success: #4cc38a;
+  --color-warning: #f2b84b;
+  --color-error: #f97066;
+  --color-info: #6fa8ee;
+  --color-focus: #9db6f5;
+}
+
+/* color.* - "system" theme (no explicit data-theme): follow the OS setting */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --color-bg: #0f1115;
+    --color-surface: #171a21;
+    --color-surface-raised: #1e222b;
+    --color-text: #e6e8ec;
+    --color-text-muted: #a3aab5;
+    --color-border: #666971;
+    --color-primary: #7c9cf0;
+    --color-secondary: #94a3b8;
+    --color-success: #4cc38a;
+    --color-warning: #f2b84b;
+    --color-error: #f97066;
+    --color-info: #6fa8ee;
+    --color-focus: #9db6f5;
+  }
+}
+
+/* motion.reduced (UI-UX §62): all non-essential motion off */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

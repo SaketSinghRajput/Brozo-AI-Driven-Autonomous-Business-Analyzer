@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "CapabilityCheck": {
+      "enum": [
+        "time_dimension",
+        "time_regularity",
+        "history_periods",
+        "measure",
+        "dimension",
+        "entity",
+        "entity_count",
+        "row_count",
+        "numeric_features",
+        "target",
+        "subscription_status",
+        "activity_history_per_customer",
+        "any_of"
+      ],
+      "title": "CapabilityCheck",
+      "type": "string"
+    },
+    "CapabilityRule": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "requires": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "minItems": 1,
+          "title": "Requires",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requires"
+      ],
+      "title": "CapabilityRule",
+      "type": "object"
+    },
+    "ReasonCode": {
+      "description": "Why an analysis is unavailable. Shown to users via ``Unavailability`` and ``unavailable``\ndashboard widgets (typed result, not an error: TRD 35 ANALYSIS_UNAVAILABLE).",
+      "enum": [
+        "NO_TIME_DIMENSION",
+        "IRREGULAR_TIME",
+        "INSUFFICIENT_HISTORY",
+        "TOO_MANY_MISSING_PERIODS",
+        "NO_MEASURE",
+        "NO_DIMENSION",
+        "NO_CUSTOMER_IDENTIFIER",
+        "NO_RETENTION_HISTORY",
+        "NO_TARGET",
+        "INSUFFICIENT_ENTITIES",
+        "INSUFFICIENT_ROWS",
+        "NO_NUMERIC_FEATURES",
+        "LOW_MODEL_QUALITY",
+        "SIMULATION_UNSUPPORTED",
+        "ANALYSIS_FAILED"
+      ],
+      "title": "ReasonCode",
+      "type": "string"
+    },
+    "Requirement": {
+      "additionalProperties": false,
+      "properties": {
+        "any_of": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Any Of",
+          "type": "array"
+        },
+        "check": {
+          "$ref": "#/$defs/CapabilityCheck"
+        },
+        "params": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "default": {},
+          "title": "Params",
+          "type": "object"
+        },
+        "reason_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReasonCode"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "check"
+      ],
+      "title": "Requirement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analyses": {
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*$": {
+          "$ref": "#/$defs/CapabilityRule"
+        }
+      },
+      "title": "Analyses",
+      "type": "object"
+    },
+    "rules_version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Rules Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rules_version",
+    "analyses"
+  ],
+  "title": "CapabilityRuleSet",
+  "type": "object"
+}

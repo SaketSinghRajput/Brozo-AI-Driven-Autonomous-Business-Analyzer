@@ -1,0 +1,73 @@
+{
+  "available_analyses": [
+    "descriptive_stats"
+  ],
+  "dataset": "ambiguous",
+  "domain": {
+    "acceptable_alternatives_status": [
+      "ambiguous"
+    ],
+    "expected_status": "unknown",
+    "note": "Column names are generic (id/category/value/amount/date) with no domain lexicon hits (no customer/order/subscription/crop tokens); the domain scorer's top candidate should fall below tau, or (if two generic packs tie) the status may legitimately come back 'ambiguous' instead of 'unknown' -- both are acceptable per design.md Sec 14.",
+    "primary": null
+  },
+  "entities": [
+    {
+      "key": [
+        "id"
+      ],
+      "name": "Record",
+      "table": "data"
+    }
+  ],
+  "generator": {
+    "script": "scripts/generate_fixtures.py",
+    "seed": 42
+  },
+  "kpis": {},
+  "relationships": [],
+  "tables": {
+    "data": {
+      "columns": {
+        "amount": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "currency_amount",
+          "unit": "unknown"
+        },
+        "category": {
+          "additivity": "n/a",
+          "role": "dimension",
+          "semantic_type": "category",
+          "unit": "unitless"
+        },
+        "date": {
+          "additivity": "n/a",
+          "role": "time",
+          "semantic_type": "datetime",
+          "unit": "unitless"
+        },
+        "id": {
+          "additivity": "n/a",
+          "role": "identifier",
+          "semantic_type": "identifier",
+          "unit": "unitless"
+        },
+        "value": {
+          "additivity": "additive",
+          "role": "measure",
+          "semantic_type": "currency_amount",
+          "unit": "unknown"
+        }
+      },
+      "row_count": 200
+    }
+  },
+  "unavailable_analyses": [
+    {
+      "analysis": "domain_specific_kpis",
+      "message": "Domain is unresolved, so no domain metric pack can be instantiated; only generic descriptive stats apply.",
+      "reason_code": "NO_TIME_DIMENSION"
+    }
+  ]
+}

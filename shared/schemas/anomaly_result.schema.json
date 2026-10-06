@@ -1,0 +1,132 @@
+{
+  "$defs": {
+    "AnomalyExplanation": {
+      "additionalProperties": false,
+      "properties": {
+        "caveats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Caveats",
+          "type": "array"
+        },
+        "contributing_features": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Contributing Features",
+          "type": "array"
+        },
+        "method": {
+          "enum": [
+            "robust_z",
+            "iqr",
+            "stl_residual",
+            "isolation_forest",
+            "contextual"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "threshold": {
+          "title": "Threshold",
+          "type": "number"
+        }
+      },
+      "required": [
+        "method",
+        "threshold",
+        "caveats"
+      ],
+      "title": "AnomalyExplanation",
+      "type": "object"
+    },
+    "AnomalyScore": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "high",
+            "low"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expected"
+        },
+        "metric": {
+          "title": "Metric",
+          "type": "string"
+        },
+        "observed": {
+          "title": "Observed",
+          "type": "number"
+        },
+        "score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        },
+        "subject": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Subject",
+          "type": "object"
+        }
+      },
+      "required": [
+        "subject",
+        "metric",
+        "observed",
+        "expected",
+        "score",
+        "direction"
+      ],
+      "title": "AnomalyScore",
+      "type": "object"
+    },
+    "JsonValue": {}
+  },
+  "additionalProperties": false,
+  "properties": {
+    "anomalies": {
+      "items": {
+        "$ref": "#/$defs/AnomalyScore"
+      },
+      "title": "Anomalies",
+      "type": "array"
+    },
+    "explanation": {
+      "$ref": "#/$defs/AnomalyExplanation"
+    },
+    "metric": {
+      "title": "Metric",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "metric",
+    "anomalies",
+    "explanation"
+  ],
+  "title": "AnomalyResult",
+  "type": "object"
+}
